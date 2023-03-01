@@ -222,6 +222,11 @@
   :config
   (diredfl-global-mode t))
 (setq dired-listing-switches "-lah -v --group-directories-first")
+(setq dired-kill-when-opening-new-dired-buffer t)
+;; terminal integration
+(setq terminal-here-linux-terminal-command 'alacritty)
+(use-package terminal-here
+  :ensure t)
 
 ;;
 ;; keybinds
@@ -263,12 +268,14 @@
 ;; applications keybinds
 ;;
 (define-key evil-normal-state-map (kbd "<leader>g") 'magit)
+(define-key evil-normal-state-map (kbd "<leader>RET") 'terminal-here)
 (define-key evil-normal-state-map (kbd "<leader>ch") 'run-haskell)
 (define-key evil-normal-state-map (kbd "<leader>cp") 'run-python)
 (define-key evil-normal-state-map (kbd "<leader>cl") 'run-lua)
 
 ;; dired
 (evil-define-key 'normal dired-mode-map
+  (kbd "t") 'terminal-here
   (kbd "!") 'shell-command
   (kbd "$") 'dired-do-shell-command
   (kbd "h") 'dired-up-directory
