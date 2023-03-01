@@ -114,10 +114,6 @@
 (blink-cursor-mode 0)
 (global-visual-line-mode 1)
 
-;; keep emacs transparent so I can see my waifu
-(set-frame-parameter (selected-frame) 'alpha '(95 95))
-(add-to-list 'default-frame-alist '(alpha 95 95))
-
 ;; doom modeline
 (use-package doom-modeline
   :ensure t
