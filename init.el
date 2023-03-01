@@ -37,9 +37,13 @@
   (evil-commentary-mode))
 (use-package evil-numbers
   :ensure t
-  :after evil)
-(define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-(define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
+  :after evil
+  :config
+  (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+  (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
+
+;; general configs
+(fset 'yes-or-no-p 'y-or-n-p) ;; turns all yes/no to y/n
 
 ;;
 ;; appearance
@@ -74,8 +78,8 @@
 (use-package all-the-icons-dired
   :ensure t
   :config
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
-(setq all-the-icons-scale-factor 0.8)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (setq all-the-icons-scale-factor 0.8))
 ;; 🙂 
 (use-package unicode-fonts
   :ensure t
@@ -109,10 +113,13 @@
 (setq-default display-line-numbers-width 3)
 (setq display-line-numbers-type 'relative)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(setq scroll-margin 5)
+(add-hook 'markdown-mode-hook 'display-line-numbers-mode)
+(add-hook 'yaml-mode-hook 'display-line-numbers-mode)
 (setq scroll-conservatively 1000)
+(setq scroll-margin 3)
 (blink-cursor-mode 0)
 (global-visual-line-mode 1)
+(global-prettify-symbols-mode 1)
 
 ;; doom modeline
 (use-package doom-modeline
@@ -122,23 +129,32 @@
 
 
 ;; dashboard
+(setq dashboard-set-heading-icons t)
+(setq dashboard-set-file-icons t)
+(setq dashboard-center-content t)
+(setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
+(setq dashboard-startup-banner '"/home/gb/.config/emacs/dash.jpg")
+(setq dashboard-items '((recents . 3)
+			(agenda . 3)))
+;; needed so the client starts in the dashboard and not in the stupid scratch
+(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 (use-package dashboard
   :ensure t
   :init
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
-  (setq dashboard-startup-banner "/home/gb/.config/emacs/dash.jpg")
-  (setq dashboard-items '())
   :config
   (dashboard-setup-startup-hook))
-;; needed so the client starts in the dashboard and not in the stupid scratch
-(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 
 ;; I dont know what TODO
 (use-package hl-todo
   :ensure t
   :config
   (global-hl-todo-mode 1))
+
+;; beacon
+(use-package beacon
+  :ensure t
+  :config
+  (beacon-mode 1))
 
 ;; zen mode
 (use-package darkroom
@@ -155,7 +171,6 @@
 ;;
 ;; completion/fuzzy/etc
 ;;
-(setq ivy-initial-inputs-alist nil)
 (use-package consult
   :ensure t)
 (use-package counsel
@@ -164,10 +179,12 @@
   :ensure t)
 (use-package ivy
   :ensure t
+  :config
+  (setq ivy-initial-inputs-alist nil)
   :init
-  (ivy-mode t))
-(setq ivy-re-builders-alist
-  '((t . ivy--regex-fuzzy)))
+  (ivy-mode t)
+  (setq ivy-re-builders-alist
+    '((t . ivy--regex-fuzzy))))
 
 (use-package smartparens
   :ensure t
@@ -191,7 +208,13 @@
 
 ;; Markdown V
 (use-package markdown-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq markdown-fontify-code-blocks-natively t
+        markdown-open-command "markdown"
+        markdown-asymmetric-header t
+        markdown-header-scaling t
+        markdown-hide-urls t))
 ;; Haskell λ
 (use-package haskell-mode
   :ensure t)
@@ -205,8 +228,12 @@
 (use-package lua-mode
   :ensure t)
 ;; Rust, btw
-(setq rust-format-on-save t)
 (use-package rust-mode
+  :ensure t
+  :config
+  (setq rust-format-on-save t))
+;; yaml
+(use-package yaml-mode
   :ensure t)
 
 ;;
@@ -216,13 +243,15 @@
 ;; magit
 (use-package magit
   :ensure t)
+
 ;; dired
+(setq dired-listing-switches "-lah -v --group-directories-first")
+(setq dired-kill-when-opening-new-dired-buffer t)
 (use-package diredfl
   :ensure t
   :config
   (diredfl-global-mode t))
-(setq dired-listing-switches "-lah -v --group-directories-first")
-(setq dired-kill-when-opening-new-dired-buffer t)
+
 ;; terminal integration
 (setq terminal-here-linux-terminal-command 'alacritty)
 (use-package terminal-here
@@ -236,55 +265,58 @@
 (define-key minibuffer-local-map (kbd "ESC") 'abort-recursive-edit)
 (define-key minibuffer-local-map (kbd "C-w") 'backward-kill-word)
 
-;; zooming like a true zoomer
-(define-key evil-normal-state-map (kbd "C-=") 'text-scale-increase)
-(define-key evil-normal-state-map (kbd "C--") 'text-scale-decrease)
-(define-key evil-normal-state-map (kbd "<C-wheel-up>") 'text-scale-increase)
-(define-key evil-normal-state-map (kbd "<C-wheel-down>") 'text-scale-decrease)
-(define-key evil-normal-state-map (kbd "C-0") '(lambda () (interactive) (text-scale-adjust 0)))
-;; zen
-(define-key evil-normal-state-map (kbd "<leader>z") 'darkroom-mode)
+(evil-define-key 'normal 'global
+  ;; zooming like a true zoomer
+  (kbd "C-=") 'text-scale-increase
+  (kbd "C--") 'text-scale-decrease
+  (kbd "<C-wheel-up>") 'text-scale-increase
+  (kbd "<C-wheel-down>") 'text-scale-decrease
+  (kbd "C-0") '(lambda () (interactive) (text-scale-adjust 0))
+  ;; zen
+  (kbd "<leader>z") 'darkroom-mode
 
-;; running things
-(define-key evil-normal-state-map (kbd "<leader>b") 'compile)
-(define-key evil-normal-state-map (kbd "<leader>/") 'rg)
-(define-key evil-normal-state-map (kbd "SPC SPC") 'counsel-M-x)
-(define-key evil-normal-state-map (kbd "!") 'shell-command)
+  ;; running things
+  (kbd "<leader>b") 'compile
+  (kbd "<leader>/") 'rg
+  (kbd "SPC SPC") 'counsel-M-x
+  (kbd "!") 'shell-command
 
-;; inserting things 😳
-(define-key evil-normal-state-map (kbd "<leader>x") 'counsel-unicode-char)
+  ;; inserting things 😳
+  (kbd "<leader>x") 'counsel-unicode-char
 
-;; navigation
-(define-key evil-normal-state-map (kbd "<leader>f") 'counsel-find-file)
-(define-key evil-normal-state-map (kbd "<leader>.") 'counsel-file-jump)
-(define-key evil-normal-state-map (kbd "<leader>a") 'counsel-linux-app)
+  ;; navigation
+  (kbd "<leader>f") 'counsel-find-file
+  (kbd "<leader>.") 'counsel-file-jump
+  (kbd "<leader>a") 'counsel-linux-app
+  (kbd "<leader>e") 'dired-jump
+
+  ;;
+  ;; applications keybinds
+  ;;
+  (kbd "<leader>g") 'magit
+  (kbd "<leader>RET") 'terminal-here
+  (kbd "<leader>ch") 'run-haskell
+  (kbd "<leader>cp") 'run-python
+  (kbd "<leader>cl") 'run-lua)
 
 ;; ivy
-(define-key ivy-minibuffer-map (kbd "C-w") 'backward-kill-word)
-(define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line)
-(define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line)
-
-;;
-;; applications keybinds
-;;
-(define-key evil-normal-state-map (kbd "<leader>g") 'magit)
-(define-key evil-normal-state-map (kbd "<leader>RET") 'terminal-here)
-(define-key evil-normal-state-map (kbd "<leader>ch") 'run-haskell)
-(define-key evil-normal-state-map (kbd "<leader>cp") 'run-python)
-(define-key evil-normal-state-map (kbd "<leader>cl") 'run-lua)
+(define-key ivy-minibuffer-map (kbd "C-w") 'backward-kill-word) 
+(define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line) 
+(define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line) 
 
 ;; dired
 (evil-define-key 'normal dired-mode-map
   (kbd "t") 'terminal-here
   (kbd "!") 'shell-command
+  (kbd "g") 'counsel-find-file
   (kbd "$") 'dired-do-shell-command
   (kbd "h") 'dired-up-directory
   (kbd "l") 'dired-find-file
   (kbd "v") 'dired-mark
   (kbd "V") 'dired-mark-files-containing-regexp
-  (kbd "u") 'dired-unmark-backward
+  (kbd "u") 'dired-unmark
   (kbd "c") 'dired-unmark-all-marks
-  (kbd "c") 'dired-toggle-marks
+  (kbd "U") 'dired-toggle-marks
   (kbd "<backspace>") 'dired-do-delete
   (kbd "M") 'dired-create-directory
   (kbd "r") 'dired-do-rename
@@ -300,7 +332,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(vertico use-package unicode-fonts rg pdf-tools nodejs-repl markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl dashboard darkroom all-the-icons-dired)))
+   '(vertico use-package unicode-fonts rg pdf-tools nodejs-repl markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
