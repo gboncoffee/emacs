@@ -41,6 +41,11 @@
   :config
   (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
   (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
+(use-package evil-mc
+  :ensure t
+  :after evil
+  :config
+  (global-evil-mc-mode))
 
 ;; general configs
 (fset 'yes-or-no-p 'y-or-n-p) ;; turns all yes/no to y/n
@@ -202,9 +207,6 @@
 ;; Haskell λ
 (use-package haskell-mode
   :ensure t)
-;; JaVaScRiPt
-(use-package nodejs-repl
-  :ensure t)
 ;; Julia <3
 (use-package julia-mode
   :ensure t)
@@ -277,9 +279,14 @@
   (kbd "<leader>a") 'counsel-linux-app
   (kbd "<leader>e") 'dired-jump
 
-  ;;
-  ;; applications keybinds
-  ;;
+  ;; cursors (normal mode)
+  (kbd ",") 'evil-mc-undo-all-cursors
+  (kbd "S") 'evil-mc-pause-cursors
+  (kbd "Q") 'evil-mc-resume-cursors
+  (kbd "s") 'evil-mc-make-cursor-here
+  (kbd ";") 'evil-mc-undo-last-added-cursor
+
+  ;; applications
   (kbd "<leader>g") 'magit
   (kbd "<leader>RET") 'terminal-here
   (kbd "<leader>ch") '(lambda () (interactive) (terminal-here-launch (list "ghci")))
@@ -289,6 +296,11 @@
   (kbd "<leader>ct") '(lambda () (interactive) (terminal-here-launch (list "htop")))
   (kbd "<leader>cm") '(lambda () (interactive) (terminal-here-launch (list "ncmpcpp")))
   (kbd "<leader>cl") '(lambda () (interactive) (terminal-here-launch (list "lua"))))
+
+;; cursors (visual mode)
+(evil-define-key 'visual 'global
+  (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
+  (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
 
 ;; ivy
 (define-key ivy-minibuffer-map (kbd "C-w") 'backward-kill-word) 
