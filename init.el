@@ -116,7 +116,7 @@
 (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
 (setq scroll-conservatively 1000)
-(setq scroll-margin 3)
+(setq scroll-margin 15)
 (blink-cursor-mode 0)
 (global-visual-line-mode 1)
 (global-prettify-symbols-mode 1)
@@ -295,9 +295,13 @@
   ;;
   (kbd "<leader>g") 'magit
   (kbd "<leader>RET") 'terminal-here
-  (kbd "<leader>ch") 'run-haskell
-  (kbd "<leader>cp") 'run-python
-  (kbd "<leader>cl") 'run-lua)
+  (kbd "<leader>ch") '(lambda () (interactive) (terminal-here-launch (list "ghci")))
+  (kbd "<leader>cp") '(lambda () (interactive) (terminal-here-launch (list "python")))
+  (kbd "<leader>cc") '(lambda () (interactive) (terminal-here-launch (list "julia")))
+  (kbd "<leader>cj") '(lambda () (interactive) (terminal-here-launch (list "deno")))
+  (kbd "<leader>ct") '(lambda () (interactive) (terminal-here-launch (list "htop")))
+  (kbd "<leader>cm") '(lambda () (interactive) (terminal-here-launch (list "ncmpcpp")))
+  (kbd "<leader>cl") '(lambda () (interactive) (terminal-here-launch (list "lua"))))
 
 ;; ivy
 (define-key ivy-minibuffer-map (kbd "C-w") 'backward-kill-word) 
