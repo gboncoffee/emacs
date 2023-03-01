@@ -116,7 +116,7 @@
 (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
 (setq scroll-conservatively 1000)
-(setq scroll-margin 15)
+(setq scroll-margin 20)
 (blink-cursor-mode 0)
 (global-visual-line-mode 1)
 (global-prettify-symbols-mode 1)
@@ -129,32 +129,23 @@
 
 
 ;; dashboard
-(setq dashboard-set-heading-icons t)
-(setq dashboard-set-file-icons t)
 (setq dashboard-center-content t)
 (setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
 (setq dashboard-startup-banner '"/home/gb/.config/emacs/dash.jpg")
 (setq dashboard-items '((recents . 3)
 			(agenda . 3)))
-;; needed so the client starts in the dashboard and not in the stupid scratch
-(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 (use-package dashboard
   :ensure t
-  :init
   :config
   (dashboard-setup-startup-hook))
+;; needed so the client starts in the dashboard and not in the stupid scratch
+(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 
 ;; I dont know what TODO
 (use-package hl-todo
   :ensure t
   :config
   (global-hl-todo-mode 1))
-
-;; beacon
-(use-package beacon
-  :ensure t
-  :config
-  (beacon-mode 1))
 
 ;; zen mode
 (use-package darkroom
@@ -171,8 +162,6 @@
 ;;
 ;; completion/fuzzy/etc
 ;;
-(use-package consult
-  :ensure t)
 (use-package counsel
   :ensure t)
 (use-package flx
@@ -185,11 +174,6 @@
   (ivy-mode t)
   (setq ivy-re-builders-alist
     '((t . ivy--regex-fuzzy))))
-
-(use-package smartparens
-  :ensure t
-  :config
-  (add-hook 'prog-mode-hook 'smartparens-mode))
 
 ;;
 ;; femboy programmer stuff
@@ -243,6 +227,9 @@
 ;; magit
 (use-package magit
   :ensure t)
+;; disable evil in magit
+(eval-after-load 'evil-core
+  '(evil-set-initial-state 'magit-popup-mode 'emacs))
 
 ;; dired
 (setq dired-listing-switches "-lah -v --group-directories-first")
@@ -336,7 +323,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(vertico use-package unicode-fonts rg pdf-tools nodejs-repl markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired)))
+   '(vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
