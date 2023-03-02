@@ -50,6 +50,43 @@
 ;; general configs
 (fset 'yes-or-no-p 'y-or-n-p) ;; turns all yes/no to y/n
 
+;; stolen from doom emacs: https://github.com/doomemacs/doomemacs
+(defvar +doom-quit-messages
+  '(;; from Doom 1
+    "Please don't leave, there's more demons to toast!"
+    "Let's beat it -- This is turning into a bloodbath!"
+    "I wouldn't leave if I were you. DOS is much worse."
+    "Don't leave yet -- There's a demon around that corner!"
+    "Ya know, next time you come in here I'm gonna toast ya."
+    "Go ahead and leave. See if I care."
+    "Are you sure you want to quit this great editor?"
+    ;; from Portal
+    "Thank you for participating in this Aperture Science computer-aided enrichment activity."
+    "You can't fire me, I quit!"
+    "I don't know what you think you are doing, but I don't like it. I want you to stop."
+    "This isn't brave. It's murder. What did I ever do to you?"
+    "I'm the man who's going to burn your house down! With the lemons!"
+    "Okay, look. We've both said a lot of things you're going to regret..."
+    ;; Custom
+    "(setq nothing t everything 'permitted)"
+    "Emacs will remember that."
+    "Emacs, Emacs never changes."
+    "Hey! Hey, M-x listen!"
+    "It's not like I'll miss you or anything, b-baka!"
+    "Wake up, Mr. Stallman. Wake up and smell the ashes."
+    "You are *not* prepared!"
+    "Please don't go. The drones need you. They look up to you.")
+  "A list of quit messages, picked randomly by `+doom-quit'. Taken from
+http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
+(defun +doom-quit-fn (&rest _)
+  (y-or-n-p
+   (format "%s %s"
+           (propertize (nth (random (length +doom-quit-messages))
+                            +doom-quit-messages)
+                       'face '(italic default))
+           "Really quit Emacs?")))
+(setq confirm-kill-emacs '+doom-quit-fn)
+
 ;;
 ;; appearance
 ;;
@@ -277,6 +314,14 @@
 (use-package emms
   :ensure t)
 
+;; to Rin Shima camp with me 💖
+(use-package fireplace
+  :ensure t)
+
+;; 🌈🐈
+(use-package zone-nyan
+  :ensure t)
+
 ;;
 ;; keybinds
 ;;
@@ -389,7 +434,7 @@
    '("e1f4f0158cd5a01a9d96f1f7cdcca8d6724d7d33267623cc433fe1c196848554" "afa47084cb0beb684281f480aa84dab7c9170b084423c7f87ba755b15f6776ef" "51c71bb27bdab69b505d9bf71c99864051b37ac3de531d91fdad1598ad247138" default))
  '(evil-undo-system 'undo-redo)
  '(package-selected-packages
-   '(ranger awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline darkroom all-the-icons-dired))
+   '(zone-nyan fireplace ranger awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline darkroom all-the-icons-dired))
  '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
