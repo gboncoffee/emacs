@@ -121,13 +121,17 @@
 (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
 (setq scroll-conservatively 1000)
-(setq maximum-scroll-margin 1.0)
+(setq maximum-scroll-margin 0.5)
 (setq scroll-margin 10)
 (blink-cursor-mode 0)
-(global-visual-line-mode 1)
-(global-prettify-symbols-mode 1)
+(global-visual-line-mode t)
+(global-prettify-symbols-mode t)
+(global-hl-line-mode t)
 
-;; doom modeline
+;; modeline
+(setq doom-modeline-buffer-encoding nil)
+(display-time-mode t)
+(display-battery-mode t)
 (use-package doom-modeline
   :ensure t
   :config
@@ -258,12 +262,22 @@
   '(evil-set-initial-state 'magit-popup-mode 'emacs))
 
 ;; dired
-(setq dired-listing-switches "-lah -v --group-directories-first")
-(setq dired-kill-when-opening-new-dired-buffer t)
-(use-package diredfl
+(setq ranger-cleanup-on-disable t)
+(setq ranger-cleanup-eagerly t)
+(setq ranger-show-hidden t)
+(setq ranger-modify-header nil)
+(setq ranger-hide-cursor nil)
+(setq ranger-preview-file t)
+(setq ranger-show-literal nil)
+(setq ranger-excluded-extensions '("mkv" "iso" "mp4"))
+(setq ranger-max-preview-size 400)
+(setq ranger-width-preview 0.5)
+(setq ranger-width-parents 0.22)
+(setq ranger-override-dired 'ranger)
+(use-package ranger
   :ensure t
   :config
-  (diredfl-global-mode t))
+  (ranger-override-dired-mode t))
 
 ;; terminal integration
 (setq terminal-here-linux-terminal-command 'alacritty)
@@ -316,7 +330,7 @@
   (kbd "<leader>f") 'counsel-find-file
   (kbd "<leader>.") 'counsel-projectile-find-file
   (kbd "<leader>a") 'counsel-linux-app
-  (kbd "<leader>e") 'dired-jump
+  (kbd "<leader>e") 'ranger
   (kbd "TAB") 'centaur-tabs-forward
   (kbd "S-TAB") 'centaur-tabs-backward
 
@@ -336,6 +350,9 @@
                 (evil-mc-make-cursor-here)
                 (evil-previous-line)
                 (evil-mc-resume-cursors))
+
+  ;; editor
+  (kbd "U") 'evil-redo
 
   ;; applications
   (kbd "<leader>g") 'magit
@@ -357,29 +374,27 @@
 (define-key ivy-minibuffer-map (kbd "C-w") 'backward-kill-word) 
 (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line) 
 (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line) 
-(define-key ivy-minibuffer-map (kbd "C-h") 'ivy-beggining-of-buffer) 
+(define-key ivy-minibuffer-map (kbd "C-h") 'ivy-beginning-of-buffer) 
 (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-immediate-done) 
 
-;; dired
-(evil-define-key 'normal dired-mode-map
-  (kbd "t") 'terminal-here
-  (kbd "!") 'shell-command
-  (kbd "G") 'magit
-  (kbd "f") 'counsel-find-file
-  (kbd "$") 'dired-do-shell-command
-  (kbd "R") 'revert-buffer
-  (kbd "h") 'dired-up-directory
-  (kbd "l") 'dired-find-file
-  (kbd "v") 'dired-mark
-  (kbd "V") 'dired-mark-files-containing-regexp
-  (kbd "u") 'dired-unmark
-  (kbd "c") 'dired-unmark-all-marks
-  (kbd "U") 'dired-toggle-marks
-  (kbd "<backspace>") 'dired-do-delete
-  (kbd "M") 'dired-create-directory
-  (kbd "r") 'dired-do-rename
-  (kbd "y") 'dired-do-copy
-  (kbd "Y") 'dired-copy-filename-as-kill)
+;; dired/ranger
+(define-key ranger-mode-map (kbd "w") 'terminal-here)
+(define-key ranger-mode-map (kbd "!") 'shell-command)
+(define-key ranger-mode-map (kbd "f") 'counsel-find-file)
+(define-key ranger-mode-map (kbd "R") 'ranger-refresh)
+(define-key ranger-mode-map (kbd "$") 'dired-do-shell-command)
+(define-key ranger-mode-map (kbd "h") 'ranger-up-directory)
+(define-key ranger-mode-map (kbd "l") 'ranger-find-file)
+(define-key ranger-mode-map (kbd "RET") 'ranger-find-file)
+(define-key ranger-mode-map (kbd "SPC") 'ranger-toggle-mark)
+(define-key ranger-mode-map (kbd "c") 'dired-unmark-all-marks)
+(define-key ranger-mode-map (kbd "<backspace>") 'dired-do-delete)
+(define-key ranger-mode-map (kbd "M") 'dired-create-directory)
+(define-key ranger-mode-map (kbd "r") 'dired-do-rename)
+(define-key ranger-mode-map (kbd "y") 'ranger-copy)
+(define-key ranger-mode-map (kbd "d") 'ranger-cut)
+(define-key ranger-mode-map (kbd "p") 'ranger-paste)
+(define-key ranger-mode-map (kbd "Y") 'ranger-copy-filename)
 
 ;;
 ;; custom
@@ -389,8 +404,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-undo-system 'undo-redo)
  '(package-selected-packages
-   '(awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired))
+   '(ranger awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline darkroom all-the-icons-dired))
  '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
