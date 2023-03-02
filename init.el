@@ -357,11 +357,14 @@
 (define-key ivy-minibuffer-map (kbd "C-w") 'backward-kill-word) 
 (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line) 
 (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line) 
+(define-key ivy-minibuffer-map (kbd "C-h") 'ivy-beggining-of-buffer) 
+(define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-immediate-done) 
 
 ;; dired
 (evil-define-key 'normal dired-mode-map
   (kbd "t") 'terminal-here
   (kbd "!") 'shell-command
+  (kbd "G") 'magit
   (kbd "T") 'counsel-find-file
   (kbd "$") 'dired-do-shell-command
   (kbd "R") 'revert-buffer
@@ -387,7 +390,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(centaur-tabs awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired)))
+   '(centaur-tabs awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired))
+ '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
