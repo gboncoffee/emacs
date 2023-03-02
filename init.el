@@ -152,6 +152,25 @@
   :config
   (global-hl-todo-mode 1))
 
+;; tabline (the wrong way to use buffers)
+(setq centaur-tabs-set-icons t)
+(setq centaur-tabs-set-bar 'left)
+(setq centaur-tabs-set-close-button nil)
+(setq centaur-tabs-set-modified-marker t)
+(setq centaur-tabs-cycle-scope 'tabs)
+(setq centaur-tabs-show-new-tab-button nil)
+(setq centaur-tabs-height 28)
+(use-package centaur-tabs
+  :ensure t
+  :config
+  (centaur-tabs-mode t)
+  (add-hook 'dired-mode-hook 'centaur-tabs-local-mode)
+  (add-hook 'magit-mode-hook 'centaur-tabs-local-mode)
+  (add-hook 'compilation-mode-hook 'centaur-tabs-local-mode)
+  (add-hook 'rg-mode-hook 'centaur-tabs-local-mode)
+  (add-hook 'git-commit-mode-hook 'centaur-tabs-local-mode)
+  (add-hook 'dashboard-mode-hook 'centaur-tabs-local-mode))
+
 ;; zen mode
 (use-package darkroom
   :ensure t)
@@ -298,6 +317,8 @@
   (kbd "<leader>.") 'counsel-projectile-find-file
   (kbd "<leader>a") 'counsel-linux-app
   (kbd "<leader>e") 'dired-jump
+  (kbd "TAB") 'centaur-tabs-forward
+  (kbd "S-TAB") 'centaur-tabs-backward
 
   ;; cursors (normal mode)
   (kbd ",") 'evil-mc-undo-all-cursors
@@ -366,7 +387,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired)))
+   '(centaur-tabs awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
