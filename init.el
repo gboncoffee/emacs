@@ -68,7 +68,7 @@
   :font "CaskaydiaCove Nerd Font Mono-18"
   :weight 'normal)
 (set-face-attribute 'variable-pitch nil
-  :font "CaskaydiaCove Nerd Font-16"
+  :font "CaskaydiaCove Nerd Font-18"
   :weight 'normal)
 (set-face-attribute 'fixed-pitch nil
   :font "CaskaydiaCove Nerd Font Mono-18"
@@ -121,7 +121,8 @@
 (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
 (setq scroll-conservatively 1000)
-(setq scroll-margin 20)
+(setq maximum-scroll-margin 1.0)
+(setq scroll-margin 10)
 (blink-cursor-mode 0)
 (global-visual-line-mode 1)
 (global-prettify-symbols-mode 1)
@@ -137,8 +138,7 @@
 (setq dashboard-center-content t)
 (setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
 (setq dashboard-startup-banner '"/home/gb/.config/emacs/dash.jpg")
-(setq dashboard-items '((recents . 3)
-			(agenda . 3)))
+(setq dashboard-items '((agenda . 5)))
 (use-package dashboard
   :ensure t
   :config
@@ -167,8 +167,13 @@
 ;;
 ;; completion/fuzzy/etc
 ;;
+(use-package smex
+  :ensure t)
 (use-package counsel
   :ensure t)
+(use-package counsel-projectile
+  :ensure t
+  :after counsel)
 (use-package flx
   :ensure t)
 (use-package ivy
@@ -246,6 +251,19 @@
 (use-package terminal-here
   :ensure t)
 
+;; project management
+(setq projectile-project-search-path '("~/src/"))
+(setq projectile-find-dir-includes-top-level t)
+(setq projectile-switch-project-action #'projectile-find-dir)
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1))
+
+;; multimedia
+(use-package emms
+  :ensure t)
+
 ;;
 ;; keybinds
 ;;
@@ -266,6 +284,7 @@
 
   ;; running things
   (kbd "<leader>b") 'compile
+  (kbd "<leader>m") 'man
   (kbd "<leader>/") 'rg
   (kbd "SPC SPC") 'counsel-M-x
   (kbd "!") 'shell-command
@@ -274,8 +293,9 @@
   (kbd "<leader>x") 'counsel-unicode-char
 
   ;; navigation
+  (kbd "<leader>p") 'projectile-switch-project
   (kbd "<leader>f") 'counsel-find-file
-  (kbd "<leader>.") 'counsel-file-jump
+  (kbd "<leader>.") 'counsel-projectile-find-file
   (kbd "<leader>a") 'counsel-linux-app
   (kbd "<leader>e") 'dired-jump
 
@@ -285,6 +305,16 @@
   (kbd "Q") 'evil-mc-resume-cursors
   (kbd "s") 'evil-mc-make-cursor-here
   (kbd ";") 'evil-mc-undo-last-added-cursor
+  (kbd "C-j") '(lambda () (interactive)
+                (evil-mc-pause-cursors)
+                (evil-mc-make-cursor-here)
+                (evil-next-line)
+                (evil-mc-resume-cursors))
+  (kbd "C-k") '(lambda () (interactive)
+                (evil-mc-pause-cursors)
+                (evil-mc-make-cursor-here)
+                (evil-previous-line)
+                (evil-mc-resume-cursors))
 
   ;; applications
   (kbd "<leader>g") 'magit
@@ -311,10 +341,11 @@
 (evil-define-key 'normal dired-mode-map
   (kbd "t") 'terminal-here
   (kbd "!") 'shell-command
-  (kbd "g") 'counsel-find-file
+  (kbd "T") 'counsel-find-file
   (kbd "$") 'dired-do-shell-command
+  (kbd "R") 'revert-buffer
   (kbd "h") 'dired-up-directory
-  (kbd "l") 'dired-find-file
+  (kbd "f") 'dired-find-file
   (kbd "v") 'dired-mark
   (kbd "V") 'dired-mark-files-containing-regexp
   (kbd "u") 'dired-unmark
@@ -335,10 +366,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired)))
+   '(emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline diredfl darkroom all-the-icons-dired)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(markdown-header-face ((t (:inherit font-lock-function-name-face :weight bold :family "variable-pitch"))))
+ '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.8))))
+ '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.4))))
+ '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.2))))
+ '(variable-pitch ((t (:weight normal :family "CaskaydiaCove Nerd Font")))))
