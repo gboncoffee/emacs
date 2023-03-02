@@ -332,7 +332,7 @@
   (kbd "<leader>a") 'counsel-linux-app
   (kbd "<leader>e") 'ranger
   (kbd "TAB") 'centaur-tabs-forward
-  (kbd "S-TAB") 'centaur-tabs-backward
+  (kbd "<backtab>") 'centaur-tabs-backward
 
   ;; cursors (normal mode)
   (kbd ",") 'evil-mc-undo-all-cursors
@@ -404,6 +404,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("e1f4f0158cd5a01a9d96f1f7cdcca8d6724d7d33267623cc433fe1c196848554" "afa47084cb0beb684281f480aa84dab7c9170b084423c7f87ba755b15f6776ef" "51c71bb27bdab69b505d9bf71c99864051b37ac3de531d91fdad1598ad247138" default))
  '(evil-undo-system 'undo-redo)
  '(package-selected-packages
    '(ranger awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline darkroom all-the-icons-dired))
