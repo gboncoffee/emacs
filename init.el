@@ -133,7 +133,6 @@
   :config
   (doom-modeline-mode 1))
 
-
 ;; dashboard
 (setq dashboard-center-content t)
 (setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
@@ -366,11 +365,11 @@
   (kbd "t") 'terminal-here
   (kbd "!") 'shell-command
   (kbd "G") 'magit
-  (kbd "T") 'counsel-find-file
+  (kbd "f") 'counsel-find-file
   (kbd "$") 'dired-do-shell-command
   (kbd "R") 'revert-buffer
   (kbd "h") 'dired-up-directory
-  (kbd "f") 'dired-find-file
+  (kbd "l") 'dired-find-file
   (kbd "v") 'dired-mark
   (kbd "V") 'dired-mark-files-containing-regexp
   (kbd "u") 'dired-unmark
