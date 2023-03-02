@@ -155,26 +155,6 @@
   :config
   (global-hl-todo-mode 1))
 
-;; tabline (the wrong way to use buffers)
-(setq centaur-tabs-set-icons t)
-(setq centaur-tabs-set-close-button nil)
-(setq centaur-tabs-set-modified-marker t)
-(setq centaur-tabs-modified-marker "[+]")
-(setq centaur-tabs-cycle-scope 'tabs)
-(setq centaur-tabs-show-new-tab-button nil)
-(use-package centaur-tabs
-  :ensure t
-  :config
-  (centaur-tabs-mode t)
-  (add-hook 'dired-mode-hook 'centaur-tabs-local-mode)
-  (add-hook 'magit-mode-hook 'centaur-tabs-local-mode)
-  (add-hook 'compilation-mode-hook 'centaur-tabs-local-mode)
-  (add-hook 'rg-mode-hook 'centaur-tabs-local-mode)
-  (add-hook 'git-commit-mode-hook 'centaur-tabs-local-mode)
-  (add-hook 'dashboard-mode-hook 'centaur-tabs-local-mode))
-;; fix bar in client
-(setq centaur-tabs-set-bar 'right)
-
 ;; zen mode
 (use-package darkroom
   :ensure t)
@@ -327,12 +307,13 @@
 
   ;; navigation
   (kbd "<leader>p") 'projectile-switch-project
+  (kbd "<leader>q") 'projectile-kill-buffers
   (kbd "<leader>f") 'counsel-find-file
   (kbd "<leader>.") 'counsel-projectile-find-file
   (kbd "<leader>a") 'counsel-linux-app
   (kbd "<leader>e") 'ranger
-  (kbd "TAB") 'centaur-tabs-forward
-  (kbd "<backtab>") 'centaur-tabs-backward
+  (kbd "TAB") 'projectile-next-project-buffer
+  (kbd "<backtab>") 'projectile-previous-project-buffer
 
   ;; cursors (normal mode)
   (kbd ",") 'evil-mc-undo-all-cursors
