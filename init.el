@@ -162,8 +162,9 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (setq scroll-margin 10)
 (blink-cursor-mode 0)
 (global-visual-line-mode t)
-(global-prettify-symbols-mode t)
 (global-hl-line-mode t)
+(add-hook 'emacs-lisp-mode-hook (lambda () (interactive) (prettify-symbols-mode t)))
+(add-hook 'LaTeX-mode-hook (lambda () (interactive) (prettify-symbols-mode t)))
 
 ;; modeline
 (setq doom-modeline-buffer-encoding nil)
