@@ -499,6 +499,14 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 ;; nor calendars
 (evil-define-key 'normal calendar-mode-map
   (kbd "q") 'kill-buffer-and-window)
+;; nor pdfs
+(with-eval-after-load 'pdf-view
+  (evil-define-key 'normal pdf-view-mode-map
+    (kbd "q") 'kill-buffer-and-window
+    (kbd "t") 'pdf-view-fit-page-to-window
+    (kbd "s") 'pdf-view-width-to-window
+    (kbd "j") 'pdf-view-next-line-or-next-page
+    (kbd "k") 'pdf-view-previous-line-or-previous-page))
 
 ;;
 ;; custom
@@ -512,7 +520,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
    '("e1f4f0158cd5a01a9d96f1f7cdcca8d6724d7d33267623cc433fe1c196848554" "afa47084cb0beb684281f480aa84dab7c9170b084423c7f87ba755b15f6776ef" "51c71bb27bdab69b505d9bf71c99864051b37ac3de531d91fdad1598ad247138" default))
  '(evil-undo-system 'undo-redo)
  '(package-selected-packages
-   '(zone-nyan yaml-mode use-package unicode-fonts terminal-here smex rust-mode rg ranger powerline pdf-tools org-superstar org-noter markdown-mode magit lua-mode ligature lice julia-mode htmlize hl-todo haskell-mode flx fireplace expand-region evil-org evil-numbers evil-mc evil-commentary evil-collection emms editorconfig doom-themes doom-modeline diredfl dashboard darkroom counsel-projectile all-the-icons-ivy all-the-icons-dired))
+   '(pdf-tools zone-nyan yaml-mode use-package unicode-fonts terminal-here smex rust-mode rg ranger powerline org-superstar org-noter markdown-mode magit lua-mode ligature lice julia-mode htmlize hl-todo haskell-mode flx fireplace expand-region evil-org evil-numbers evil-mc evil-commentary evil-collection emms editorconfig doom-themes doom-modeline diredfl dashboard darkroom counsel-projectile all-the-icons-ivy all-the-icons-dired))
  '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
