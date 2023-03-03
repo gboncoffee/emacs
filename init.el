@@ -55,7 +55,7 @@
 (setq org-directory "~/doc/org")
 (setq org-agenda-files "~/doc/org/agenda-files")
 
-;; stolen from doom emacs: https://github.com/doomemacs/doomemacs
+;; partially stolen from doom emacs: https://github.com/doomemacs/doomemacs
 (defvar +doom-quit-messages
   '(;; from Doom 1
     "Please don't leave, there's more demons to toast!"
@@ -90,7 +90,31 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
                             +doom-quit-messages)
                        'face '(italic default))
            "Really quit Emacs?")))
-(setq confirm-kill-emacs '+doom-quit-fn)
+
+;; basically plain evil-quit but with a confirmation if quitting client or emacs
+;; so partially stolen from https://github.com/emacs-evil/evil
+(evil-define-command evil-quit (&optional force)
+  :repeat nil
+  (interactive "<!>")
+  (condition-case nil
+      (delete-window)
+    (error
+     (if (and (boundp 'server-buffer-clients)
+              (fboundp 'server-edit)
+              (fboundp 'server-buffer-done)
+              server-buffer-clients)
+         (if force
+             (server-buffer-done (current-buffer))
+           (server-edit))
+       (if (+doom-quit-fn) (condition-case nil
+           (delete-frame)
+         (error
+          (condition-case nil
+              (tab-bar-close-tab)
+            (error
+             (if force
+                 (kill-emacs)
+               (save-buffers-kill-emacs)))))))))))
 
 ;;
 ;; appearance
@@ -353,6 +377,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+;; save things after quitting agenda view
+(advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
 
 ;; patent office
 (use-package lice
