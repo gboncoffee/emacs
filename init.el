@@ -305,6 +305,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 ;; C
 (setq c-default-style "k&r"
       c-basic-offset 4)
+;; rasi
+(add-to-list 'auto-mode-alist '("\\.rasi\\'" . css-mode))
 
 ;;
 ;; applications
