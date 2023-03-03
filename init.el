@@ -236,7 +236,9 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 
 ;; pdf
 (use-package pdf-tools
-  :ensure t)
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
 
 ;;
 ;; completion/fuzzy/etc
@@ -503,7 +505,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (evil-define-key 'normal pdf-view-mode-map
     (kbd "q") 'kill-buffer-and-window
     (kbd "t") 'pdf-view-fit-page-to-window
-    (kbd "s") 'pdf-view-width-to-window
+    (kbd "s") 'pdf-view-fit-width-to-window
     (kbd "j") 'pdf-view-next-line-or-next-page
     (kbd "k") 'pdf-view-previous-line-or-previous-page))
 
@@ -520,6 +522,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
  '(evil-undo-system 'undo-redo)
  '(package-selected-packages
    '(pdf-tools zone-nyan yaml-mode use-package unicode-fonts terminal-here smex rust-mode rg ranger powerline org-superstar org-noter markdown-mode magit lua-mode ligature lice julia-mode htmlize hl-todo haskell-mode flx fireplace expand-region evil-org evil-numbers evil-mc evil-commentary evil-collection emms editorconfig doom-themes doom-modeline diredfl dashboard darkroom counsel-projectile all-the-icons-ivy all-the-icons-dired))
+ '(pdf-tools-enabled-modes
+   '(pdf-history-minor-mode pdf-isearch-minor-mode pdf-links-minor-mode pdf-misc-minor-mode pdf-outline-minor-mode pdf-misc-size-indication-minor-mode pdf-misc-menu-bar-minor-mode pdf-annot-minor-mode pdf-sync-minor-mode pdf-misc-context-menu-minor-mode pdf-cache-prefetch-minor-mode pdf-occur-global-minor-mode pdf-virtual-global-minor-mode))
  '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
