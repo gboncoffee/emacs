@@ -401,16 +401,6 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (kbd "Q") 'evil-mc-resume-cursors
   (kbd "s") 'evil-mc-make-cursor-here
   (kbd ";") 'evil-mc-undo-last-added-cursor
-  (kbd "C-j") '(lambda () (interactive)
-                (evil-mc-pause-cursors)
-                (evil-mc-make-cursor-here)
-                (evil-next-line)
-                (evil-mc-resume-cursors))
-  (kbd "C-k") '(lambda () (interactive)
-                (evil-mc-pause-cursors)
-                (evil-mc-make-cursor-here)
-                (evil-previous-line)
-                (evil-mc-resume-cursors))
 
   ;; editor
   (kbd "U") 'evil-redo
