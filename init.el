@@ -49,6 +49,11 @@
 
 ;; general configs
 (fset 'yes-or-no-p 'y-or-n-p) ;; turns all yes/no to y/n
+(setq make-backup-files nil)
+(setq user-full-name "Gabriel G. de Brito")
+(setq user-mail-address "gabrielgbrito@icloud.com")
+(setq org-directory "~/doc/org")
+(setq org-agenda-files "~/doc/org/agenda-files")
 
 ;; stolen from doom emacs: https://github.com/doomemacs/doomemacs
 (defvar +doom-quit-messages
@@ -151,20 +156,25 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-;; line numbers, scrolloff, etc
+(blink-cursor-mode 0)
+;; line numbers
 (setq-default display-line-numbers-width 3)
 (setq display-line-numbers-type 'relative)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+(add-hook 'org-mode-hook 'display-line-numbers-mode)
+;; scrolling
 (setq scroll-conservatively 1000)
 (setq maximum-scroll-margin 0.5)
 (setq scroll-margin 10)
-(blink-cursor-mode 0)
+;; visual line/hl line
 (global-visual-line-mode t)
 (global-hl-line-mode t)
+;; prettify symbols and concealling
 (add-hook 'emacs-lisp-mode-hook (lambda () (interactive) (prettify-symbols-mode t)))
 (add-hook 'LaTeX-mode-hook (lambda () (interactive) (prettify-symbols-mode t)))
+(setq org-hide-emphasis-markers t)
 
 ;; modeline
 (setq doom-modeline-buffer-encoding nil)
@@ -178,8 +188,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 ;; dashboard
 (setq dashboard-center-content t)
 (setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
-(setq dashboard-startup-banner '"/home/gb/.config/emacs/dash.jpg")
-(setq dashboard-items '((agenda . 5)))
+(setq dashboard-startup-banner '"~/.config/emacs/dash.jpg")
+(setq dashboard-items '())
 (use-package dashboard
   :ensure t
   :config
@@ -280,22 +290,26 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   '(evil-set-initial-state 'magit-popup-mode 'emacs))
 
 ;; dired
+(setq dired-listing-switches "-lAhf --ignore-backups")
 (setq ranger-cleanup-on-disable t)
 (setq ranger-cleanup-eagerly t)
 (setq ranger-show-hidden t)
 (setq ranger-modify-header nil)
-(setq ranger-hide-cursor nil)
+(setq ranger-hide-cursor t)
 (setq ranger-preview-file t)
 (setq ranger-show-literal nil)
 (setq ranger-excluded-extensions '("mkv" "iso" "mp4"))
+(setq ranger-override-dired t)
+(setq ranger-width-preview 0.55)
 (setq ranger-max-preview-size 400)
-(setq ranger-width-preview 0.5)
-(setq ranger-width-parents 0.22)
-(setq ranger-override-dired 'ranger)
 (use-package ranger
   :ensure t
   :config
   (ranger-override-dired-mode t))
+(use-package diredfl
+  :ensure t
+  :config
+  (add-hook 'dired-mode-hook 'diredfl-mode))
 
 ;; terminal integration
 (setq terminal-here-linux-terminal-command 'alacritty)
@@ -322,6 +336,26 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 ;; 🌈🐈
 (use-package zone-nyan
   :ensure t)
+
+;; ILoveTheWeb
+(use-package htmlize
+  :ensure t)
+
+;; org mode
+(use-package evil-org
+  :ensure t)
+(use-package org-noter
+  :ensure t)
+(use-package org-superstar
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+
+;; patent office
+(use-package lice
+  :ensure t
+  :config
+  (setq lice:default-license "mit"))
 
 ;;
 ;; keybinds
@@ -357,9 +391,9 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (kbd "<leader>f") 'counsel-find-file
   (kbd "<leader>.") 'counsel-projectile-find-file
   (kbd "<leader>a") 'counsel-linux-app
-  (kbd "<leader>e") 'ranger
-  (kbd "TAB") 'projectile-next-project-buffer
-  (kbd "<backtab>") 'projectile-previous-project-buffer
+  (kbd "<leader>e") 'deer
+  (kbd "<leader>TAB") 'projectile-next-project-buffer
+  (kbd "<leader><backtab>") 'projectile-previous-project-buffer
 
   ;; cursors (normal mode)
   (kbd ",") 'evil-mc-undo-all-cursors
@@ -384,6 +418,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   ;; applications
   (kbd "<leader>g") 'magit
   (kbd "<leader>RET") 'terminal-here
+  (kbd "<leader>oa") 'org-agenda
   (kbd "<leader>ch") '(lambda () (interactive) (terminal-here-launch (list "ghci")))
   (kbd "<leader>cp") '(lambda () (interactive) (terminal-here-launch (list "python")))
   (kbd "<leader>cc") '(lambda () (interactive) (terminal-here-launch (list "julia")))
@@ -404,7 +439,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (define-key ivy-minibuffer-map (kbd "C-h") 'ivy-beginning-of-buffer) 
 (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-immediate-done) 
 
-;; dired/ranger
+;; dired/ranger/deer
 (define-key ranger-mode-map (kbd "w") 'terminal-here)
 (define-key ranger-mode-map (kbd "!") 'shell-command)
 (define-key ranger-mode-map (kbd "f") 'counsel-find-file)
@@ -413,6 +448,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (define-key ranger-mode-map (kbd "h") 'ranger-up-directory)
 (define-key ranger-mode-map (kbd "l") 'ranger-find-file)
 (define-key ranger-mode-map (kbd "RET") 'ranger-find-file)
+(define-key ranger-mode-map (kbd "M-RET") 'ranger-open-file-horizontally)
 (define-key ranger-mode-map (kbd "SPC") 'ranger-toggle-mark)
 (define-key ranger-mode-map (kbd "c") 'dired-unmark-all-marks)
 (define-key ranger-mode-map (kbd "<backspace>") 'dired-do-delete)
@@ -422,6 +458,11 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (define-key ranger-mode-map (kbd "d") 'ranger-cut)
 (define-key ranger-mode-map (kbd "p") 'ranger-paste)
 (define-key ranger-mode-map (kbd "Y") 'ranger-copy-filename)
+
+;; I don't like image buffers
+;; (add-hook 'image-mode-hook 'turn-off-evil-mode)
+(evil-define-key 'normal image-mode-map
+  (kbd "q") 'kill-buffer-and-window)
 
 ;;
 ;; custom
@@ -435,7 +476,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
    '("e1f4f0158cd5a01a9d96f1f7cdcca8d6724d7d33267623cc433fe1c196848554" "afa47084cb0beb684281f480aa84dab7c9170b084423c7f87ba755b15f6776ef" "51c71bb27bdab69b505d9bf71c99864051b37ac3de531d91fdad1598ad247138" default))
  '(evil-undo-system 'undo-redo)
  '(package-selected-packages
-   '(zone-nyan fireplace ranger awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline darkroom all-the-icons-dired))
+   '(diredfl lice org-superstar org-noter evil-org htmlize zone-nyan fireplace ranger awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline darkroom all-the-icons-dired))
  '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
