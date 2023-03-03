@@ -194,7 +194,6 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (setq scroll-margin 10)
 ;; visual line/hl line
 (global-visual-line-mode t)
-(global-hl-line-mode t)
 ;; prettify symbols and concealling
 (add-hook 'emacs-lisp-mode-hook (lambda () (interactive) (prettify-symbols-mode t)))
 (add-hook 'LaTeX-mode-hook (lambda () (interactive) (prettify-symbols-mode t)))
@@ -319,7 +318,6 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (setq ranger-cleanup-eagerly t)
 (setq ranger-show-hidden t)
 (setq ranger-modify-header nil)
-(setq ranger-hide-cursor t)
 (setq ranger-preview-file t)
 (setq ranger-show-literal nil)
 (setq ranger-excluded-extensions '("mkv" "iso" "mp4"))
@@ -454,9 +452,10 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (kbd "<leader>cp") '(lambda () (interactive) (terminal-here-launch (list "python")))
   (kbd "<leader>cc") '(lambda () (interactive) (terminal-here-launch (list "julia")))
   (kbd "<leader>cj") '(lambda () (interactive) (terminal-here-launch (list "deno")))
-  (kbd "<leader>cl") '(lambda () (interactive) (terminal-here-launch (list "lua"))))
+  (kbd "<leader>cl") '(lambda () (interactive) (terminal-here-launch (list "lua")))
   (kbd "<leader>cm") '(lambda () (interactive) (terminal-here-launch (list "ncmpcpp")))
-  (kbd "<leader>ct") '(lambda () (interactive) (terminal-here-launch (list "htop")))
+  (kbd "<leader>cs") '(lambda () (interactive) (terminal-here-launch (list "pulsemixer")))
+  (kbd "<leader>ct") '(lambda () (interactive) (terminal-here-launch (list "htop"))))
 
 ;; visual mode
 (evil-define-key 'visual 'global
