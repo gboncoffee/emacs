@@ -409,6 +409,18 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (kbd "<leader>g") 'magit
   (kbd "<leader>RET") 'terminal-here
   (kbd "<leader>oa") 'org-agenda
+  (kbd "<leader>ot") '(lambda () (interactive)
+			(split-window-below)
+			(windmove-down)
+			(find-file "~/doc/org/todo.org"))
+  (kbd "<leader>om") '(lambda () (interactive)
+			(split-window-below)
+			(windmove-down)
+			(find-file "~/doc/org/marker.org"))
+  (kbd "<leader>oo") '(lambda () (interactive)
+			(split-window-below)
+			(windmove-down)
+			(find-file "~/doc/org/agenda.org"))
   (kbd "<leader>ch") '(lambda () (interactive) (terminal-here-launch (list "ghci")))
   (kbd "<leader>cp") '(lambda () (interactive) (terminal-here-launch (list "python")))
   (kbd "<leader>cc") '(lambda () (interactive) (terminal-here-launch (list "julia")))
@@ -419,8 +431,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 
 ;; cursors (visual mode)
 (evil-define-key 'visual 'global
-  (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
-  (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
+ (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
+ (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
 
 ;; ivy
 (define-key ivy-minibuffer-map (kbd "C-w") 'backward-kill-word) 
@@ -450,8 +462,10 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (define-key ranger-mode-map (kbd "Y") 'ranger-copy-filename)
 
 ;; I don't like image buffers
-;; (add-hook 'image-mode-hook 'turn-off-evil-mode)
 (evil-define-key 'normal image-mode-map
+  (kbd "q") 'kill-buffer-and-window)
+;; nor calendars
+(evil-define-key 'normal calendar-mode-map
   (kbd "q") 'kill-buffer-and-window)
 
 ;;
@@ -465,8 +479,6 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
  '(custom-safe-themes
    '("e1f4f0158cd5a01a9d96f1f7cdcca8d6724d7d33267623cc433fe1c196848554" "afa47084cb0beb684281f480aa84dab7c9170b084423c7f87ba755b15f6776ef" "51c71bb27bdab69b505d9bf71c99864051b37ac3de531d91fdad1598ad247138" default))
  '(evil-undo-system 'undo-redo)
- '(package-selected-packages
-   '(diredfl lice org-superstar org-noter evil-org htmlize zone-nyan fireplace ranger awesome-tab emms counsel-projectile projectile smex vertico use-package unicode-fonts rg pdf-tools markdown-mode magit lua-mode ligature julia-mode hl-todo haskell-mode evil-numbers evil-commentary evil-collection editorconfig doom-themes doom-modeline darkroom all-the-icons-dired))
  '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
