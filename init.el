@@ -309,12 +309,9 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 ;; applications
 ;;
 
-;; magit
+;; stupid content tracking (git)
 (use-package magit
   :ensure t)
-;; disable evil in magit
-(eval-after-load 'evil-core
-  '(evil-set-initial-state 'magit-popup-mode 'emacs))
 
 ;; dired
 (setq dired-listing-switches "-lAhf --ignore-backups")
@@ -339,14 +336,15 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (add-hook 'dired-mode-hook 'diredfl-mode))
 
 ;; terminal integration
-(setq terminal-here-linux-terminal-command 'alacritty)
+(setq terminal-here-linux-terminal-command '("alacritty" "--class=floating"))
+(setq terminal-here-command-flag "-e")
 (use-package terminal-here
   :ensure t)
 
 ;; project management
 (setq projectile-project-search-path '("~/src/"))
 (setq projectile-find-dir-includes-top-level t)
-(setq projectile-switch-project-action #'projectile-find-dir)
+(setq projectile-switch-project-action 'counsel-find-file)
 (use-package projectile
   :ensure t
   :config
@@ -385,6 +383,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   :ensure t
   :config
   (setq lice:default-license "mit"))
+
+;; e-Mail (e-Girl document transporting system)
 
 ;;
 ;; keybinds
@@ -454,9 +454,9 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (kbd "<leader>cp") '(lambda () (interactive) (terminal-here-launch (list "python")))
   (kbd "<leader>cc") '(lambda () (interactive) (terminal-here-launch (list "julia")))
   (kbd "<leader>cj") '(lambda () (interactive) (terminal-here-launch (list "deno")))
-  (kbd "<leader>ct") '(lambda () (interactive) (terminal-here-launch (list "htop")))
-  (kbd "<leader>cm") '(lambda () (interactive) (terminal-here-launch (list "ncmpcpp")))
   (kbd "<leader>cl") '(lambda () (interactive) (terminal-here-launch (list "lua"))))
+  (kbd "<leader>cm") '(lambda () (interactive) (terminal-here-launch (list "ncmpcpp")))
+  (kbd "<leader>ct") '(lambda () (interactive) (terminal-here-launch (list "htop")))
 
 ;; visual mode
 (evil-define-key 'visual 'global
