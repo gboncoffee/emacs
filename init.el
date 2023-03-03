@@ -277,6 +277,9 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 ;; yaml
 (use-package yaml-mode
   :ensure t)
+;; C
+(setq c-default-style "k&r"
+      c-basic-offset 4)
 
 ;;
 ;; applications
@@ -429,10 +432,13 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (kbd "<leader>cm") '(lambda () (interactive) (terminal-here-launch (list "ncmpcpp")))
   (kbd "<leader>cl") '(lambda () (interactive) (terminal-here-launch (list "lua"))))
 
-;; cursors (visual mode)
+;; visual mode
 (evil-define-key 'visual 'global
- (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
- (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
+  ;; eval lisp
+  (kbd "C-x") 'eval-region
+  ;; cursors
+  (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
+  (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
 
 ;; ivy
 (define-key ivy-minibuffer-map (kbd "C-w") 'backward-kill-word) 
