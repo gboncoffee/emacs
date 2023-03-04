@@ -228,7 +228,8 @@ Disable all the fancy and ugly GUI stuff (why the heck all this stuff is default
 #+end_src
 
 Add line numbers for some modes and configure them to have always a
-width of 3, so the text do not jump when scrolling through the file.
+width of 3, so the text do not jump when scrolling through the
+file. Also, adds ~hl-line~ for the package list.
 
 #+begin_src emacs-lisp
   (setq-default display-line-numbers-width 3)
@@ -237,6 +238,7 @@ width of 3, so the text do not jump when scrolling through the file.
   (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
   (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
   (add-hook 'org-mode-hook 'display-line-numbers-mode)
+  (add-hook 'package-menu-mode-hook 'hl-line-mode)
 #+end_src
 
 Sane defauls to scrolling and turn off word wrapping via ~visual-line-mode~.

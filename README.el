@@ -135,6 +135,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
 (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
 (add-hook 'org-mode-hook 'display-line-numbers-mode)
+(add-hook 'package-menu-mode-hook 'hl-line-mode)
 
 (setq scroll-conservatively 1000)
 (setq maximum-scroll-margin 0.5)
