@@ -262,7 +262,9 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (add-to-list 'auto-mode-alist '("\\.rasi\\'" . css-mode))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'git-commit-post-finish-hook 'magit))
 
 (setq dired-listing-switches "-lAhf --ignore-backups")
 (setq ranger-cleanup-on-disable t)

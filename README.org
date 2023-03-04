@@ -470,7 +470,9 @@ Stupid content tracking (git). The actual only reason I switched from Vim.
 
 #+begin_src emacs-lisp
   (use-package magit
-    :ensure t)
+    :ensure t
+    :config
+    (add-hook 'git-commit-post-finish-hook 'magit))
 #+end_src
 
 *** dired
