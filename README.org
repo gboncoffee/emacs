@@ -536,6 +536,10 @@ terminal inside Emacs, I prefer to just use
   ;; 🌈🐈
   (use-package zone-nyan
     :ensure t)
+  
+  ;; quite ironic
+  (use-package xkcd
+    :ensure t)
 #+end_src
 
 *** Org Mode
