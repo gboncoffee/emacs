@@ -394,6 +394,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (evil-set-leader 'normal (kbd "SPC"))
 (define-key minibuffer-local-map (kbd "ESC") 'abort-recursive-edit)
 (define-key minibuffer-local-map (kbd "C-w") 'backward-kill-word)
+(define-key minibuffer-local-map (kbd "C-V") 'clipboard-yank)
 
 (evil-define-key 'normal 'global
   ;; zooming like a true zoomer
