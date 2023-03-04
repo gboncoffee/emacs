@@ -152,16 +152,21 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   :config
   (doom-modeline-mode 1))
 
-(setq dashboard-center-content t)
-(setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
-(setq dashboard-startup-banner '"~/.config/emacs/dash.jpg")
-(setq dashboard-items '())
 (use-package dashboard
   :ensure t
+  :after all-the-icons
   :config
+  (setq dashboard-center-content t)
+  (setq dashboard-force-refresh t)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
+  (setq dashboard-startup-banner '"~/.config/emacs/dash.jpg")
+  (setq dashboard-items '())
+  (setq dashboard-footer-icon (all-the-icons-fileicon "emacs"
+                                                     :face 'font-lock-keyword-face))
+  (add-hook 'server-after-make-frame-hook 'dashboard-refresh-buffer)
   (dashboard-setup-startup-hook))
-;; needed so the client starts in the dashboard and not in the stupid scratch
-(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 
 (use-package hl-todo
   :ensure t
@@ -211,6 +216,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
     '((t . ivy--regex-fuzzy))))
 (use-package all-the-icons-ivy
   :ensure t
+  :after all-the-icons
   :config
   (all-the-icons-ivy-setup))
 
@@ -279,6 +285,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (add-hook 'dired-mode-hook 'diredfl-mode))
 (use-package all-the-icons-dired
   :ensure t
+  :after all-the-icons
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
   (setq all-the-icons-scale-factor 0.8))

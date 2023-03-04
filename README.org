@@ -1,6 +1,7 @@
 #+TITLE: Gb's Emacs Config UwU
 #+DESCRIPTION: Gabriel's Emacs configuration with evil keys.
 #+AUTHOR: Gabriel G. de Brito
+#+STARTUP: overview
 
 My configurations for the One True Editor®! Of course, they use the
 evil keys!
@@ -270,16 +271,21 @@ Add an (almost) default modeline from Doom Emacs.
 Add a cute dashboard without any actual items, just /kawaiiness/.
 
 #+begin_src emacs-lisp
-  (setq dashboard-center-content t)
-  (setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
-  (setq dashboard-startup-banner '"~/.config/emacs/dash.jpg")
-  (setq dashboard-items '())
   (use-package dashboard
     :ensure t
+    :after all-the-icons
     :config
+    (setq dashboard-center-content t)
+    (setq dashboard-force-refresh t)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
+    (setq dashboard-startup-banner '"~/.config/emacs/dash.jpg")
+    (setq dashboard-items '())
+    (setq dashboard-footer-icon (all-the-icons-fileicon "emacs"
+                                                       :face 'font-lock-keyword-face))
+    (add-hook 'server-after-make-frame-hook 'dashboard-refresh-buffer)
     (dashboard-setup-startup-hook))
-  ;; needed so the client starts in the dashboard and not in the stupid scratch
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 #+end_src
 
 Add highlighting to *TODO* entries in code because I never know what *TODO*.
@@ -361,6 +367,7 @@ Just use Ivy with icons!
       '((t . ivy--regex-fuzzy))))
   (use-package all-the-icons-ivy
     :ensure t
+    :after all-the-icons
     :config
     (all-the-icons-ivy-setup))
 #+end_src
@@ -495,6 +502,7 @@ colors.
     (add-hook 'dired-mode-hook 'diredfl-mode))
   (use-package all-the-icons-dired
     :ensure t
+    :after all-the-icons
     :config
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
     (setq all-the-icons-scale-factor 0.8))
