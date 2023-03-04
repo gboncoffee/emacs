@@ -338,8 +338,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (add-hook 'dired-mode-hook 'diredfl-mode))
 
 ;; terminal integration
-(setq terminal-here-linux-terminal-command '("alacritty" "--class=floating"))
-(setq terminal-here-command-flag "-e")
+(setq terminal-here-linux-terminal-command 'alacritty)
 (use-package terminal-here
   :ensure t)
 
