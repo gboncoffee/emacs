@@ -1,0 +1,757 @@
+#+TITLE: Gb's Emacs Config UwU
+#+DESCRIPTION: Gabriel's Emacs configuration with evil keys.
+#+AUTHOR: Gabriel G. de Brito
+
+* Gb's Emacs Config UwU
+
+My configurations for the One True Editor®! Of course, they use the
+evil keys!
+
+/"There is no system but GNU, and Linux is one of it's kernels."/
+- Saint IGNUcius (Richard M. Stallman)
+
+Alongside this document, the ~init.el~ file contains the code necessary
+to load the configuration from the Org document and some stuff added
+via the GUI by ~custom~.
+
+** License
+
+I apologize Mr. Stallman for this, but this code is licensed under the
+following terms (MIT License):
+
+#+begin_example
+Copyright (C) 2023  Gabriel G. de Brito
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+#+end_example
+
+** Links
+*** Doom Emacs
+[[https://github.com/doomemacs/doomemacs]]
+*** Evil Mode
+[[https://github.com/emacs-evil/evil]]
+*** Cascadia Code font
+[[https://github.com/microsoft/cascadia-code]]
+*** Nerd Fonts
+[[https://www.nerdfonts.com/#home]]
+*** Ivy
+https://github.com/abo-abo/swiper
+
+*** ripgrep
+[[https://github.com/BurntSushi/ripgrep]]
+*** editorconfig
+[[https://editorconfig.org/]]
+*** Alacritty
+[[https://alacritty.org/]]
+*** Kakoune
+[[https://github.com/mawww/kakoune/wiki]]
+*** Helix
+[[https://helix-editor.com/]]
+** Early Settings
+
+Setup ~use-package~ and the Melpa repository of software.
+
+#+begin_src emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives
+    '("melpa" . "https://melpa.org/packages/"))
+  (package-initialize)
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+  (setq use-package-always-ensure t)
+#+end_src
+
+Setup [[Evil Mode]] early, so we can use some functions later.
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (evil-mode))
+#+end_src
+
+** General Settings
+
++ Turns all =yes/no= prompts into =y/n= for the sake of "I'm too lazy to type an entire 'yes' or 'no'";
++ Sets my name and email.
+
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq make-backup-files nil)
+  (setq user-full-name "Gabriel G. de Brito")
+  (setq user-mail-address "gabrielgbrito@icloud.com")
+#+end_src
+
+*** Prompt to quit
+
+This code copies the prompt with random sentences from [[Doom Emacs]] to
+quit. Also, replaces the ~evil-quit~ command from [[Evil Mode]] to use it if
+the user tries to kill both Emacs itself and a client. Both
+functionalities were effectively ported from the projects.
+
+#+begin_src emacs-lisp
+(defvar +doom-quit-messages
+  '(;; from Doom 1
+    "Please don't leave, there's more demons to toast!"
+    "Let's beat it -- This is turning into a bloodbath!"
+    "I wouldn't leave if I were you. DOS is much worse."
+    "Don't leave yet -- There's a demon around that corner!"
+    "Ya know, next time you come in here I'm gonna toast ya."
+    "Go ahead and leave. See if I care."
+    "Are you sure you want to quit this great editor?"
+    ;; from Portal
+    "Thank you for participating in this Aperture Science computer-aided enrichment activity."
+    "You can't fire me, I quit!"
+    "I don't know what you think you are doing, but I don't like it. I want you to stop."
+    "This isn't brave. It's murder. What did I ever do to you?"
+    "I'm the man who's going to burn your house down! With the lemons!"
+    "Okay, look. We've both said a lot of things you're going to regret..."
+    ;; Custom
+    "(setq nothing t everything 'permitted)"
+    "Emacs will remember that."
+    "Emacs, Emacs never changes."
+    "Hey! Hey, M-x listen!"
+    "It's not like I'll miss you or anything, b-baka!"
+    "Wake up, Mr. Stallman. Wake up and smell the ashes."
+    "You are *not* prepared!"
+    "Please don't go. The drones need you. They look up to you.")
+  "A list of quit messages, picked randomly by `+doom-quit'. Taken from
+http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
+(defun +doom-quit-fn (&rest _)
+  (y-or-n-p
+   (format "%s %s"
+           (propertize (nth (random (length +doom-quit-messages))
+                            +doom-quit-messages)
+                       'face '(italic default))
+           "Really quit Emacs?")))
+
+;; basically plain evil-quit but with a confirmation if quitting client or emacs
+;; so partially stolen from https://github.com/emacs-evil/evil
+(evil-define-command evil-quit (&optional force)
+  :repeat nil
+  (interactive "<!>")
+  (condition-case nil
+      (delete-window)
+    (error
+     (if (and (boundp 'server-buffer-clients)
+              (fboundp 'server-edit)
+              (fboundp 'server-buffer-done)
+              server-buffer-clients)
+         (if force
+             (server-buffer-done (current-buffer))
+           (server-edit))
+       (if (+doom-quit-fn) (condition-case nil
+           (delete-frame)
+         (error
+          (condition-case nil
+              (tab-bar-close-tab)
+            (error
+             (if force
+                 (kill-emacs)
+               (save-buffers-kill-emacs)))))))))))
+#+end_src
+
+** Apperance Settings
+*** Theme
+
+~doom-dracula~ from [[Doom Emacs]].
+
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :ensure t
+    :config
+    (setq doom-themes-enable-bold t
+          doom-themes-enable-italic t)
+    (load-theme 'doom-dracula t)
+    (doom-themes-org-config))
+#+end_src
+
+*** Fonts, Icons and Unicode Support
+
+[[Cascadia Code]], from Microsoft, but patched by [[Nerd Fonts]], so
+*CaskaydiaCove Nerd Font*. The ~add-to-list~ call is needed so the fonts
+looks ok in the Emacs client.
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil
+    :font "CaskaydiaCove Nerd Font Mono-18"
+    :weight 'normal)
+  (set-face-attribute 'variable-pitch nil
+    :font "CaskaydiaCove Nerd Font-18"
+    :weight 'normal)
+  (set-face-attribute 'fixed-pitch nil
+    :font "CaskaydiaCove Nerd Font Mono-18"
+    :weight 'normal)
+  (add-to-list 'default-frame-alist '(font . "CaskaydiaCove Nerd Font Mono-18"))
+  (use-package all-the-icons
+    :ensure t)
+#+end_src
+
+Add ~unicode-fonts~ package to get full Unicode support for free 🙂:
+
+#+begin_src emacs-lisp
+  (use-package unicode-fonts
+    :ensure t
+    :config
+    (unicode-fonts-setup))
+#+end_src
+
+CaskaydiaCove has ligatures, so we're going to support them!
+
+#+begin_src emacs-lisp
+  (use-package ligature
+    :ensure t
+    :load-path "path-to-ligature-repo"
+    :config
+    (ligature-set-ligatures 't '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                         ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                         "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                         "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                         "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                         "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                         "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                         "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                         ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                         "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                         "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                         "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                         "\\\\" "://" "www"))
+    (global-ligature-mode t))
+#+end_src
+
+*** UI Settings
+
+Disable all the fancy and ugly GUI stuff (why the heck all this stuff is default?).
+
+#+begin_src emacs-lisp
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (blink-cursor-mode 0)
+#+end_src
+
+Add line numbers for some modes and configure them to have always a
+width of 3, so the text do not jump when scrolling through the file.
+
+#+begin_src emacs-lisp
+  (setq-default display-line-numbers-width 3)
+  (setq display-line-numbers-type 'relative)
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  (add-hook 'markdown-mode-hook 'display-line-numbers-mode)
+  (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+  (add-hook 'org-mode-hook 'display-line-numbers-mode)
+#+end_src
+
+Sane defauls to scrolling and turn off word wrapping via ~visual-line-mode~.
+
+#+begin_src emacs-lisp
+  (setq scroll-conservatively 1000)
+  (setq maximum-scroll-margin 0.5)
+  (setq scroll-margin 10)
+  (global-visual-line-mode -1)
+#+end_src
+
+Prettify symbols (change the word "lambda" by a λ and etc) when
+editing Emacs Lisp and LaTeX.
+
+#+begin_src emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook (lambda () (interactive) (prettify-symbols-mode t)))
+  (add-hook 'LaTeX-mode-hook (lambda () (interactive) (prettify-symbols-mode t)))
+#+end_src
+
+Add an (almost) default modeline from [[Doom Emacs]].
+
+#+begin_src emacs-lisp
+  (setq doom-modeline-buffer-encoding nil)
+  (display-time-mode t)
+  (display-battery-mode t)
+  (use-package doom-modeline
+    :ensure t
+    :config
+    (doom-modeline-mode 1))
+#+end_src
+
+Add a cute dashboard without any actual items, just /kawaiiness/.
+
+#+begin_src emacs-lisp
+  (setq dashboard-center-content t)
+  (setq dashboard-banner-logo-title "Gb's Kawaii Lisp Operating System")
+  (setq dashboard-startup-banner '"~/.config/emacs/dash.jpg")
+  (setq dashboard-items '())
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook))
+  ;; needed so the client starts in the dashboard and not in the stupid scratch
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+#+end_src
+
+Add highlighting to *TODO* entries in code because I never know what *TODO*.
+
+#+begin_src emacs-lisp
+  (use-package hl-todo
+    :ensure t
+    :config
+    (global-hl-todo-mode 1))
+#+end_src
+
+Finally, add a sane /Zen Mode/.
+
+#+begin_src emacs-lisp
+  (use-package darkroom
+    :ensure t)
+#+end_src
+
+** Tooling
+
+Use a better mode for reading PDFs.
+
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
+#+end_src
+
+Add a quick way to insert licenses.
+
+#+begin_src emacs-lisp
+  (use-package lice
+    :ensure t
+    :config
+    (setq lice:default-license "mit"))
+#+end_src
+
+Great project management (with [[Ivy]] integration).
+
+#+begin_src emacs-lisp
+  (setq projectile-project-search-path '("~/src/"))
+  (setq projectile-find-dir-includes-top-level t)
+  (setq projectile-switch-project-action 'counsel-find-file)
+  (use-package projectile
+    :ensure t
+    :config
+    (projectile-mode +1))
+  (use-package counsel-projectile
+    :ensure t
+    :after counsel)
+#+end_src
+
+ILoveTheWeb.
+
+#+begin_src emacs-lisp
+  (use-package htmlize
+    :ensure t)
+#+end_src
+
+** Completion, Fuzzy Finding and Friends
+
+Just use [[Ivy]] with icons!
+
+#+begin_src emacs-lisp
+  (use-package smex
+    :ensure t)
+  (use-package counsel
+    :ensure t)
+  (use-package flx
+    :ensure t)
+  (use-package ivy
+    :ensure t
+    :config
+    (setq ivy-initial-inputs-alist nil)
+    :init
+    (ivy-mode t)
+    (setq ivy-re-builders-alist
+      '((t . ivy--regex-fuzzy))))
+  (use-package all-the-icons-ivy
+    :ensure t
+    :config
+    (all-the-icons-ivy-setup))
+#+end_src
+
+Also, the best ~grep~ ever: [[ripgrep]]!
+
+#+begin_src emacs-lisp
+(use-package rg
+  :ensure t)
+#+end_src
+
+** Femboy Programmer Stuff
+
+Sets an empty default compiler command and enable code folding.
+
+#+begin_src emacs-lisp
+  (setq compile-command "")
+  (add-hook 'prog-mode-hook 'hs-minor-mode)
+#+end_src
+
+Enables [[editorconfig]], even that nobody actually uses it.
+
+#+begin_src emacs-lisp
+  (use-package editorconfig
+    :config
+    (editorconfig-mode 1))
+#+end_src
+
+*** Languages Configuration!
+
+Markdown (like Org Mode but for weebs).
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :config
+    (setq markdown-fontify-code-blocks-natively t
+          markdown-open-command "markdown"
+          markdown-asymmetric-header t
+          markdown-header-scaling t
+          markdown-hide-urls t))
+#+end_src
+
+Haskell λ (like Lisp but without parenthesis).
+
+#+begin_src emacs-lisp
+  (use-package haskell-mode
+    :ensure t)
+#+end_src
+
+Julia <3 (like Python but simpler and with a built-in ~numpy~).
+
+#+begin_src emacs-lisp
+  (use-package julia-mode
+    :ensure t)
+#+end_src
+
+Lua UwU <3 <3 💙 (My favorite language!!)
+
+#+begin_src emacs-lisp
+  (use-package lua-mode
+    :ensure t)
+#+end_src
+
+Rust (btw).
+
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :ensure t
+    :config
+    (setq rust-format-on-save t))
+#+end_src
+
+yaml (yes, another configuration language... oops, markup).
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :ensure t)
+#+end_src
+
+C (like Rust but for dinossaurs).
+
+#+begin_src emacs-lisp
+  (setq c-default-style "k&r"
+        c-basic-offset 4)
+#+end_src
+
+rasi (literally CSS but with another extension)
+
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.rasi\\'" . css-mode))
+#+end_src
+
+** Applications
+*** Magit
+
+Stupid content tracking (git). The actual only reason I switched from Vim.
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t)
+#+end_src
+
+*** dired
+
+I used the [[https://github.com/gokcehan/lf][Lf]] file manager a lot and like the "ranger-like" way of
+file managing. Here, I prefer to use only a panel (with ~deer~), but
+still use the fancy ranger selection and stuff. Also, enable icons and
+colors.
+
+#+begin_src emacs-lisp
+  (setq dired-listing-switches "-lAhf --ignore-backups")
+  (setq ranger-cleanup-on-disable t)
+  (setq ranger-cleanup-eagerly t)
+  (setq ranger-show-hidden t)
+  (setq ranger-modify-header nil)
+  (setq ranger-preview-file t)
+  (setq ranger-show-literal nil)
+  (setq ranger-excluded-extensions '("mkv" "iso" "mp4"))
+  (setq ranger-override-dired t)
+  (setq ranger-width-preview 0.55)
+  (setq ranger-max-preview-size 400)
+  (use-package ranger
+    :ensure t
+    :config
+    (ranger-override-dired-mode t))
+  (use-package diredfl
+    :ensure t
+    :config
+    (add-hook 'dired-mode-hook 'diredfl-mode))
+  (use-package all-the-icons-dired
+    :ensure t
+    :config
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    (setq all-the-icons-scale-factor 0.8))
+#+end_src
+
+*** Terminal integration
+
+Let's be honest. Terminal emulation inside Emacs is still shit and I
+never got vterm working. Only point (except for modal-editing, of
+course) that Vim does better for our purposes. So, instead of using a
+terminal inside Emacs, I prefer to just use [[Alacritty]]
+
+#+begin_src emacs-lisp
+  (setq terminal-here-linux-terminal-command 'alacritty)
+  (use-package terminal-here
+    :ensure t)
+#+end_src
+
+*** Completely usefull things
+
+#+begin_src emacs-lisp
+  ;; to Rin Shima camp with me 💖
+  (use-package fireplace
+    :ensure t)
+
+  ;; 🌈🐈
+  (use-package zone-nyan
+    :ensure t)
+#+end_src
+
+*** Org Mode
+
+The actual only reason I stayed in Emacs.
+
++ Use superstar and hide emphasis markers because I like these gay things;
++ Autosave buffers when quitting agenda;
++ Disable autoindent.
+
+#+begin_src emacs-lisp
+  (use-package evil-org
+    :ensure t)
+  (use-package org-superstar
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+
+  (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
+  (add-hook 'org-mode-hook '(lambda () (electric-indent-local-mode -1)))
+  (setq org-directory "~/doc/org")
+  (setq org-agenda-files "~/doc/org/agenda-files")
+  (setq org-hide-emphasis-markers t)
+#+end_src
+
+** Keybinds and Editing Model
+*** Evil Mode Setup
+
+We already have Evil Mode setup, so now we add usefull things like ~commentary~
+and numbers:
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :ensure t
+    :after evil
+    :config
+    (evil-collection-init))
+  (use-package evil-commentary
+    :ensure t
+    :after evil
+    :config
+    (evil-commentary-mode))
+  (use-package evil-numbers
+    :ensure t
+    :after evil
+    :config
+    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+    (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
+#+end_src
+
+Add multicursors, like those in [[Kakoune]] and [[Helix]]:
+
+#+begin_src emacs-lisp
+  (use-package evil-mc
+    :ensure t
+    :after evil
+    :config
+    (global-evil-mc-mode))
+#+end_src
+
+*** Keybinds Setup
+
+Set leader key and sane keys to the minibuffer and ivy.
+
+#+begin_src emacs-lisp
+  (evil-set-leader 'normal (kbd "SPC"))
+  (define-key minibuffer-local-map (kbd "ESC") 'abort-recursive-edit)
+  (define-key minibuffer-local-map (kbd "C-w") 'backward-kill-word)
+  (define-key minibuffer-local-map (kbd "C-V") 'clipboard-yank)
+  (define-key ivy-minibuffer-map (kbd "C-w") 'backward-kill-word) 
+  (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line) 
+  (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line) 
+  (define-key ivy-minibuffer-map (kbd "C-h") 'ivy-beginning-of-buffer) 
+  (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-immediate-done) 
+#+end_src
+
+Zooming like a true zoomer (as we do anywhere) and toggling the /Zen Mode/.
+
+#+begin_src emacs-lisp
+  (evil-define-key 'normal 'global
+    (kbd "C-=") 'text-scale-increase
+    (kbd "C--") 'text-scale-decrease
+    (kbd "<C-wheel-up>") 'text-scale-increase
+    (kbd "<C-wheel-down>") 'text-scale-decrease
+    (kbd "C-0") '(lambda () (interactive) (text-scale-adjust 0))
+    (kbd "<leader>z") 'darkroom-mode
+#+end_src
+
+Running things (compile-mode, man, [[ripgrep]], Emacs commands, shell
+commands.
+
+#+begin_src emacs-lisp
+    (kbd "<leader>b") 'compile
+    (kbd "<leader>m") 'man
+    (kbd "<leader>/") 'rg
+    (kbd "SPC SPC") 'counsel-M-x
+    (kbd "!") 'shell-command
+#+end_src
+
+Inserting things 😳 (key to insert Unicode chars).
+
+#+begin_src emacs-lisp
+    (kbd "<leader>x") 'counsel-unicode-char
+#+end_src
+
+Navigating anywhere (including important Org files).
+
+#+begin_src emacs-lisp
+    (kbd "<leader>p") 'projectile-switch-project
+    (kbd "<leader>q") 'projectile-kill-buffers
+    (kbd "<leader>f") 'counsel-find-file
+    (kbd "<leader>.") 'counsel-projectile-find-file
+    (kbd "<leader>a") 'counsel-linux-app
+    (kbd "<leader>e") 'deer
+    (kbd "<leader>TAB") 'projectile-next-project-buffer
+    (kbd "<leader><backtab>") 'projectile-previous-project-buffer
+    (kbd "<leader>ot") '(lambda () (interactive)
+  			(split-window-below)
+  			(windmove-down)
+  			(find-file "~/doc/org/todo.org"))
+    (kbd "<leader>om") '(lambda () (interactive)
+  			(split-window-below)
+  			(windmove-down)
+  			(find-file "~/doc/org/marker.org"))
+    (kbd "<leader>oo") '(lambda () (interactive)
+  			(split-window-below)
+  			(windmove-down)
+  			(find-file "~/doc/org/agenda.org"))
+#+end_src
+
+Editor keys: cursors in normal mode and ~redo~.
+
+#+begin_src emacs-lisp
+    (kbd ",") 'evil-mc-undo-all-cursors
+    (kbd "S") 'evil-mc-pause-cursors
+    (kbd "Q") 'evil-mc-resume-cursors
+    (kbd "s") 'evil-mc-make-cursor-here
+    (kbd ";") 'evil-mc-undo-last-added-cursor
+    (kbd "U") 'evil-redo
+#+end_src
+
+Application keys.
+
+#+begin_src emacs-lisp
+    (kbd "<leader>g") 'magit
+    (kbd "<leader>RET") 'terminal-here
+    (kbd "<leader>oa") 'org-agenda
+    (kbd "<leader>ch") '(lambda () (interactive) (terminal-here-launch (list "ghci")))
+    (kbd "<leader>cp") '(lambda () (interactive) (terminal-here-launch (list "python")))
+    (kbd "<leader>cc") '(lambda () (interactive) (terminal-here-launch (list "julia")))
+    (kbd "<leader>cj") '(lambda () (interactive) (terminal-here-launch (list "deno")))
+    (kbd "<leader>cl") '(lambda () (interactive) (terminal-here-launch (list "lua")))
+    (kbd "<leader>cm") '(lambda () (interactive) (terminal-here-launch (list "ncmpcpp")))
+    (kbd "<leader>cs") '(lambda () (interactive) (terminal-here-launch (list "pulsemixer")))
+    (kbd "<leader>ct") '(lambda () (interactive) (terminal-here-launch (list "htop"))))
+#+end_src
+
+Visual mode keys. Evaluate highlighted Emacs Lisp expressions with ~C-x~.
+
+#+begin_src emacs-lisp
+  (evil-define-key 'visual 'global
+    ;; eval lisp
+    (kbd "C-x") 'eval-region
+    ;; cursors
+    (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
+    (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
+#+end_src
+
+Keys for the file manager (~deer~ mode from ~ranger~ that's built on top
+of ~dired~).
+
+#+begin_src emacs-lisp
+  (define-key ranger-mode-map (kbd "w") 'terminal-here)
+  (define-key ranger-mode-map (kbd "!") 'shell-command)
+  (define-key ranger-mode-map (kbd "f") 'counsel-find-file)
+  (define-key ranger-mode-map (kbd "R") 'ranger-refresh)
+  (define-key ranger-mode-map (kbd "$") 'dired-do-shell-command)
+  (define-key ranger-mode-map (kbd "h") 'ranger-up-directory)
+  (define-key ranger-mode-map (kbd "l") 'ranger-find-file)
+  (define-key ranger-mode-map (kbd "RET") 'ranger-find-file)
+  (define-key ranger-mode-map (kbd "M-RET") 'ranger-open-file-horizontally)
+  (define-key ranger-mode-map (kbd "SPC") 'ranger-toggle-mark)
+  (define-key ranger-mode-map (kbd "c") 'dired-unmark-all-marks)
+  (define-key ranger-mode-map (kbd "<backspace>") 'dired-do-delete)
+  (define-key ranger-mode-map (kbd "M") 'dired-create-directory)
+  (define-key ranger-mode-map (kbd "r") 'dired-do-rename)
+  (define-key ranger-mode-map (kbd "y") 'ranger-copy)
+  (define-key ranger-mode-map (kbd "d") 'ranger-cut)
+  (define-key ranger-mode-map (kbd "p") 'ranger-paste)
+  (define-key ranger-mode-map (kbd "Y") 'ranger-copy-filename)
+#+end_src
+
+Keys for the PDF reader.
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'pdf-view
+    (evil-define-key 'normal pdf-view-mode-map
+      (kbd "q") 'kill-buffer-and-window
+      (kbd "t") 'pdf-view-fit-page-to-window
+      (kbd "s") 'pdf-view-fit-width-to-window
+      (kbd "j") 'pdf-view-next-line-or-next-page
+      (kbd "k") 'pdf-view-previous-line-or-previous-page))
+#+end_src
+
+Automatically kill image buffers and calendars on exit with ~q~.
+
+#+begin_src emacs-lisp
+  (evil-define-key 'normal image-mode-map
+    (kbd "q") 'kill-buffer-and-window)
+  (evil-define-key 'normal calendar-mode-map
+    (kbd "q") 'kill-buffer-and-window)
+#+end_src
