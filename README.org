@@ -2,12 +2,10 @@
 #+DESCRIPTION: Gabriel's Emacs configuration with evil keys.
 #+AUTHOR: Gabriel G. de Brito
 
-* Gb's Emacs Config UwU
-
 My configurations for the One True Editor®! Of course, they use the
 evil keys!
 
-/"There is no system but GNU, and Linux is one of it's kernels."/
+/There is no system but GNU, and Linux is one of it's kernels./
 - Saint IGNUcius (Richard M. Stallman)
 
 Alongside this document, the ~init.el~ file contains the code necessary
@@ -40,28 +38,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 #+end_example
 
-** Links
-*** Doom Emacs
-[[https://github.com/doomemacs/doomemacs]]
-*** Evil Mode
-[[https://github.com/emacs-evil/evil]]
-*** Cascadia Code font
-[[https://github.com/microsoft/cascadia-code]]
-*** Nerd Fonts
-[[https://www.nerdfonts.com/#home]]
-*** Ivy
-https://github.com/abo-abo/swiper
-
-*** ripgrep
-[[https://github.com/BurntSushi/ripgrep]]
-*** editorconfig
-[[https://editorconfig.org/]]
-*** Alacritty
-[[https://alacritty.org/]]
-*** Kakoune
-[[https://github.com/mawww/kakoune/wiki]]
-*** Helix
-[[https://helix-editor.com/]]
 ** Early Settings
 
 Setup ~use-package~ and the Melpa repository of software.
@@ -76,7 +52,7 @@ Setup ~use-package~ and the Melpa repository of software.
   (setq use-package-always-ensure t)
 #+end_src
 
-Setup [[Evil Mode]] early, so we can use some functions later.
+Setup Evil Mode early, so we can use some functions later.
 
 #+begin_src emacs-lisp
   (use-package evil
@@ -102,9 +78,10 @@ Setup [[Evil Mode]] early, so we can use some functions later.
 
 *** Prompt to quit
 
-This code copies the prompt with random sentences from [[Doom Emacs]] to
-quit. Also, replaces the ~evil-quit~ command from [[Evil Mode]] to use it if
-the user tries to kill both Emacs itself and a client. Both
+This code copies the prompt with random sentences from
+[[https://github.com/doomemacs/doomemacs][Doom Emacs]] to quit. Also,
+replaces the ~evil-quit~ command from [[https://github.com/emacs-evil/evil][Evil Mode]] to use it if the
+user tries to kill both Emacs itself and a client. Both
 functionalities were effectively ported from the projects.
 
 #+begin_src emacs-lisp
@@ -172,7 +149,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 ** Apperance Settings
 *** Theme
 
-~doom-dracula~ from [[Doom Emacs]].
+~doom-dracula~ from Doom Emacs.
 
 #+begin_src emacs-lisp
   (use-package doom-themes
@@ -186,9 +163,10 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 
 *** Fonts, Icons and Unicode Support
 
-[[Cascadia Code]], from Microsoft, but patched by [[Nerd Fonts]], so
-*CaskaydiaCove Nerd Font*. The ~add-to-list~ call is needed so the fonts
-looks ok in the Emacs client.
+[[https://github.com/microsoft/cascadia-code][Cascadia Code]], from
+Microsoft, but patched by [[https://www.nerdfonts.com/#home][Nerd
+Fonts]], so *CaskaydiaCove Nerd Font*. The ~add-to-list~ call is needed so
+the fonts looks ok in the Emacs client.
 
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil
@@ -277,7 +255,7 @@ editing Emacs Lisp and LaTeX.
   (add-hook 'LaTeX-mode-hook (lambda () (interactive) (prettify-symbols-mode t)))
 #+end_src
 
-Add an (almost) default modeline from [[Doom Emacs]].
+Add an (almost) default modeline from Doom Emacs.
 
 #+begin_src emacs-lisp
   (setq doom-modeline-buffer-encoding nil)
@@ -340,7 +318,7 @@ Add a quick way to insert licenses.
     (setq lice:default-license "mit"))
 #+end_src
 
-Great project management (with [[Ivy]] integration).
+Great project management (with Ivy integration).
 
 #+begin_src emacs-lisp
   (setq projectile-project-search-path '("~/src/"))
@@ -364,7 +342,7 @@ ILoveTheWeb.
 
 ** Completion, Fuzzy Finding and Friends
 
-Just use [[Ivy]] with icons!
+Just use Ivy with icons!
 
 #+begin_src emacs-lisp
   (use-package smex
@@ -387,7 +365,8 @@ Just use [[Ivy]] with icons!
     (all-the-icons-ivy-setup))
 #+end_src
 
-Also, the best ~grep~ ever: [[ripgrep]]!
+Also, the best ~grep~ ever:
+[[https://github.com/BurntSushi/ripgrep][ripgrep]]!
 
 #+begin_src emacs-lisp
 (use-package rg
@@ -403,7 +382,8 @@ Sets an empty default compiler command and enable code folding.
   (add-hook 'prog-mode-hook 'hs-minor-mode)
 #+end_src
 
-Enables [[editorconfig]], even that nobody actually uses it.
+Enables [[https://editorconfig.org/][editorconfig]], even knowing that
+nobody actually uses it.
 
 #+begin_src emacs-lisp
   (use-package editorconfig
@@ -525,7 +505,8 @@ colors.
 Let's be honest. Terminal emulation inside Emacs is still shit and I
 never got vterm working. Only point (except for modal-editing, of
 course) that Vim does better for our purposes. So, instead of using a
-terminal inside Emacs, I prefer to just use [[Alacritty]]
+terminal inside Emacs, I prefer to just use
+[[https://alacritty.org/][Alacritty]]
 
 #+begin_src emacs-lisp
   (setq terminal-here-linux-terminal-command 'alacritty)
@@ -593,7 +574,8 @@ and numbers:
     (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
 #+end_src
 
-Add multicursors, like those in [[Kakoune]] and [[Helix]]:
+Add multicursors, like those in
+[[https://github.com/mawww/kakoune/wiki][Kakoune]] editing style:
 
 #+begin_src emacs-lisp
   (use-package evil-mc
@@ -631,7 +613,7 @@ Zooming like a true zoomer (as we do anywhere) and toggling the /Zen Mode/.
     (kbd "<leader>z") 'darkroom-mode
 #+end_src
 
-Running things (compile-mode, man, [[ripgrep]], Emacs commands, shell
+Running things (compile-mode, man, ripgrep, Emacs commands, shell
 commands.
 
 #+begin_src emacs-lisp
