@@ -313,12 +313,13 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   :ensure t)
 (use-package org-alert
   :ensure t
+  :config
   (setq alert-default-style 'libnotify)
   (setq org-alert-interval 120
 	org-alert-notify-cutoff 10
 	org-alert-notify-after-event-cutoff 10)
   (setq org-alert-notification-title "Org Mode Alert")
-  org-alert-enable)
+  (org-alert-enable))
 (use-package org-superstar
   :ensure t
   :config
@@ -328,6 +329,9 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (setq org-directory "~/doc/org")
 (setq org-agenda-files "~/doc/org/agenda-files")
 (setq org-hide-emphasis-markers t)
+
+(use-package mentor
+  :ensure t)
 
 (use-package evil-collection
   :ensure t
