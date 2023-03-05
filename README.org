@@ -549,7 +549,6 @@ The actual only reason I stayed in Emacs.
 + Use superstar and hide emphasis markers because I like these gay things;
 + Autosave buffers when quitting agenda;
 + Notifications for agenda items with ~org-alert~.
-+ Disable autoindent.
 
 #+begin_src emacs-lisp
   (use-package evil-org
@@ -568,7 +567,6 @@ The actual only reason I stayed in Emacs.
     (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 
   (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
-  (add-hook 'org-mode-hook '(lambda () (electric-indent-local-mode -1)))
   (setq org-directory "~/doc/org")
   (setq org-agenda-files "~/doc/org/agenda-files")
   (setq org-hide-emphasis-markers t)
@@ -597,22 +595,16 @@ and numbers:
     :config
     (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
     (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
-#+end_src
-
-Add multicursors, like those in
-[[https://github.com/mawww/kakoune/wiki][Kakoune]] editing style:
-
-#+begin_src emacs-lisp
-  (use-package evil-mc
+  (use-package evil-visualstar
     :ensure t
-    :after evil
     :config
-    (global-evil-mc-mode))
+      (global-visualstar-mode))
 #+end_src
 
 *** Keybinds Setup
 
-Set leader key and sane keys to the minibuffer and ivy.
+Set leader key, window movement and sane keys to the minibuffer and
+ivy.
 
 #+begin_src emacs-lisp
   (evil-set-leader 'normal (kbd "SPC"))
@@ -680,17 +672,6 @@ Navigating anywhere (including important Org files).
   			(find-file "~/doc/org/agenda.org"))
 #+end_src
 
-Editor keys: cursors in normal mode and ~redo~.
-
-#+begin_src emacs-lisp
-    (kbd ",") 'evil-mc-undo-all-cursors
-    (kbd "S") 'evil-mc-pause-cursors
-    (kbd "Q") 'evil-mc-resume-cursors
-    (kbd "s") 'evil-mc-make-cursor-here
-    (kbd ";") 'evil-mc-undo-last-added-cursor
-    (kbd "U") 'evil-redo
-#+end_src
-
 Application keys.
 
 #+begin_src emacs-lisp
@@ -711,11 +692,7 @@ Visual mode keys. Evaluate highlighted Emacs Lisp expressions with ~C-x~.
 
 #+begin_src emacs-lisp
   (evil-define-key 'visual 'global
-    ;; eval lisp
     (kbd "C-x") 'eval-region
-    ;; cursors
-    (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
-    (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
 #+end_src
 
 Keys for the file manager (~deer~ mode from ~ranger~ that's built on top

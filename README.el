@@ -325,7 +325,6 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
 
 (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
-(add-hook 'org-mode-hook '(lambda () (electric-indent-local-mode -1)))
 (setq org-directory "~/doc/org")
 (setq org-agenda-files "~/doc/org/agenda-files")
 (setq org-hide-emphasis-markers t)
@@ -346,12 +345,10 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   :config
   (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
   (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt))
-
-(use-package evil-mc
+(use-package evil-visualstar
   :ensure t
-  :after evil
   :config
-  (global-evil-mc-mode))
+    (global-visualstar-mode))
 
 (evil-set-leader 'normal (kbd "SPC"))
 (define-key minibuffer-local-map (kbd "ESC") 'abort-recursive-edit)
@@ -361,7 +358,15 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line) 
 (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line) 
 (define-key ivy-minibuffer-map (kbd "C-h") 'ivy-beginning-of-buffer) 
-(define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-immediate-done)
+(define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-immediate-done) 
+(define-key global-map (kbd "C-h") nil)
+(define-key global-map (kbd "C-j") nil)
+(define-key global-map (kbd "C-k") nil)
+(define-key global-map (kbd "C-l") nil)
+(define-key global-map (kbd "C-h") 'evil-window-left)
+(define-key global-map (kbd "C-j") 'evil-window-down)
+(define-key global-map (kbd "C-k") 'evil-window-top)
+(define-key global-map (kbd "C-l") 'evil-window-right)
 
 (evil-define-key 'normal 'global
   (kbd "C-=") 'text-scale-increase
@@ -379,6 +384,10 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 
 (kbd "<leader>x") 'counsel-unicode-char
 
+(kbd "C-h") 'evil-window-left
+(kbd "C-j") 'evil-window-down
+(kbd "C-k") 'evil-window-up
+(kbd "C-l") 'evil-window-right
 (kbd "<leader>p") 'projectile-switch-project
 (kbd "<leader>q") 'projectile-kill-buffers
 (kbd "<leader>f") 'counsel-find-file
@@ -388,24 +397,17 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (kbd "<leader>TAB") 'projectile-next-project-buffer
 (kbd "<leader><backtab>") 'projectile-previous-project-buffer
 (kbd "<leader>ot") '(lambda () (interactive)
-  		    (split-window-below)
-  		    (windmove-down)
-  		    (find-file "~/doc/org/todo.org"))
+	    	    (split-window-below)
+		    (windmove-down)
+		    (find-file "~/doc/org/todo.org"))
 (kbd "<leader>om") '(lambda () (interactive)
-  		    (split-window-below)
-  		    (windmove-down)
-  		    (find-file "~/doc/org/marker.org"))
+	      	    (split-window-below)
+		    (windmove-down)
+		    (find-file "~/doc/org/marker.org"))
 (kbd "<leader>oo") '(lambda () (interactive)
-  		    (split-window-below)
-  		    (windmove-down)
-  		    (find-file "~/doc/org/agenda.org"))
-
-(kbd ",") 'evil-mc-undo-all-cursors
-(kbd "S") 'evil-mc-pause-cursors
-(kbd "Q") 'evil-mc-resume-cursors
-(kbd "s") 'evil-mc-make-cursor-here
-(kbd ";") 'evil-mc-undo-last-added-cursor
-(kbd "U") 'evil-redo
+		    (split-window-below)
+		    (windmove-down)
+		    (find-file "~/doc/org/agenda.org"))
 
 (kbd "<leader>g") 'magit
 (kbd "<leader>RET") 'terminal-here
@@ -420,11 +422,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (kbd "<leader>ct") '(lambda () (interactive) (terminal-here-launch (list "htop"))))
 
 (evil-define-key 'visual 'global
-  ;; eval lisp
   (kbd "C-x") 'eval-region
-  ;; cursors
-  (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
-  (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
 
 (define-key ranger-mode-map (kbd "w") 'terminal-here)
 (define-key ranger-mode-map (kbd "!") 'shell-command)
