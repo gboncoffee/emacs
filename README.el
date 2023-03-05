@@ -266,9 +266,10 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (use-package magit
   :ensure t
   :config
-  (add-hook 'git-commit-post-finish-hook 'magit))
+  (add-hook 'git-commit-post-finish-hook 'magit)
+  (add-hook 'magit-mode-hook 'turn-off-evil-mode))
 
-(setq dired-listing-switches "-lAhf --ignore-backups")
+(setq dired-listing-switches "-lAhf")
 (setq ranger-cleanup-on-disable t)
 (setq ranger-cleanup-eagerly t)
 (setq ranger-show-hidden t)
@@ -279,6 +280,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (setq ranger-override-dired t)
 (setq ranger-width-preview 0.55)
 (setq ranger-max-preview-size 400)
+(setq ranger-hide-cursor nil)
 (use-package ranger
   :ensure t
   :config
@@ -332,7 +334,9 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (setq org-hide-emphasis-markers t)
 
 (use-package mentor
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'mentor-mode-hook 'turn-off-evil-mode))
 
 (use-package evil-collection
   :ensure t
@@ -387,8 +391,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (kbd "<leader>.") 'counsel-projectile-find-file
 (kbd "<leader>a") 'counsel-linux-app
 (kbd "<leader>e") 'deer
-(kbd "<leader>TAB") 'projectile-next-project-buffer
-(kbd "<leader><backtab>") 'projectile-previous-project-buffer
+(kbd "TAB") 'projectile-next-project-buffer
+(kbd "<backtab>") 'projectile-previous-project-buffer
 (kbd "<leader>ot") '(lambda () (interactive)
   		    (split-window-below)
   		    (windmove-down)
@@ -447,4 +451,6 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (evil-define-key 'normal image-mode-map
   (kbd "q") 'kill-buffer-and-window)
 (evil-define-key 'normal calendar-mode-map
+  (kbd "q") 'kill-buffer-and-window)
+(evil-define-key 'normal compilation-mode-map
   (kbd "q") 'kill-buffer-and-window)

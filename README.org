@@ -475,7 +475,8 @@ Stupid content tracking (git). The actual only reason I switched from Vim.
   (use-package magit
     :ensure t
     :config
-    (add-hook 'git-commit-post-finish-hook 'magit))
+    (add-hook 'git-commit-post-finish-hook 'magit)
+    (add-hook 'magit-mode-hook 'turn-off-evil-mode))
 #+end_src
 
 *** dired
@@ -486,7 +487,7 @@ still use the fancy ranger selection and stuff. Also, enable icons and
 colors.
 
 #+begin_src emacs-lisp
-  (setq dired-listing-switches "-lAhf --ignore-backups")
+  (setq dired-listing-switches "-lAhf")
   (setq ranger-cleanup-on-disable t)
   (setq ranger-cleanup-eagerly t)
   (setq ranger-show-hidden t)
@@ -497,6 +498,7 @@ colors.
   (setq ranger-override-dired t)
   (setq ranger-width-preview 0.55)
   (setq ranger-max-preview-size 400)
+  (setq ranger-hide-cursor nil)
   (use-package ranger
     :ensure t
     :config
@@ -580,7 +582,9 @@ Use mentor to download torrents via ~rTorrent~.
 
 #+begin_src emacs-lisp
   (use-package mentor
-    :ensure t)
+    :ensure t
+    :config
+    (add-hook 'mentor-mode-hook 'turn-off-evil-mode))
 #+end_src
 
 ** Keybinds and Editing Model
@@ -645,7 +649,8 @@ Running things (compile-mode, man, ripgrep, Emacs commands, shell
 commands.
 
 #+begin_src emacs-lisp
-    (kbd "<leader>b") 'compile
+    (kbd "<leader>b") 'project-compile
+    (kbd "<leader>cb") 'compile
     (kbd "<leader>m") 'man
     (kbd "<leader>/") 'rg
     (kbd "SPC SPC") 'counsel-M-x
@@ -742,11 +747,13 @@ Keys for the PDF reader.
       (kbd "k") 'pdf-view-previous-line-or-previous-page))
 #+end_src
 
-Automatically kill image buffers and calendars on exit with ~q~.
+Automatically kill image buffers, compile and calendars on exit with ~q~.
 
 #+begin_src emacs-lisp
   (evil-define-key 'normal image-mode-map
     (kbd "q") 'kill-buffer-and-window)
   (evil-define-key 'normal calendar-mode-map
+    (kbd "q") 'kill-buffer-and-window)
+  (evil-define-key 'normal compilation-mode-map
     (kbd "q") 'kill-buffer-and-window)
 #+end_src
