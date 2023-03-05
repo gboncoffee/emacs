@@ -241,13 +241,14 @@ file. Also, adds ~hl-line~ for the package list.
   (add-hook 'package-menu-mode-hook 'hl-line-mode)
 #+end_src
 
-Sane defauls to scrolling and turn off word wrapping via ~visual-line-mode~.
+Sane defauls to scrolling and turn off line wrapping.
 
 #+begin_src emacs-lisp
   (setq scroll-conservatively 1000)
   (setq maximum-scroll-margin 0.5)
   (setq scroll-margin 10)
-  (global-visual-line-mode -1)
+  (setq-default truncate-lines -1)
+  (setq truncate-partial-width-windows nil)
 #+end_src
 
 Prettify symbols (change the word "lambda" by a λ and etc) when
