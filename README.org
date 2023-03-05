@@ -667,8 +667,8 @@ Navigating anywhere (including important Org files).
     (kbd "<leader>.") 'counsel-projectile-find-file
     (kbd "<leader>a") 'counsel-linux-app
     (kbd "<leader>e") 'deer
-    (kbd "<leader>TAB") 'projectile-next-project-buffer
-    (kbd "<leader><backtab>") 'projectile-previous-project-buffer
+    (kbd "TAB") 'projectile-next-project-buffer
+    (kbd "<backtab>") 'projectile-previous-project-buffer
     (kbd "<leader>ot") '(lambda () (interactive)
   			(split-window-below)
   			(windmove-down)
