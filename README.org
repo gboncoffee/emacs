@@ -692,7 +692,7 @@ Visual mode keys. Evaluate highlighted Emacs Lisp expressions with ~C-x~.
 
 #+begin_src emacs-lisp
   (evil-define-key 'visual 'global
-    (kbd "C-x") 'eval-region
+    (kbd "C-x") 'eval-region)
 #+end_src
 
 Keys for the file manager (~deer~ mode from ~ranger~ that's built on top
