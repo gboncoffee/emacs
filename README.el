@@ -377,7 +377,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   (kbd "C-0") '(lambda () (interactive) (text-scale-adjust 0))
   (kbd "<leader>z") 'darkroom-mode
 
-(kbd "<leader>b") 'compile
+(kbd "<leader>b") 'project-compile
+(kbd "<leader>cb") 'compile
 (kbd "<leader>m") 'man
 (kbd "<leader>/") 'rg
 (kbd "SPC SPC") 'counsel-M-x

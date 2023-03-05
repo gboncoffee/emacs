@@ -576,17 +576,6 @@ The actual only reason I stayed in Emacs.
   (setq org-hide-emphasis-markers t)
 #+end_src
 
-*** Torrent
-
-Use mentor to download torrents via ~rTorrent~.
-
-#+begin_src emacs-lisp
-  (use-package mentor
-    :ensure t
-    :config
-    (add-hook 'mentor-mode-hook 'turn-off-evil-mode))
-#+end_src
-
 ** Keybinds and Editing Model
 *** Evil Mode Setup
 
