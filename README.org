@@ -548,11 +548,20 @@ The actual only reason I stayed in Emacs.
 
 + Use superstar and hide emphasis markers because I like these gay things;
 + Autosave buffers when quitting agenda;
++ Notifications for agenda items with ~org-alert~.
 + Disable autoindent.
 
 #+begin_src emacs-lisp
   (use-package evil-org
     :ensure t)
+  (use-package org-alert
+    :ensure t
+    (setq alert-default-style 'libnotify)
+    (setq org-alert-interval 120
+	  org-alert-notify-cutoff 10
+	  org-alert-notify-after-event-cutoff 10)
+    (setq org-alert-notification-title "Org Mode Alert")
+    org-alert-enable)
   (use-package org-superstar
     :ensure t
     :config

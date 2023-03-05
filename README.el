@@ -305,8 +305,20 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (use-package zone-nyan
   :ensure t)
 
+;; quite ironic
+(use-package xkcd
+  :ensure t)
+
 (use-package evil-org
   :ensure t)
+(use-package org-alert
+  :ensure t
+  (setq alert-default-style 'libnotify)
+  (setq org-alert-interval 120
+	org-alert-notify-cutoff 10
+	org-alert-notify-after-event-cutoff 10)
+  (setq org-alert-notification-title "Org Mode Alert")
+  org-alert-enable)
 (use-package org-superstar
   :ensure t
   :config
