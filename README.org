@@ -551,29 +551,32 @@ The actual only reason I stayed in Emacs.
 
 + Use superstar and hide emphasis markers because I like these gay things;
 + Autosave buffers when quitting agenda;
-+ Notifications for agenda items with ~org-alert~.
++ Notifications for agenda items with ~org-alert~;
++ Workaround to unable babel from trying to edit blocks in dedicated buffer.
 
 #+begin_src emacs-lisp
-  (use-package evil-org
-    :ensure t)
-  (use-package org-alert
-    :ensure t
-    :config
-    (setq alert-default-style 'libnotify)
-    (setq org-alert-interval 120
-	  org-alert-notify-cutoff 10
-	  org-alert-notify-after-event-cutoff 10)
-    (setq org-alert-notification-title "Org Mode Alert")
-    (org-alert-enable))
-  (use-package org-superstar
-    :ensure t
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
-
-  (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
-  (setq org-directory "~/doc/org")
-  (setq org-agenda-files "~/doc/org/agenda-files")
-  (setq org-hide-emphasis-markers t)
+ (use-package org-alert
+   :ensure t
+   :config
+   (setq alert-default-style 'libnotify)
+   (setq org-alert-interval 120
+ 	org-alert-notify-cutoff 10
+ 	org-alert-notify-after-event-cutoff 10)
+   (setq org-alert-notification-title "Org Mode Alert")
+   (org-alert-enable))
+ (use-package org-superstar
+   :ensure t
+   :config
+   (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1))))
+ 
+ (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
+ (setq org-directory "~/doc/org")
+ (setq org-agenda-files "~/doc/org/agenda-files")
+ (setq org-hide-emphasis-markers t)
+ (setq org-src-preserve-indentation nil
+       org-edit-src-content-indentation 0)
+ 
+ (defun org-edit-src-code nil)
 #+end_src
 
 ** Keybinds and Editing Model
