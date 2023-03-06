@@ -18,6 +18,7 @@
 (setq make-backup-files nil)
 (setq user-full-name "Gabriel G. de Brito")
 (setq user-mail-address "gabrielgbrito@icloud.com")
+(setq fortune-file "/home/gb/.config/emacs/fortune")
 
 (defvar +doom-quit-messages
   '(;; from Doom 1
@@ -263,6 +264,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 
 (add-to-list 'auto-mode-alist '("\\.rasi\\'" . css-mode))
 
+
+
 (use-package magit
   :ensure t
   :config
@@ -312,8 +315,6 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (use-package xkcd
   :ensure t)
 
-(use-package evil-org
-  :ensure t)
 (use-package org-alert
   :ensure t
   :config
@@ -332,11 +333,10 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (setq org-directory "~/doc/org")
 (setq org-agenda-files "~/doc/org/agenda-files")
 (setq org-hide-emphasis-markers t)
+(setq org-src-preserve-indentation nil
+      org-edit-src-content-indentation 0)
 
-(use-package mentor
-  :ensure t
-  :config
-  (add-hook 'mentor-mode-hook 'turn-off-evil-mode))
+(defun org-edit-src-code nil)
 
 (use-package evil-collection
   :ensure t
@@ -383,6 +383,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (kbd "<leader>/") 'rg
 (kbd "SPC SPC") 'counsel-M-x
 (kbd "!") 'shell-command
+(kbd "C-c C-x") 'eval-defun
 
 (kbd "<leader>x") 'counsel-unicode-char
 

@@ -69,12 +69,14 @@ Setup Evil Mode early, so we can use some functions later.
 
 + Turns all =yes/no= prompts into =y/n= for the sake of "I'm too lazy to type an entire 'yes' or 'no'";
 + Sets my name and email.
++ Sets the fortune file.
 
 #+begin_src emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
   (setq make-backup-files nil)
   (setq user-full-name "Gabriel G. de Brito")
   (setq user-mail-address "gabrielgbrito@icloud.com")
+  (setq fortune-file "/home/gb/.config/emacs/fortune")
 #+end_src
 
 *** Prompt to quit
@@ -466,6 +468,13 @@ rasi (literally CSS but with another extension)
   (add-to-list 'auto-mode-alist '("\\.rasi\\'" . css-mode))
 #+end_src
 
+Common Lisp (like Lisp but more Lisp than Lisp)
+
+#+begin_src emacs-lisp
+  (add-hook 'lisp-mode-hook 'electric-pair-local-mode t)
+  (add-hook 'emacs-lisp-mode-hook 'electric-pair-local-mode t)
+#+end_src
+
 ** Applications
 *** Magit
 
@@ -638,7 +647,7 @@ Zooming like a true zoomer (as we do anywhere) and toggling the /Zen Mode/.
 #+end_src
 
 Running things (compile-mode, man, ripgrep, Emacs commands, shell
-commands.
+commands, Lisp).
 
 #+begin_src emacs-lisp
     (kbd "<leader>b") 'project-compile
@@ -647,6 +656,7 @@ commands.
     (kbd "<leader>/") 'rg
     (kbd "SPC SPC") 'counsel-M-x
     (kbd "!") 'shell-command
+    (kbd "C-c C-x") 'eval-defun
 #+end_src
 
 Inserting things 😳 (key to insert Unicode chars).
