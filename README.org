@@ -499,7 +499,7 @@ colors.
   (setq dired-listing-switches "-lAhf")
   (setq ranger-cleanup-on-disable t)
   (setq ranger-cleanup-eagerly t)
-  (setq ranger-show-hidden t)
+  ;; (setq ranger-show-hidden nil)
   (setq ranger-modify-header nil)
   (setq ranger-preview-file t)
   (setq ranger-show-literal nil)
@@ -735,6 +735,7 @@ of ~dired~).
   (define-key ranger-mode-map (kbd "d") 'ranger-cut)
   (define-key ranger-mode-map (kbd "p") 'ranger-paste)
   (define-key ranger-mode-map (kbd "Y") 'ranger-copy-filename)
+  (define-key ranger-mode-map (kbd "a") 'ranger-toggle-dotfiles)
 #+end_src
 
 Keys for the PDF reader.

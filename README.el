@@ -264,7 +264,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 
 (add-to-list 'auto-mode-alist '("\\.rasi\\'" . css-mode))
 
-
+(add-hook 'lisp-mode-hook 'electric-pair-local-mode t)
+(add-hook 'emacs-lisp-mode-hook 'electric-pair-local-mode t)
 
 (use-package magit
   :ensure t
@@ -275,7 +276,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (setq dired-listing-switches "-lAhf")
 (setq ranger-cleanup-on-disable t)
 (setq ranger-cleanup-eagerly t)
-(setq ranger-show-hidden t)
+;; (setq ranger-show-hidden nil)
 (setq ranger-modify-header nil)
 (setq ranger-preview-file t)
 (setq ranger-show-literal nil)
@@ -320,8 +321,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   :config
   (setq alert-default-style 'libnotify)
   (setq org-alert-interval 120
-	org-alert-notify-cutoff 10
-	org-alert-notify-after-event-cutoff 10)
+       org-alert-notify-cutoff 10
+       org-alert-notify-after-event-cutoff 10)
   (setq org-alert-notification-title "Org Mode Alert")
   (org-alert-enable))
 (use-package org-superstar
@@ -441,6 +442,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (define-key ranger-mode-map (kbd "d") 'ranger-cut)
 (define-key ranger-mode-map (kbd "p") 'ranger-paste)
 (define-key ranger-mode-map (kbd "Y") 'ranger-copy-filename)
+(define-key ranger-mode-map (kbd "a") 'ranger-toggle-dotfiles)
 
 (with-eval-after-load 'pdf-view
   (evil-define-key 'normal pdf-view-mode-map
