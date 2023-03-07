@@ -357,7 +357,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (use-package evil-visualstar
   :ensure t
   :config
-    (global-visualstar-mode))
+    (global-evil-visualstar-mode t))
 
 (setq hated-buffers '("\*dashboard\*"
                       "\*scratch\*"

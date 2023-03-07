@@ -613,7 +613,7 @@ and numbers:
   (use-package evil-visualstar
     :ensure t
     :config
-      (global-visualstar-mode))
+      (global-evil-visualstar-mode t))
 #+end_src
 
 *** Some Functions
