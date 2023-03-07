@@ -12,7 +12,8 @@
   (setq evil-want-C-u-scroll t)
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
-  (evil-mode))
+  (evil-mode)
+  (evil-set-initial-state 'shell-mode 'normal))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq make-backup-files nil)
@@ -418,7 +419,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (kbd "<leader>m") 'man
 (kbd "<leader>/") 'rg
 (kbd "SPC SPC") 'counsel-M-x
-(kbd "!") 'shell-command
+(kbd "!") 'async-shell-command
 (kbd "C-c C-x") 'eval-defun
 
 (kbd "<leader>x") 'counsel-unicode-char
@@ -459,8 +460,16 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (evil-define-key 'visual 'global
   (kbd "C-x") 'eval-region)
 
+(define-key ranger-mode-map (kbd "C-w C-h") 'windmove-left)
+(define-key ranger-mode-map (kbd "C-w C-j") 'windmove-down)
+(define-key ranger-mode-map (kbd "C-w C-k") 'windmove-up)
+(define-key ranger-mode-map (kbd "C-w C-l") 'windmove-right)
+(define-key ranger-mode-map (kbd "C-w h") 'windmove-left)
+(define-key ranger-mode-map (kbd "C-w j") 'windmove-down)
+(define-key ranger-mode-map (kbd "C-w k") 'windmove-up)
+(define-key ranger-mode-map (kbd "C-w l") 'windmove-right)
 (define-key ranger-mode-map (kbd "w") 'terminal-here)
-(define-key ranger-mode-map (kbd "!") 'shell-command)
+(define-key ranger-mode-map (kbd "!") 'async-shell-command)
 (define-key ranger-mode-map (kbd "f") 'counsel-find-file)
 (define-key ranger-mode-map (kbd "R") 'ranger-refresh)
 (define-key ranger-mode-map (kbd "$") 'dired-do-shell-command)
