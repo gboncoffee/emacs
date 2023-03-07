@@ -270,8 +270,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (use-package magit
   :ensure t
   :config
-  (add-hook 'git-commit-post-finish-hook 'magit)
-  (add-hook 'magit-mode-hook 'turn-off-evil-mode))
+  (add-hook 'git-commit-post-finish-hook 'magit))
 
 (setq dired-listing-switches "-lAhf")
 (setq ranger-cleanup-on-disable t)
@@ -360,6 +359,42 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
   :config
     (global-visualstar-mode))
 
+(setq hated-buffers '("\*dashboard\*"
+                      "\*scratch\*"
+                      "\*compilation\*"
+                      "\*Help\*"
+                      "\*Messages\*"
+                      "\*Warnings\*"
+                      "agenda.org"
+                      "todo.org"
+                      "marker.org"
+                      "magit:*"))
+
+(defun check-if-match-regexes (string regex-list)
+  (if (null (car regex-list))
+      nil
+    (if (string-match-p (car regex-list) string)
+      t
+      (check-if-match-regexes string (cdr regex-list)))))
+
+(defun next-buffer-with-hate ()
+  (interactive)
+  (let ((cbuffer (buffer-name)))
+    (next-buffer)
+    (if (and
+           (not (equal cbuffer (buffer-name)))
+           (check-if-match-regexes (buffer-name) hated-buffers))
+         (next-buffer-with-hate))))
+
+(defun previous-buffer-with-hate ()
+  (interactive)
+  (let ((cbuffer (buffer-name (current-buffer))))
+    (previous-buffer)
+    (if (and
+           (not (equal cbuffer (buffer-name)))
+           (check-if-match-regexes (buffer-name) hated-buffers))
+         (previous-buffer-with-hate))))
+
 (evil-set-leader 'normal (kbd "SPC"))
 (define-key minibuffer-local-map (kbd "ESC") 'abort-recursive-edit)
 (define-key minibuffer-local-map (kbd "C-w") 'backward-kill-word)
@@ -394,8 +429,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (kbd "<leader>.") 'counsel-projectile-find-file
 (kbd "<leader>a") 'counsel-linux-app
 (kbd "<leader>e") 'deer
-(kbd "TAB") 'projectile-next-project-buffer
-(kbd "<backtab>") 'projectile-previous-project-buffer
+(kbd "TAB") 'next-buffer-with-hate
+(kbd "<backtab>") 'previous-buffer-with-hate
 (kbd "<leader>ot") '(lambda () (interactive)
   		    (split-window-below)
   		    (windmove-down)
