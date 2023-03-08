@@ -8,7 +8,7 @@ evil keys!
 
 /There is no system but GNU, and Linux is one of it's kernels./
 - Saint IGNUcius (Richard M. Stallman)
-
+  
 Alongside this document, the ~init.el~ file contains the code necessary
 to load the configuration from the Org document and some stuff added
 via the GUI by ~custom~.
@@ -625,6 +625,7 @@ Functions to switch buffers with hate.
   (setq hated-buffers '("\*dashboard\*"
                         "\*scratch\*"
                         "\*compilation\*"
+                        "\*rg\*"
                         "\*Help\*"
                         "\*Messages\*"
                         "\*Warnings\*"
