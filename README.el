@@ -130,6 +130,8 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (blink-cursor-mode 0)
+(set-frame-parameter (selected-frame) 'alpha-background 90)
+(add-to-list 'default-frame-alist '(alpha-background . 90))
 
 (setq-default display-line-numbers-width 3)
 (setq display-line-numbers-type 'relative)
@@ -363,6 +365,7 @@ http://doom.wikia.com/wiki/Quit_messages and elsewhere.")
 (setq hated-buffers '("\*dashboard\*"
                       "\*scratch\*"
                       "\*compilation\*"
+                      "\*rg\*"
                       "\*Help\*"
                       "\*Messages\*"
                       "\*Warnings\*"

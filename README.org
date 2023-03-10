@@ -221,13 +221,16 @@ CaskaydiaCove has ligatures, so we're going to support them!
 
 *** UI Settings
 
-Disable all the fancy and ugly GUI stuff (why the heck all this stuff is default?).
+Disable all the fancy and ugly GUI stuff (why the heck all this stuff
+is default?). Also enable transparency (Emacs 29).
 
 #+begin_src emacs-lisp
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
   (blink-cursor-mode 0)
+  (set-frame-parameter (selected-frame) 'alpha-background 90)
+  (add-to-list 'default-frame-alist '(alpha-background . 90))
 #+end_src
 
 Add line numbers for some modes and configure them to have always a
