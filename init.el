@@ -26,10 +26,13 @@
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
+(visual-line-mode 0)
 (setq scroll-margin 10)
 (setq maximum-scroll-margin 0.5)
 (setq scroll-step 1)
 (setq frame-resize-pixelwise t)
+(setq truncate-partial-width-windows nil)
+(setq-default truncate-lines t)
 (global-display-fill-column-indicator-mode)
 (global-prettify-symbols-mode t)
 
@@ -46,6 +49,11 @@
 (use-package rainbow-delimiters
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+(use-package highlight-indent-guides
+  :init
+  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-responsive 'top)
+  (add-hook 'prog-mode-hook #'highlight-indent-guides-mode))
 
 (set-face-attribute 'default nil :height 220)
 
@@ -62,7 +70,7 @@
 (setq make-backup-files nil)       ;; disable backups
 (setq compile-command "")          ;; no default compile command
 ;; buffer management
-(setq hated-buffers '("*Backtrace*" "*GNU Emacs*" "*Messages*" "*scratch*" "*Ibuffer*"))
+(setq hated-buffers '("*Backtrace*" "*GNU Emacs*" "*Messages*" "*scratch*" "*Ibuffer*" "*Warnings*" "*Help*" "*Compile-Log*" "*Async-native-compile-log*"))
 (defun string-in-list (str l)
   (if (null l)
       nil
@@ -76,6 +84,7 @@
       (next-buffer-with-hate-int)))
 
 (defun next-buffer-with-hate ()
+  "Like next-buffer, but ignores buffers from hated-buffers"
   (interactive)
   (if (not (string-in-list (buffer-name) hated-buffers))
       (next-buffer-with-hate-int)))
@@ -86,9 +95,16 @@
       (previous-buffer-with-hate-int)))
 
 (defun previous-buffer-with-hate ()
+  "Like previous-buffer, but ignores buffers from hated-buffers"
   (interactive)
   (if (not (string-in-list (buffer-name) hated-buffers))
       (previous-buffer-with-hate-int)))
+
+(defun sudo-find-file (file-name)
+  "Like find file, but opens the file as root."
+  (interactive "FSudo Find File: ")
+  (let ((tramp-file-name (concat "/sudo::" (expand-file-name file-name))))
+    (find-file tramp-file-name)))
 
 ;;
 ;; ido, completion and friends
@@ -169,15 +185,23 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auth-source-save-behavior nil)
  '(custom-safe-themes '(default))
  '(fancy-splash-image "~/.config/emacs/splash.png")
+ '(fringe-mode '(0) nil (fringe))
  '(package-selected-packages
-   '(doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode ido-completing-read+ go-mode use-package)))
+   '(highlight-indent-guides doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode ido-completing-read+ go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(fixed-pitch ((t (:family "UbuntuMono Nerd Font Mono"))))
- '(line-number ((t (:inherit default :foreground "dim gray" :slant italic :weight normal))))
+ '(line-number ((t (:inherit mode-line :slant normal :weight normal))))
+ '(org-level-1 ((t (:inherit outline-1 :extend nil :height 1.4))))
+ '(org-level-2 ((t (:inherit outline-2 :extend nil :height 1.3))))
+ '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.2))))
+ '(org-level-4 ((t (:inherit outline-4 :extend nil :height 1.1))))
+ '(org-level-5 ((t (:inherit outline-5 :extend nil :height 1.0))))
+ '(org-level-6 ((t (:inherit outline-6 :extend nil :height 1.0))))
  '(variable-pitch ((t (:family "Ubuntu Nerd Font")))))
