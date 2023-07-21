@@ -159,6 +159,7 @@
 (use-package julia-mode)
 (use-package tuareg) ;; OCaml
 (use-package markdown-mode)
+(use-package nix-mode)
 ;; c
 (setq c-default-style "k&r"
       c-basic-offset 4)
@@ -169,6 +170,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes '(default))
+ '(fancy-splash-image "~/.config/emacs/splash.png")
  '(package-selected-packages
    '(doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode ido-completing-read+ go-mode use-package)))
 (custom-set-faces
