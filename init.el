@@ -58,6 +58,10 @@
   :init
   (setq doom-modeline-buffer-file-name-style 'file-name)
   (doom-modeline-mode t))
+(use-package all-the-icons)
+(use-package all-the-icons-dired
+  :init
+  (add-hook 'dired-mode-hook #'all-the-icons-dired-mode))
 
 (set-face-attribute 'default nil :height 220)
 
@@ -129,14 +133,21 @@
 ;;
 (use-package magit
   :init
-  (global-set-key (kbd "C-x g")   #'magit)
-  (global-set-key (kbd "C-x C-g") #'magit))
+  (global-set-key (kbd "C-x g")   #'magit))
 (use-package xkcd)
 (use-package pdf-tools)
 (use-package rg
   :init
   (setq rg-command-line-flags
 	'("--no-heading" "--with-filename" "--line-number" "--column" "--smart-case" "--hidden" "-g" "!.git/")))
+
+;; dired
+(setq dired-listing-switches "-agho --group-directories-first")
+(setq dired-kill-when-opening-new-dired-buffer t)
+(use-package diredfl
+  :init
+  (diredfl-global-mode t))
+(use-package dired-atool)
 
 ;; org mode
 (setq org-hide-emphasis-markers t)
@@ -198,7 +209,7 @@
  '(fancy-splash-image "~/.config/emacs/splash.png")
  '(fringe-mode '(0) nil (fringe))
  '(package-selected-packages
-   '(doom-modeline rg highlight-indent-guides doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode go-mode use-package)))
+   '(all-the-icons-dired doom-modeline rg highlight-indent-guides doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
