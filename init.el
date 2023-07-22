@@ -195,6 +195,7 @@
 (use-package tuareg) ;; OCaml
 (use-package markdown-mode)
 (use-package nix-mode)
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
 ;; c
 (setq c-default-style "k&r"
       c-basic-offset 4)
