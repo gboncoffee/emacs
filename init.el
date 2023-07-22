@@ -128,10 +128,11 @@
   (global-set-key (kbd "C-x g")   #'magit)
   (global-set-key (kbd "C-x C-g") #'magit))
 (use-package xkcd)
-(use-package gnugo)
+(use-package pdf-tools)
 (use-package rg
   :init
-  (setq rg-command-line-flags '("--no-heading" "--with-filename" "--line-number" "--column" "--smart-case" "--hidden" "-g" "!.git/")))
+  (setq rg-command-line-flags
+	'("--no-heading" "--with-filename" "--line-number" "--column" "--smart-case" "--hidden" "-g" "!.git/")))
 
 ;; org mode
 (setq org-hide-emphasis-markers t)
@@ -172,7 +173,9 @@
 (use-package json-mode)
 (use-package coffee-mode)
 (use-package rust-mode)
-(use-package lua-mode)
+(use-package lua-mode
+  :init
+  (setq lua-indent-level 4))
 (use-package julia-mode)
 (use-package tuareg) ;; OCaml
 (use-package markdown-mode)
