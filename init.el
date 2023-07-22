@@ -70,7 +70,7 @@
 (setq make-backup-files nil)       ;; disable backups
 (setq compile-command "")          ;; no default compile command
 ;; buffer management
-(setq hated-buffers '("*Backtrace*" "*GNU Emacs*" "*Messages*" "*scratch*" "*Ibuffer*" "*Warnings*" "*Help*" "*Compile-Log*" "*Async-native-compile-log*"))
+(setq hated-buffers '("*Backtrace*" "*GNU Emacs*" "*Messages*" "*scratch*" "*Ibuffer*" "*Warnings*" "*Help*" "*Compile-Log*" "*Async-native-compile-log*" "*Packages*" "*rg*" "emacs"))
 (defun string-in-list (str l)
   (if (null l)
       nil
@@ -107,22 +107,18 @@
     (find-file tramp-file-name)))
 
 ;;
-;; ido, completion and friends
+;; ivy, completion and friends
 ;;
 (electric-pair-mode)
 (electric-indent-mode)
-(use-package ido-completing-read+
+(use-package counsel
   :init
-  (ido-mode t)
-  (ido-everywhere t)
-  (ido-ubiquitous-mode t))
-(use-package smex
-  :init
-  (smex-initialize))
-(use-package ido-vertical-mode
-  :init
-  (ido-vertical-mode t)
-  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+  (ivy-mode)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (setq ivy-initial-inputs-alist nil)
+  (counsel-mode)
+  (global-set-key (kbd "C-s") #'swiper))
 
 ;;
 ;; programs, extensions, etc
@@ -133,6 +129,9 @@
   (global-set-key (kbd "C-x C-g") #'magit))
 (use-package xkcd)
 (use-package gnugo)
+(use-package rg
+  :init
+  (setq rg-command-line-flags '("--no-heading" "--with-filename" "--line-number" "--column" "--smart-case" "--hidden" "-g" "!.git/")))
 
 ;; org mode
 (setq org-hide-emphasis-markers t)
@@ -143,10 +142,12 @@
 ;;
 ;; keybinds
 ;;
-(global-set-key (kbd "C-x C-b") #'ibuffer)
+(global-set-key (kbd "C-x C-b")       #'ibuffer)
 (global-set-key (kbd "C-x C-<right>") #'next-buffer-with-hate)
-(global-set-key (kbd "C-x C-<left>") #'previous-buffer-with-hate)
-(global-set-key (kbd "C-x C-x") #'compile)
+(global-set-key (kbd "C-x C-<left>")  #'previous-buffer-with-hate)
+(global-set-key (kbd "C-x <right>")   #'next-buffer-with-hate)
+(global-set-key (kbd "C-x <left>")    #'previous-buffer-with-hate)
+(global-set-key (kbd "C-x C-x")       #'compile)
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 (use-package move-text
@@ -190,7 +191,7 @@
  '(fancy-splash-image "~/.config/emacs/splash.png")
  '(fringe-mode '(0) nil (fringe))
  '(package-selected-packages
-   '(highlight-indent-guides doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode ido-completing-read+ go-mode use-package)))
+   '(rg highlight-indent-guides doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
