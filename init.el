@@ -188,16 +188,20 @@
 (use-package json-mode)
 (use-package coffee-mode)
 (use-package rust-mode)
-(use-package lua-mode
-  :init
-  (setq lua-indent-level 4))
 (use-package julia-mode)
 (use-package tuareg) ;; OCaml
 (use-package markdown-mode)
 (use-package nix-mode)
+(use-package racket-mode)
+(use-package toml-mode)
+(use-package yaml-mode)
+(use-package erlang)
+(use-package elixir-mode)
+(use-package lua-mode
+  :init
+  (setq lua-indent-level 4))
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
-;; c
-(setq c-default-style "k&r"
+(setq c-default-style "k&r" ;; C
       c-basic-offset 4)
 
 (custom-set-variables
