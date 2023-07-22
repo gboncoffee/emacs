@@ -54,6 +54,10 @@
   (setq highlight-indent-guides-method 'character)
   (setq highlight-indent-guides-responsive 'top)
   (add-hook 'prog-mode-hook #'highlight-indent-guides-mode))
+(use-package doom-modeline
+  :init
+  (setq doom-modeline-buffer-file-name-style 'file-name)
+  (doom-modeline-mode t))
 
 (set-face-attribute 'default nil :height 220)
 
@@ -194,7 +198,7 @@
  '(fancy-splash-image "~/.config/emacs/splash.png")
  '(fringe-mode '(0) nil (fringe))
  '(package-selected-packages
-   '(rg highlight-indent-guides doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode go-mode use-package)))
+   '(doom-modeline rg highlight-indent-guides doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
