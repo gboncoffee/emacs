@@ -42,7 +42,7 @@
 
 (use-package doom-themes
   :init
-  (load-theme 'doom-monokai-pro t))
+  (load-theme 'doom-dracula t))
 (use-package rainbow-mode
   :init
   (add-hook 'prog-mode-hook #'rainbow-mode))
@@ -210,7 +210,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
- '(custom-safe-themes '(default))
+ '(custom-safe-themes
+   '("0c08a5c3c2a72e3ca806a29302ef942335292a80c2934c1123e8c732bb2ddd77" "683b3fe1689da78a4e64d3ddfce90f2c19eb2d8ab1bab1738a63d8263119c3f4" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" "6945dadc749ac5cbd47012cad836f92aea9ebec9f504d32fe89a956260773ca4" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" "680f62b751481cc5b5b44aeab824e5683cf13792c006aeba1c25ce2d89826426" "c865644bfc16c7a43e847828139b74d1117a6077a845d16e71da38c8413a5aaa" default))
  '(fancy-splash-image "~/.config/emacs/splash.png")
  '(fringe-mode '(0) nil (fringe))
  '(package-selected-packages
