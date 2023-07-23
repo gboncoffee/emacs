@@ -67,7 +67,11 @@
 
 (global-font-lock-mode)
 (set-face-attribute 'font-lock-comment-face nil
-  :slant 'italic)
+		    :slant 'italic)
+
+(use-package mixed-pitch
+  :init
+  (add-hook 'text-mode-hook #'mixed-pitch-mode))
 
 ;;
 ;; general
@@ -153,7 +157,6 @@
 (setq org-hide-emphasis-markers t)
 (setq org-directory "~/Documents/org")
 (setq org-agenda-files '("~/Documents/org/agenda.org"))
-(add-hook 'org-mode-hook #'variable-pitch-mode)
 
 ;;
 ;; keybinds
