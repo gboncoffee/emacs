@@ -34,7 +34,6 @@
 (setq truncate-partial-width-windows nil)
 (setq-default truncate-lines t)
 (global-display-fill-column-indicator-mode)
-(global-prettify-symbols-mode t)
 
 (add-hook 'prog-mode-hook (lambda ()
 			    (setq display-line-numbers-width 3)
@@ -167,6 +166,8 @@
 (global-set-key (kbd "C-x <right>")   #'next-buffer-with-hate)
 (global-set-key (kbd "C-x <left>")    #'previous-buffer-with-hate)
 (global-set-key (kbd "C-x C-x")       #'compile)
+(global-set-key (kbd "C-x C-/")       #'rg)
+(global-set-key (kbd "C-x C-f")       #'find-file)
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 (use-package move-text
@@ -187,24 +188,54 @@
 ;; filetypes
 ;;
 (use-package go-mode)
-(use-package haskell-mode)
 (use-package json-mode)
 (use-package coffee-mode)
 (use-package rust-mode)
 (use-package julia-mode)
 (use-package tuareg) ;; OCaml
-(use-package markdown-mode)
 (use-package nix-mode)
 (use-package racket-mode)
 (use-package toml-mode)
 (use-package yaml-mode)
 (use-package erlang)
 (use-package elixir-mode)
+;; Lisp(s)
+(add-hook 'emacs-lisp-mode-hook #'prettify-symbols-mode)
+(add-hook 'common-lisp-mode-hook #'prettify-symbols-mode)
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
+;; Markdown
+(use-package markdown-mode
+  :init
+  (add-hook 'markdown-mode-hook #'auto-fill-mode))
+;; Haskell
+(use-package haskell-mode
+  :init
+  (setq haskell-stylish-on-save t)
+  (add-hook 'haskell-mode-hook
+	    (lambda ()
+	      (local-set-key (kbd "C-c C-d") #'haskell-describe)
+	      (local-set-key (kbd "C-c C-i") #'haskell-navigate-imports)
+	      (local-set-key (kbd "C-c C-z") #'haskell-hide-toggle)
+	      (local-set-key (kbd "C-c C-m") #'haskell-hide-toggle-all)
+	      (haskell-collapse-mode))))
+;; Lua
 (use-package lua-mode
   :init
   (setq lua-indent-level 4))
-(add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
-(setq c-default-style "k&r" ;; C
+;; LaTeX
+(add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
+(add-hook 'LaTeX-mode-hook #'auto-fill-mode)
+(use-package auctex
+  :init
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq TeX-view-program-selection 
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+        TeX-source-correlate-start-server t)
+  (add-hook 'TeX-after-compilation-finished-functions
+            #'TeX-revert-document-buffer)))
+;; C/C++
+(setq c-default-style "k&r"
       c-basic-offset 4)
 
 (custom-set-variables
