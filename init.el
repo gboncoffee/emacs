@@ -158,6 +158,8 @@
 (global-set-key (kbd "C-x C-x")       #'compile)
 (global-set-key (kbd "C-x C-/")       #'rg)
 (global-set-key (kbd "C-x f")         #'find-file)
+(global-set-key (kbd "C-h f")         #'describe-function)
+(global-set-key (kbd "<escape>")      #'keyboard-quit)
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 (use-package move-text
@@ -257,7 +259,7 @@
  '(fancy-splash-image "~/.config/emacs/splash.png")
  '(fringe-mode '(0) nil (fringe))
  '(package-selected-packages
-   '(all-the-icons-dired doom-modeline rg highlight-indent-guides doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode go-mode use-package)))
+   '(counsel auctex coffee-mode dired-atool diredfl elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode mixed-pitch nix-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode all-the-icons-dired doom-modeline rg doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
