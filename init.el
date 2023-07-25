@@ -32,6 +32,7 @@
 (setq scroll-step 1)
 (setq frame-resize-pixelwise t)
 (setq truncate-partial-width-windows nil)
+(setq-default show-trailing-whitespace t)
 (setq-default truncate-lines t)
 (global-display-fill-column-indicator-mode)
 
@@ -48,11 +49,6 @@
 (use-package rainbow-delimiters
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-(use-package highlight-indent-guides
-  :init
-  (setq highlight-indent-guides-method 'character)
-  (setq highlight-indent-guides-responsive 'top)
-  (add-hook 'prog-mode-hook #'highlight-indent-guides-mode))
 (use-package doom-modeline
   :init
   (setq doom-modeline-buffer-file-name-style 'file-name)
@@ -129,7 +125,7 @@
   (setq enable-recursive-minibuffers t)
   (setq ivy-initial-inputs-alist nil)
   (counsel-mode)
-  (global-set-key (kbd "C-s") #'swiper))
+  (global-set-key (kbd "C-s") #'swiper-isearch-thing-at-point))
 
 ;;
 ;; programs, extensions, etc
@@ -187,10 +183,8 @@
 ;;
 ;; filetypes
 ;;
-(use-package go-mode)
 (use-package json-mode)
 (use-package coffee-mode)
-(use-package rust-mode)
 (use-package julia-mode)
 (use-package tuareg) ;; OCaml
 (use-package nix-mode)
@@ -203,6 +197,21 @@
 (add-hook 'emacs-lisp-mode-hook #'prettify-symbols-mode)
 (add-hook 'common-lisp-mode-hook #'prettify-symbols-mode)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
+;; Go
+(use-package go-mode
+  :init
+  (add-hook 'go-mode-hook
+	    (lambda ()
+	      (local-set-key (kbd "C-c C-i")     #'go-goto-imports)
+	      (local-set-key (kbd "C-c i")       #'go-goto-imports))))
+;; Rust
+(use-package rust-mode
+  :init
+  (setq rust-format-on-save t)
+  (add-hook 'rust-mode-hook
+	    (lambda ()
+	      (local-set-key (kbd "C-c C-m") #'rust-toggle-mutability)
+	      (local-set-key (kbd "C-c m")   #'rust-toggle-mutability))))
 ;; Markdown
 (use-package markdown-mode
   :init
@@ -217,6 +226,10 @@
 	      (local-set-key (kbd "C-c C-i") #'haskell-navigate-imports)
 	      (local-set-key (kbd "C-c C-z") #'haskell-hide-toggle)
 	      (local-set-key (kbd "C-c C-m") #'haskell-hide-toggle-all)
+     	      (local-set-key (kbd "C-c d")   #'haskell-describe)
+	      (local-set-key (kbd "C-c i")   #'haskell-navigate-imports)
+	      (local-set-key (kbd "C-c z")   #'haskell-hide-toggle)
+	      (local-set-key (kbd "C-c m")   #'haskell-hide-toggle-all)
 	      (haskell-collapse-mode))))
 ;; Lua
 (use-package lua-mode
@@ -225,15 +238,16 @@
 ;; LaTeX
 (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
-(use-package auctex
+(use-package tex
+  :ensure auctex
   :init
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
-  (setq TeX-view-program-selection 
+  (setq TeX-view-program-selection t)
   (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
         TeX-source-correlate-start-server t)
   (add-hook 'TeX-after-compilation-finished-functions
-            #'TeX-revert-document-buffer)))
+            #'TeX-revert-document-buffer))
 ;; C/C++
 (setq c-default-style "k&r"
       c-basic-offset 4)
