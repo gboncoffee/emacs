@@ -13,12 +13,6 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(use-package auto-package-update
-  :config
-  (setq auto-package-update-delete-old-versions t)
-  (setq auto-package-update-hide-results t)
-  (auto-package-update-maybe))
-
 ;;
 ;; appearance
 ;;
@@ -163,7 +157,7 @@
 (global-set-key (kbd "C-x <left>")    #'previous-buffer-with-hate)
 (global-set-key (kbd "C-x C-x")       #'compile)
 (global-set-key (kbd "C-x C-/")       #'rg)
-(global-set-key (kbd "C-x C-f")       #'find-file)
+(global-set-key (kbd "C-x f")         #'find-file)
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 (use-package move-text
