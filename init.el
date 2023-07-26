@@ -16,6 +16,16 @@
 ;;
 ;; appearance
 ;;
+(use-package solarized-theme
+  :init
+  (setq solarized-distinct-fringe-background nil)
+  (setq solarized-use-variable-pitch nil)
+  (setq solarized-high-contrast-mode-line t)
+  (setq solarized-use-less-bold nil)
+  (setq solarized-use-more-italic t)
+  (setq solarized-scale-org-headlines t)
+  (setq solarized-scale-markdown-headlines t)
+  (load-theme 'solarized-dark-high-contrast t))
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
@@ -33,24 +43,21 @@
 			    (setq display-line-numbers-width 3)
 			    (setq display-line-numbers 'relative)))
 
+(set-face-attribute 'default nil :height 220) ;; font size
+
 ;; modeline
 (column-number-mode t)
 (size-indication-mode t)
 
-(use-package solarized-theme
-  :init
-  (load-theme 'solarized-dark t))
 (use-package rainbow-mode ;; highlight colors like pink and #cafebb
   :init
   (add-hook 'prog-mode-hook #'rainbow-mode))
 (use-package rainbow-delimiters
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
-(set-face-attribute 'default nil :height 220) ;; font size
-(use-package mixed-pitch
+(use-package hl-todo
   :init
-  (add-hook 'text-mode-hook #'mixed-pitch-mode))
+  (global-hl-todo-mode))
 
 ;;
 ;; general
@@ -90,9 +97,6 @@
 ;; dired
 (setq dired-listing-switches "-agho --group-directories-first")
 (setq dired-kill-when-opening-new-dired-buffer t)
-(use-package diredfl
-  :init
-  (diredfl-global-mode t))
 (use-package dired-atool)
 
 ;; org mode
@@ -100,7 +104,7 @@
 (setq org-directory "~/Documents/org")
 (setq org-agenda-files '("~/Documents/org/agenda.org"))
 (add-hook 'org-mode-hook #'auto-fill-mode)
-(add-hook 'org-mode-hook #'display-line-numbers-mode)
+(add-hook 'org-mode-hook (lambda () (setq display-line-numbers 'relative)))
 
 ;;
 ;; keybinds
@@ -154,7 +158,8 @@
   (add-hook 'go-mode-hook
 	    (lambda ()
 	      (local-set-key (kbd "C-c C-i")     #'go-goto-imports)
-	      (local-set-key (kbd "C-c i")       #'go-goto-imports))))
+	      (local-set-key (kbd "C-c i")       #'go-goto-imports)
+	      (add-hook 'before-save-hook #'gofmt-before-save))))
 ;; Rust
 (use-package rust-mode
   :init
@@ -189,7 +194,7 @@
 ;; LaTeX
 (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
-(add-hook 'LaTeX-mode-hook #'display-line-numbers-mode)
+(add-hook 'LaTeX-mode-hook (lambda () (setq display-line-numbers 'relative)))
 (use-package tex
   :ensure auctex
   :init
@@ -205,7 +210,7 @@
       c-basic-offset 4)
 ;; txt
 (add-hook 'text-mode-hook #'auto-fill-mode)
-(add-hook 'text-mode-hook #'display-line-numbers-mode)
+(add-hook 'text-mode-hook (lambda () (setq display-line-numbers 'relative)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -214,11 +219,10 @@
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
  '(custom-safe-themes
-   '("7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184" "0c08a5c3c2a72e3ca806a29302ef942335292a80c2934c1123e8c732bb2ddd77" "683b3fe1689da78a4e64d3ddfce90f2c19eb2d8ab1bab1738a63d8263119c3f4" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" "6945dadc749ac5cbd47012cad836f92aea9ebec9f504d32fe89a956260773ca4" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" "680f62b751481cc5b5b44aeab824e5683cf13792c006aeba1c25ce2d89826426" "c865644bfc16c7a43e847828139b74d1117a6077a845d16e71da38c8413a5aaa" default))
+   '("7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184" "0c08a5c3c2a72e3ca806a29302ef942335292a80c2934c1123e8c732bb2ddd77" "683b3fe1689da78a4e64d3ddfce90f2c19eb2d8ab1bab1738a63d8263119c3f4" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" "6945dadc749ac5cbd47012cad836f92aea9ebec9f504d32fe89a956260773ca4" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" "680f62b751481cc5b5b44aeab824e5683cf13792c006aeba1c25ce2d89826426" "c865644bfc16c7a43e847828139b74d1117a6077a845d16e71da38c8413a5aaa" default))
  '(fancy-splash-image "~/.config/emacs/splash.png")
- '(fringe-mode '(0) nil (fringe))
  '(package-selected-packages
-   '(solarized-theme mixed-pitch counsel auctex coffee-mode dired-atool diredfl elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode nix-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-delimiters rainbow-mode go-mode use-package)))
+   '(hl-todo solarized-theme counsel auctex coffee-mode dired-atool elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode nix-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-delimiters rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
