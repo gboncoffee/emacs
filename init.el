@@ -29,35 +29,25 @@
 (setq-default show-trailing-whitespace t)
 (setq-default truncate-lines t)
 (global-display-fill-column-indicator-mode)
-
 (add-hook 'prog-mode-hook (lambda ()
 			    (setq display-line-numbers-width 3)
 			    (setq display-line-numbers 'relative)))
 
-(use-package doom-themes
+;; modeline
+(column-number-mode t)
+(size-indication-mode t)
+
+(use-package solarized-theme
   :init
-  (load-theme 'doom-gruvbox t))
-(use-package rainbow-mode
+  (load-theme 'solarized-dark t))
+(use-package rainbow-mode ;; highlight colors like pink and #cafebb
   :init
   (add-hook 'prog-mode-hook #'rainbow-mode))
 (use-package rainbow-delimiters
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-(use-package doom-modeline
-  :init
-  (setq doom-modeline-buffer-file-name-style 'file-name)
-  (doom-modeline-mode t))
-(use-package all-the-icons)
-(use-package all-the-icons-dired
-  :init
-  (add-hook 'dired-mode-hook #'all-the-icons-dired-mode))
 
-(set-face-attribute 'default nil :height 220)
-
-(global-font-lock-mode)
-(set-face-attribute 'font-lock-comment-face nil
-		    :slant 'italic)
-
+(set-face-attribute 'default nil :height 220) ;; font size
 (use-package mixed-pitch
   :init
   (add-hook 'text-mode-hook #'mixed-pitch-mode))
@@ -70,42 +60,6 @@
 (setq-default fill-column 80)      ;; text width
 (setq make-backup-files nil)       ;; disable backups
 (setq compile-command "")          ;; no default compile command
-;; buffer management
-(setq hated-buffers '("*Backtrace*" "*GNU Emacs*" "*Messages*" "*scratch*" "*Ibuffer*" "*Warnings*" "*Help*" "*Compile-Log*" "*Async-native-compile-log*" "*Packages*" "*rg*" "emacs"))
-(defun string-in-list (str l)
-  (if (null l)
-      nil
-    (if (string= (car l) str)
-	1
-      (string-in-list str (cdr l)))))
-
-(defun next-buffer-with-hate-int ()
-  (next-buffer)
-  (if (string-in-list (buffer-name) hated-buffers)
-      (next-buffer-with-hate-int)))
-
-(defun next-buffer-with-hate ()
-  "Like next-buffer, but ignores buffers from hated-buffers"
-  (interactive)
-  (if (not (string-in-list (buffer-name) hated-buffers))
-      (next-buffer-with-hate-int)))
-
-(defun previous-buffer-with-hate-int ()
-  (previous-buffer)
-  (if (string-in-list (buffer-name) hated-buffers)
-      (previous-buffer-with-hate-int)))
-
-(defun previous-buffer-with-hate ()
-  "Like previous-buffer, but ignores buffers from hated-buffers"
-  (interactive)
-  (if (not (string-in-list (buffer-name) hated-buffers))
-      (previous-buffer-with-hate-int)))
-
-(defun sudo-find-file (file-name)
-  "Like find file, but opens the file as root."
-  (interactive "FSudo Find File: ")
-  (let ((tramp-file-name (concat "/sudo::" (expand-file-name file-name))))
-    (find-file tramp-file-name)))
 
 ;;
 ;; ivy, completion and friends
@@ -118,8 +72,7 @@
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (setq ivy-initial-inputs-alist nil)
-  (counsel-mode)
-  (global-set-key (kbd "C-s") #'swiper-isearch-thing-at-point))
+  (counsel-mode))
 
 ;;
 ;; programs, extensions, etc
@@ -146,25 +99,21 @@
 (setq org-hide-emphasis-markers t)
 (setq org-directory "~/Documents/org")
 (setq org-agenda-files '("~/Documents/org/agenda.org"))
+(add-hook 'org-mode-hook #'auto-fill-mode)
+(add-hook 'org-mode-hook #'display-line-numbers-mode)
 
 ;;
 ;; keybinds
 ;;
-(global-set-key (kbd "C-x C-b")       #'ibuffer)
-(global-set-key (kbd "C-x C-<right>") #'next-buffer-with-hate)
-(global-set-key (kbd "C-x C-<left>")  #'previous-buffer-with-hate)
-(global-set-key (kbd "C-x <right>")   #'next-buffer-with-hate)
-(global-set-key (kbd "C-x <left>")    #'previous-buffer-with-hate)
-(global-set-key (kbd "C-x C-x")       #'compile)
-(global-set-key (kbd "C-x C-/")       #'rg)
-(global-set-key (kbd "C-x f")         #'find-file)
-(global-set-key (kbd "C-h f")         #'describe-function)
-(global-set-key (kbd "<escape>")      #'keyboard-quit)
+(global-set-key (kbd "C-x C-b") #'ibuffer)
+(global-set-key (kbd "C-x C-x") #'compile)
+(global-set-key (kbd "C-x C-/") #'rg)
+(global-set-key (kbd "C-x /")   #'rg)
+(global-set-key (kbd "C-s")     #'swiper-isearch)
+(global-set-key (kbd "C-x f")   #'find-file)
+(global-set-key (kbd "C-h f")   #'describe-function)
 (when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
-(use-package move-text
-  :init
-  (move-text-default-bindings))
+  (windmove-default-keybindings 'meta))
 (use-package multiple-cursors
   :init
   (global-set-key (kbd "C-S-c C-S-c") #'mc/edit-lines)
@@ -173,8 +122,14 @@
   (global-set-key (kbd "C-c C-<") #'mc/mark-all-like-this))
 
 ;; org
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c o") #'(lambda () (interactive) (find-file "~/Documents/org/agenda.org")))
+(global-set-key (kbd "C-c a")   #'org-agenda)
+(global-set-key (kbd "C-c C-a") #'org-agenda)
+(defun org-open-agenda-file ()
+  "Open the first Org agenda file"
+  (interactive)
+  (find-file (car org-agenda-files)))
+(global-set-key (kbd "C-c o")   #'org-open-agenda-file)
+(global-set-key (kbd "C-c C-o") #'org-open-agenda-file)
 
 ;;
 ;; filetypes
@@ -222,7 +177,7 @@
 	      (local-set-key (kbd "C-c C-i") #'haskell-navigate-imports)
 	      (local-set-key (kbd "C-c C-z") #'haskell-hide-toggle)
 	      (local-set-key (kbd "C-c C-m") #'haskell-hide-toggle-all)
-     	      (local-set-key (kbd "C-c d")   #'haskell-describe)
+	      (local-set-key (kbd "C-c d")   #'haskell-describe)
 	      (local-set-key (kbd "C-c i")   #'haskell-navigate-imports)
 	      (local-set-key (kbd "C-c z")   #'haskell-hide-toggle)
 	      (local-set-key (kbd "C-c m")   #'haskell-hide-toggle-all)
@@ -234,6 +189,7 @@
 ;; LaTeX
 (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
+(add-hook 'LaTeX-mode-hook #'display-line-numbers-mode)
 (use-package tex
   :ensure auctex
   :init
@@ -247,6 +203,9 @@
 ;; C/C++
 (setq c-default-style "k&r"
       c-basic-offset 4)
+;; txt
+(add-hook 'text-mode-hook #'auto-fill-mode)
+(add-hook 'text-mode-hook #'display-line-numbers-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -259,18 +218,10 @@
  '(fancy-splash-image "~/.config/emacs/splash.png")
  '(fringe-mode '(0) nil (fringe))
  '(package-selected-packages
-   '(counsel auctex coffee-mode dired-atool diredfl elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode mixed-pitch nix-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode all-the-icons-dired doom-modeline rg doom-themes multiple-cursors rainbow-delimiters move-text rainbow-mode go-mode use-package)))
+   '(solarized-theme mixed-pitch counsel auctex coffee-mode dired-atool diredfl elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode nix-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-delimiters rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(fixed-pitch ((t (:family "UbuntuMono Nerd Font Mono"))))
- '(line-number ((t (:inherit mode-line :slant normal :weight normal))))
- '(org-level-1 ((t (:inherit outline-1 :extend nil :height 1.4))))
- '(org-level-2 ((t (:inherit outline-2 :extend nil :height 1.3))))
- '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.2))))
- '(org-level-4 ((t (:inherit outline-4 :extend nil :height 1.1))))
- '(org-level-5 ((t (:inherit outline-5 :extend nil :height 1.0))))
- '(org-level-6 ((t (:inherit outline-6 :extend nil :height 1.0))))
- '(variable-pitch ((t (:family "Ubuntu Nerd Font")))))
+ )
