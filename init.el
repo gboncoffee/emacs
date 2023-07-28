@@ -68,15 +68,14 @@
 ;;
 ;; ivy, completion and friends
 ;;
-(electric-pair-mode)
 (electric-indent-mode)
-(use-package counsel
+(use-package ido-completing-read+
   :init
-  (ivy-mode)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  (setq ivy-initial-inputs-alist nil)
-  (counsel-mode))
+  (setq ido-create-new-buffer 'always)
+  (setq ido-enable-flex-matching t)
+  (setq ido-everywhere t)
+  (ido-mode t)
+  (ido-ubiquitous-mode t))
 
 ;;
 ;; programs, extensions, etc
@@ -110,7 +109,6 @@
 (global-set-key (kbd "C-x C-x") #'compile)
 (global-set-key (kbd "C-x C-/") #'rg)
 (global-set-key (kbd "C-x /")   #'rg)
-(global-set-key (kbd "C-s")     #'swiper-isearch)
 (global-set-key (kbd "C-x f")   #'find-file)
 (global-set-key (kbd "C-h f")   #'describe-function)
 (when (fboundp 'windmove-default-keybindings)
@@ -219,7 +217,7 @@
    '("7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184" "0c08a5c3c2a72e3ca806a29302ef942335292a80c2934c1123e8c732bb2ddd77" "683b3fe1689da78a4e64d3ddfce90f2c19eb2d8ab1bab1738a63d8263119c3f4" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" "6945dadc749ac5cbd47012cad836f92aea9ebec9f504d32fe89a956260773ca4" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" "680f62b751481cc5b5b44aeab824e5683cf13792c006aeba1c25ce2d89826426" "c865644bfc16c7a43e847828139b74d1117a6077a845d16e71da38c8413a5aaa" default))
  '(fancy-splash-image "~/.config/emacs/splash.png")
  '(package-selected-packages
-   '(hl-todo solarized-theme counsel auctex coffee-mode dired-atool elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode nix-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(ido-completing-read+ hl-todo solarized-theme auctex coffee-mode dired-atool elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode nix-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
