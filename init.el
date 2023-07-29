@@ -43,14 +43,14 @@
 			    (setq display-line-numbers-width 3)
 			    (setq display-line-numbers 'relative)))
 
-(set-face-attribute 'default nil :height 220) ;; font size
+(set-face-attribute 'default nil :height 250) ;; font size
 
 ;; modeline
 (column-number-mode t)
 (size-indication-mode t)
 
 (use-package rainbow-mode ;; highlight colors like pink and #cafebb
-  :init
+  :config
   (add-hook 'prog-mode-hook #'rainbow-mode))
 (use-package hl-todo
   :init
@@ -69,24 +69,21 @@
 ;; ivy, completion and friends
 ;;
 (electric-indent-mode)
-(use-package ido-completing-read+
-  :init
-  (setq ido-create-new-buffer 'always)
-  (setq ido-enable-flex-matching t)
-  (setq ido-everywhere t)
-  (ido-mode t)
-  (ido-ubiquitous-mode t))
+(setq ido-create-new-buffer 'always)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode t)
 
 ;;
 ;; programs, extensions, etc
 ;;
 (use-package magit
-  :init
+  :config
   (global-set-key (kbd "C-x g")   #'magit))
 (use-package xkcd)
 (use-package pdf-tools)
 (use-package rg
-  :init
+  :config
   (setq rg-command-line-flags
 	'("--no-heading" "--with-filename" "--line-number" "--column" "--smart-case" "--hidden" "-g" "!.git/")))
 
@@ -149,7 +146,7 @@
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
 ;; Go
 (use-package go-mode
-  :init
+  :config
   (add-hook 'go-mode-hook
 	    (lambda ()
 	      (local-set-key (kbd "C-c C-i")     #'go-goto-imports)
@@ -157,7 +154,7 @@
 	      (add-hook 'before-save-hook #'gofmt-before-save))))
 ;; Rust
 (use-package rust-mode
-  :init
+  :config
   (setq rust-format-on-save t)
   (add-hook 'rust-mode-hook
 	    (lambda ()
@@ -165,11 +162,11 @@
 	      (local-set-key (kbd "C-c m")   #'rust-toggle-mutability))))
 ;; Markdown
 (use-package markdown-mode
-  :init
+  :config
   (add-hook 'markdown-mode-hook #'auto-fill-mode))
 ;; Haskell
 (use-package haskell-mode
-  :init
+  :config
   (setq haskell-stylish-on-save t)
   (add-hook 'haskell-mode-hook
 	    (lambda ()
@@ -184,7 +181,7 @@
 	      (haskell-collapse-mode))))
 ;; Lua
 (use-package lua-mode
-  :init
+  :config
   (setq lua-indent-level 4))
 ;; LaTeX
 (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
@@ -192,7 +189,7 @@
 (add-hook 'LaTeX-mode-hook (lambda () (setq display-line-numbers 'relative)))
 (use-package tex
   :ensure auctex
-  :init
+  :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
   (setq TeX-view-program-selection t)
@@ -214,10 +211,9 @@
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
  '(custom-safe-themes
-   '("7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184" "0c08a5c3c2a72e3ca806a29302ef942335292a80c2934c1123e8c732bb2ddd77" "683b3fe1689da78a4e64d3ddfce90f2c19eb2d8ab1bab1738a63d8263119c3f4" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" "6945dadc749ac5cbd47012cad836f92aea9ebec9f504d32fe89a956260773ca4" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" "680f62b751481cc5b5b44aeab824e5683cf13792c006aeba1c25ce2d89826426" "c865644bfc16c7a43e847828139b74d1117a6077a845d16e71da38c8413a5aaa" default))
- '(fancy-splash-image "~/.config/emacs/splash.png")
+   '("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184" "0c08a5c3c2a72e3ca806a29302ef942335292a80c2934c1123e8c732bb2ddd77" "683b3fe1689da78a4e64d3ddfce90f2c19eb2d8ab1bab1738a63d8263119c3f4" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" "6945dadc749ac5cbd47012cad836f92aea9ebec9f504d32fe89a956260773ca4" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" "680f62b751481cc5b5b44aeab824e5683cf13792c006aeba1c25ce2d89826426" "c865644bfc16c7a43e847828139b74d1117a6077a845d16e71da38c8413a5aaa" default))
  '(package-selected-packages
-   '(ido-completing-read+ hl-todo solarized-theme auctex coffee-mode dired-atool elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode nix-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(hl-todo solarized-theme auctex coffee-mode dired-atool elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode nix-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
