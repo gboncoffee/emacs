@@ -39,8 +39,8 @@
 (setq-default show-trailing-whitespace t)
 (setq-default truncate-lines t)
 (global-display-fill-column-indicator-mode)
+(setq-default display-line-numbers-width 3)
 (add-hook 'prog-mode-hook (lambda ()
-			    (setq display-line-numbers-width 3)
 			    (setq display-line-numbers 'relative)))
 
 (set-face-attribute 'default nil :height 230) ;; font size
