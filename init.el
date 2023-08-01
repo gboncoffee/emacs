@@ -207,8 +207,7 @@
   (add-hook 'TeX-after-compilation-finished-functions
             #'TeX-revert-document-buffer))
 ;; C/C++
-(setq c-default-style "k&r"
-      c-basic-offset 4)
+(setq c-default-style "linux")
 ;; txt
 (add-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook 'text-mode-hook (lambda () (setq display-line-numbers 'relative)))
