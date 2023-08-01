@@ -16,16 +16,20 @@
 ;;
 ;; appearance
 ;;
-(use-package solarized-theme
-  :init
-  (setq solarized-distinct-fringe-background nil)
-  (setq solarized-use-variable-pitch nil)
-  (setq solarized-high-contrast-mode-line t)
-  (setq solarized-use-less-bold nil)
-  (setq solarized-use-more-italic t)
-  (setq solarized-scale-org-headlines t)
-  (setq solarized-scale-markdown-headlines t)
-  (load-theme 'solarized-dark-high-contrast t))
+(use-package color-theme-modern
+  :config
+  (load-theme 'clarity t)
+  (set-face-foreground 'mode-line "black")
+  (set-face-background 'mode-line "white")
+  (set-face-foreground 'line-number-current-line "#ffff60")
+  (set-face-foreground 'font-lock-keyword-face "#ffff60")
+  (set-face-foreground 'font-lock-comment-face "cyan2")
+  (set-face-foreground 'font-lock-string-face "purple")
+  (set-face-foreground 'font-lock-variable-name-face "white")
+  (set-face-foreground 'font-lock-function-name-face "white")
+  (set-face-foreground 'font-lock-preprocessor-face "cyan2")
+  (set-face-background 'region "gray25")
+  (set-face-background 'cursor "white"))
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
@@ -216,9 +220,9 @@
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
  '(custom-safe-themes
-   '("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184" "0c08a5c3c2a72e3ca806a29302ef942335292a80c2934c1123e8c732bb2ddd77" "683b3fe1689da78a4e64d3ddfce90f2c19eb2d8ab1bab1738a63d8263119c3f4" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" "6945dadc749ac5cbd47012cad836f92aea9ebec9f504d32fe89a956260773ca4" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" "680f62b751481cc5b5b44aeab824e5683cf13792c006aeba1c25ce2d89826426" "c865644bfc16c7a43e847828139b74d1117a6077a845d16e71da38c8413a5aaa" default))
+   '("4c8372c68b3eab14516b6ab8233de2f9e0ecac01aaa859e547f902d27310c0c3" "57db540d6a8cc20d2e2f20bd63dc3af4eb9e4bbfa7252a0ee877c99b577996c4" "ec38d891ab6805f112b47c18149190a50bf1e2967b6e9fc84453989b6f67b2f6" "ba4ab079778624e2eadbdc5d9345e6ada531dc3febeb24d257e6d31d5ed02577" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184" "0c08a5c3c2a72e3ca806a29302ef942335292a80c2934c1123e8c732bb2ddd77" "683b3fe1689da78a4e64d3ddfce90f2c19eb2d8ab1bab1738a63d8263119c3f4" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" "6945dadc749ac5cbd47012cad836f92aea9ebec9f504d32fe89a956260773ca4" "7a424478cb77a96af2c0f50cfb4e2a88647b3ccca225f8c650ed45b7f50d9525" "02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" "680f62b751481cc5b5b44aeab824e5683cf13792c006aeba1c25ce2d89826426" "c865644bfc16c7a43e847828139b74d1117a6077a845d16e71da38c8413a5aaa" default))
  '(package-selected-packages
-   '(lice solarized-theme auctex coffee-mode dired-atool elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(color-theme-modern lice auctex coffee-mode dired-atool elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
