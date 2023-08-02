@@ -181,7 +181,8 @@
 ;; Lua
 (use-package lua-mode
   :config
-  (setq lua-indent-level 4))
+  (setq lua-indent-level 4)
+  (setq lua-documentation-function 'eww))
 ;; LaTeX
 (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
