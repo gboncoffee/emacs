@@ -182,7 +182,8 @@
 (use-package lua-mode
   :config
   (setq lua-indent-level 4)
-  (setq lua-documentation-function 'eww))
+  (setq lua-documentation-function 'eww)
+  (add-hook 'lua-mode-hook #'(lambda () (indent-tabs-mode -1))))
 ;; LaTeX
 (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
