@@ -130,11 +130,6 @@
 (use-package coffee-mode)
 (use-package julia-mode)
 (use-package tuareg) ;; OCaml
-(use-package racket-mode
-  :config
-  (add-hook 'racket-mode-hook #'(lambda ()
-				  (setq prettify-symbols-alist '(("lambda" . 955)))
-				  (prettify-symbols-mode))))
 (use-package toml-mode)
 (use-package yaml-mode)
 (use-package erlang)
