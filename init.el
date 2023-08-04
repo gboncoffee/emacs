@@ -24,8 +24,6 @@
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
 (visual-line-mode 0)
-(setq scroll-margin 10)
-(setq maximum-scroll-margin 0.5)
 (setq scroll-step 1)
 (setq scroll-preserve-screen-position t)
 (setq frame-resize-pixelwise t)
@@ -66,6 +64,7 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode t)
+(setq isearch-wrap-pause 'no)
 
 ;;
 ;; programs, extensions, etc
@@ -134,9 +133,13 @@
 (use-package yaml-mode)
 (use-package erlang)
 (use-package elixir-mode)
+(add-hook 'python-mode-hook #'prettify-symbols-mode)
 ;; Lisp(s)
-(add-hook 'emacs-lisp-mode-hook #'prettify-symbols-mode)
-(add-hook 'common-lisp-mode-hook #'prettify-symbols-mode)
+(defun lisps-hook ()
+  (prettify-symbols-mode)
+  (electric-pair-local-mode))
+(add-hook 'emacs-lisp-mode-hook #'lisps-hook)
+(add-hook 'common-lisp-mode-hook #'lisps-hook)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
 ;; Go
 (use-package go-mode
@@ -177,7 +180,11 @@
   :config
   (setq lua-indent-level 4)
   (setq lua-documentation-function 'eww)
-  (add-hook 'lua-mode-hook #'(lambda () (indent-tabs-mode -1))))
+  (add-hook 'lua-mode-hook
+	    (lambda ()
+	      (indent-tabs-mode -1)
+	      (local-set-key (kbd "C-c C-c") #'lua-send-buffer)
+	      (local-set-key (kbd "C-c C-e") #'lua-send-region))))
 ;; LaTeX
 (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
