@@ -146,7 +146,8 @@
   :config
   (add-hook 'go-mode-hook
 	    (lambda ()
-	      (local-set-key (kbd "C-c C-i")     #'go-goto-imports)
+	      (local-set-key (kbd "C-c C-i") #'go-goto-imports)
+	      (local-set-key (kbd "C-c C-f") #'godoc-at-point)
 	      (add-hook 'before-save-hook #'gofmt-before-save))))
 ;; Rust
 (use-package rust-mode
@@ -201,6 +202,10 @@
             #'TeX-revert-document-buffer))
 ;; C/C++
 (setq c-default-style "linux")
+(add-hook 'c-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c C-f") #'man)
+	    (local-set-key (kbd "C-c C-e") #'c-macro-expand)))
 ;; txt
 (add-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook 'text-mode-hook (lambda () (setq display-line-numbers 'relative)))
