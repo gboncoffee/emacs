@@ -126,10 +126,8 @@
 ;;
 ;; filetypes
 ;;
-(use-package json-mode)
-(use-package coffee-mode)
-(use-package julia-mode)
 (use-package tuareg) ;; OCaml
+(use-package julia-mode)
 (use-package toml-mode)
 (use-package yaml-mode)
 (use-package erlang)
