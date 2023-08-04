@@ -214,3 +214,5 @@
  '(org-level-1 ((t (:inherit outline-1 :extend nil :height 1.3))))
  '(org-level-2 ((t (:inherit outline-2 :extend nil :height 1.2))))
  '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.1)))))
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
