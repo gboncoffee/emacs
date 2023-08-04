@@ -203,11 +203,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
+ '(markdown-header-scaling t)
  '(package-selected-packages
-   '(color-theme-sanityinc-tomorrow color-theme-modern lice auctex coffee-mode dired-atool elixir-mode erlang haskell-mode json-mode julia-mode lua-mode magit markdown-mode pdf-tools racket-mode rust-mode toml-mode tuareg xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(tuareg color-theme-sanityinc-tomorrow lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(org-level-1 ((t (:inherit outline-1 :extend nil :height 1.3))))
+ '(org-level-2 ((t (:inherit outline-2 :extend nil :height 1.2))))
+ '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.1)))))
