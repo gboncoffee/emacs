@@ -27,6 +27,7 @@
 (setq scroll-margin 10)
 (setq maximum-scroll-margin 0.5)
 (setq scroll-step 1)
+(setq scroll-preserve-screen-position t)
 (setq frame-resize-pixelwise t)
 (setq truncate-partial-width-windows nil)
 (setq-default show-trailing-whitespace t)
@@ -71,7 +72,7 @@
 ;;
 (use-package magit
   :config
-  (global-set-key (kbd "C-x g")   #'magit))
+  (global-set-key (kbd "C-c g")   #'magit))
 (use-package xkcd)
 (use-package pdf-tools)
 (use-package rg
@@ -98,12 +99,16 @@
 ;;
 ;; keybinds
 ;;
-(global-set-key (kbd "C-x C-b") #'ibuffer)
-(global-set-key (kbd "C-x C-x") #'compile)
+(global-set-key (kbd "C-x C-b") #'ido-switch-buffer)
+(global-set-key (kbd "C-x b")   #'ibuffer)
+;; two compile keybinds: C-c 5 will be used as a fallback for modes that
+;; I want to overwrite C-c C-c
+(global-set-key (kbd "C-c C-c") #'compile)
+(global-set-key (kbd "C-c 5")   #'compile)
 (global-set-key (kbd "C-x C-/") #'rg)
-(global-set-key (kbd "C-x /")   #'rg)
-(global-set-key (kbd "C-x f")   #'find-file)
-(global-set-key (kbd "C-h f")   #'describe-function)
+(global-set-key (kbd "M-n")     #'scroll-up-line)
+(global-set-key (kbd "M-p")     #'scroll-down-line)
+(global-set-key (kbd "C-c a")   #'org-agenda)
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings 'meta))
 (use-package multiple-cursors
@@ -114,14 +119,11 @@
   (global-set-key (kbd "C-c C-<") #'mc/mark-all-like-this))
 
 ;; org
-(global-set-key (kbd "C-c a")   #'org-agenda)
-(global-set-key (kbd "C-c C-a") #'org-agenda)
 (defun org-open-agenda-file ()
   "Open the first Org agenda file"
   (interactive)
   (find-file (car org-agenda-files)))
 (global-set-key (kbd "C-c o")   #'org-open-agenda-file)
-(global-set-key (kbd "C-c C-o") #'org-open-agenda-file)
 
 ;;
 ;; filetypes
@@ -142,7 +144,6 @@
   (add-hook 'go-mode-hook
 	    (lambda ()
 	      (local-set-key (kbd "C-c C-i")     #'go-goto-imports)
-	      (local-set-key (kbd "C-c i")       #'go-goto-imports)
 	      (add-hook 'before-save-hook #'gofmt-before-save))))
 ;; Rust
 (use-package rust-mode
@@ -150,8 +151,7 @@
   (setq rust-format-on-save t)
   (add-hook 'rust-mode-hook
 	    (lambda ()
-	      (local-set-key (kbd "C-c C-m") #'rust-toggle-mutability)
-	      (local-set-key (kbd "C-c m")   #'rust-toggle-mutability))))
+	      (local-set-key (kbd "C-c C-m") #'rust-toggle-mutability))))
 ;; Markdown
 (use-package markdown-mode
   :config
@@ -216,3 +216,4 @@
  '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.1)))))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
