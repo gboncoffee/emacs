@@ -160,17 +160,18 @@
 (use-package haskell-mode
   :config
   (setq haskell-stylish-on-save t)
+  (setq haskell-compile-command "ghc -dynamic -Wall -ferror-spans -fforce-recomp -c %s")
   (add-hook 'haskell-mode-hook
 	    (lambda ()
 	      (local-set-key (kbd "C-c C-d") #'haskell-describe)
 	      (local-set-key (kbd "C-c C-i") #'haskell-navigate-imports)
-	      (local-set-key (kbd "C-c C-z") #'haskell-hide-toggle)
-	      (local-set-key (kbd "C-c C-m") #'haskell-hide-toggle-all)
-	      (local-set-key (kbd "C-c d")   #'haskell-describe)
-	      (local-set-key (kbd "C-c i")   #'haskell-navigate-imports)
-	      (local-set-key (kbd "C-c z")   #'haskell-hide-toggle)
-	      (local-set-key (kbd "C-c m")   #'haskell-hide-toggle-all)
-	      (haskell-collapse-mode))))
+	      (local-set-key (kbd "C-c C-c") #'haskell-compile)
+	      (local-set-key (kbd "C-c C-t") #'haskell-mode-show-type-at)
+	      (local-set-key (kbd "C-c C-l") #'haskell-process-load-or-reload)
+	      (local-set-key (kbd ""))
+	      (interactive-haskell-mode)
+	      (haskell-doc-mode)
+	      (hindent-mode))))
 ;; Lua
 (use-package lua-mode
   :config
