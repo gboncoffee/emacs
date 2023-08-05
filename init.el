@@ -16,9 +16,11 @@
 ;;
 ;; appearance
 ;;
-(use-package color-theme-sanityinc-tomorrow
+(use-package ef-themes
   :config
-  (load-theme 'sanityinc-tomorrow-eighties t))
+  (setq ef-themes-mixed-fonts t
+	ef-themes-region '(no-extend neutral))
+  (load-theme 'ef-elea-dark t))
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
