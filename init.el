@@ -105,15 +105,13 @@
 ;;
 ;; keybinds
 ;;
-(global-set-key (kbd "C-x C-b") #'ido-switch-buffer)
-(global-set-key (kbd "C-x b")   #'ibuffer)
 ;; two compile keybinds: C-c 5 will be used as a fallback for modes that
 ;; I want to overwrite C-c C-c
 (global-set-key (kbd "C-c C-c") #'compile)
 (global-set-key (kbd "C-c 5")   #'compile)
 (global-set-key (kbd "C-x C-/") #'rg)
-(global-set-key (kbd "M-n")     #'scroll-up-line)
-(global-set-key (kbd "M-p")     #'scroll-down-line)
+(global-set-key (kbd "C-M-n")   #'scroll-up-line)
+(global-set-key (kbd "C-M-p")   #'scroll-down-line)
 (global-set-key (kbd "C-c a")   #'org-agenda)
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings 'meta))
@@ -134,13 +132,13 @@
 ;;
 ;; filetypes
 ;;
-(use-package tuareg) ;; OCaml
 (use-package julia-mode)
 (use-package toml-mode)
 (use-package yaml-mode)
 (use-package erlang)
 (use-package elixir-mode)
 (add-hook 'python-mode-hook #'prettify-symbols-mode)
+
 ;; Lisp(s)
 (defun lisps-hook ()
   (prettify-symbols-mode)
@@ -148,33 +146,48 @@
 (add-hook 'emacs-lisp-mode-hook #'lisps-hook)
 (add-hook 'common-lisp-mode-hook #'lisps-hook)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
+
+;; OCaml
+(use-package tuareg
+  :config
+  (add-hook
+   'tuareg-mode-hook
+   (lambda ()
+     (setq-local
+      compile-command
+      (concat "ocamlc" (file-name-nondirectory buffer-file-name))))))
+
 ;; Go
 (use-package go-mode
   :config
   (add-hook 'go-mode-hook
 	    (lambda ()
+	      (setq-local compile-command "go build")
 	      (local-set-key (kbd "C-c C-i") #'go-goto-imports)
 	      (local-set-key (kbd "C-c C-f") #'godoc-at-point)
 	      (add-hook 'before-save-hook #'gofmt-before-save))))
+
 ;; Rust
 (use-package rust-mode
   :config
-  (setq rust-format-on-save t)
-  (add-hook 'rust-mode-hook
-	    (lambda ()
-	      (local-set-key (kbd "C-c C-m") #'rust-toggle-mutability))))
+  (setq rust-format-on-save t))
+
 ;; Markdown
 (use-package markdown-mode
   :config
   (add-hook 'markdown-mode-hook #'auto-fill-mode))
+
 ;; Haskell
-(use-package haskell-mode
-  :config
-  (setq haskell-stylish-on-save t)
+(use-package haskell-mode)
+(use-package dante
+  :after haskell-mode
+  :init
+  (add-hook 'haskell-mode-hook #'dante-mode)
+  ;; fix eldoc
   (add-hook 'haskell-mode-hook
 	    (lambda ()
-	      (local-set-key (kbd "C-c C-d") #'haskell-describe)
-	      (local-set-key (kbd "C-c C-i") #'haskell-navigate-imports))))
+	      (setq eldoc-documentation-strategy #'eldoc-documentation-default))))
+
 ;; Lua
 (use-package lua-mode
   :config
@@ -185,6 +198,7 @@
 	      (indent-tabs-mode -1)
 	      (local-set-key (kbd "C-c C-c") #'lua-send-buffer)
 	      (local-set-key (kbd "C-c C-e") #'lua-send-region))))
+
 ;; LaTeX
 (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
@@ -199,12 +213,39 @@
         TeX-source-correlate-start-server t)
   (add-hook 'TeX-after-compilation-finished-functions
             #'TeX-revert-document-buffer))
+
 ;; C/C++
 (setq c-default-style "linux")
-(add-hook 'c-mode-hook
-	  (lambda ()
-	    (local-set-key (kbd "C-c C-f") #'man)
-	    (local-set-key (kbd "C-c C-e") #'c-macro-expand)))
+(defun c-cpp-mode ()
+  (local-set-key (kbd "C-c C-f") #'man)
+  (local-set-key (kbd "C-c C-e") #'c-macro-expand)
+  ;; override C-c C-c being used for comments
+  (local-set-key (kbd "C-c C-c") #'compile)
+  (c-toggle-auto-hungry-state 1))
+(add-hook 'c-mode-hook #'c-cpp-mode)
+(add-hook 'c++-mode-hook #'c-cpp-mode)
+;; default compile-command
+(add-hook
+ 'c-mode-hook
+ (lambda ()
+   (setq-local
+    compile-command
+    (concat
+     "cc -Wall -g -std=c90 "
+     (file-name-nondirectory buffer-file-name)
+     " -o "
+     (file-name-base buffer-file-name)))))
+(add-hook
+ 'c++-mode-hook
+ (lambda ()
+   (setq-local
+    compile-command
+    (concat
+     "c++ -Wall -g -std=c++11 "
+     (file-name-nondirectory buffer-file-name)
+     " -o "
+     (file-name-base buffer-file-name)))))
+
 ;; txt
 (add-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook 'text-mode-hook (lambda () (setq display-line-numbers 'relative)))
@@ -217,7 +258,7 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(vterm-toggle vterm ef-themes tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(dante vterm-toggle vterm ef-themes tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
