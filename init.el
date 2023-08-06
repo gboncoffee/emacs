@@ -235,7 +235,7 @@
    (setq-local
     compile-command
     (concat
-     "cc -Wall -g -std=c90 "
+     "cc -Wall -Wextra -pedantic -g -std=c90 "
      (file-name-nondirectory buffer-file-name)
      " -o "
      (file-name-base buffer-file-name)))))
@@ -245,7 +245,7 @@
    (setq-local
     compile-command
     (concat
-     "c++ -Wall -g -std=c++11 "
+     "c++ -Wall -Wextra -pedantic -g -std=c++11 "
      (file-name-nondirectory buffer-file-name)
      " -o "
      (file-name-base buffer-file-name)))))
