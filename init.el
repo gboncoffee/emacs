@@ -105,6 +105,7 @@
 ;;
 ;; keybinds
 ;;
+(global-set-key (kbd "C-x C-b") #'ibuffer-other-window)
 ;; two compile keybinds: C-c 5 will be used as a fallback for modes that
 ;; I want to overwrite C-c C-c
 (global-set-key (kbd "C-c C-c") #'compile)
