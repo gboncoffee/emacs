@@ -85,6 +85,10 @@
   :config
   (setq-default lice:default-license "mit"))
 
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+
 (use-package vterm
   :config
   (add-hook 'vterm-mode-hook (lambda () (setq show-trailing-whitespace nil)))
@@ -258,7 +262,7 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(dante vterm-toggle vterm ef-themes tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(editorconfig dante vterm-toggle vterm ef-themes tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
