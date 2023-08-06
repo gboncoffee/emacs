@@ -221,8 +221,7 @@
   (local-set-key (kbd "C-c C-f") #'man)
   (local-set-key (kbd "C-c C-e") #'c-macro-expand)
   ;; override C-c C-c being used for comments
-  (local-set-key (kbd "C-c C-c") #'compile)
-  (c-toggle-auto-hungry-state 1))
+  (local-set-key (kbd "C-c C-c") #'compile))
 (add-hook 'c-mode-hook #'c-cpp-mode)
 (add-hook 'c++-mode-hook #'c-cpp-mode)
 ;; default compile-command
