@@ -87,11 +87,6 @@
   :config
   (editorconfig-mode 1))
 
-(use-package vterm
-  :config
-  (add-hook 'vterm-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-  (global-set-key (kbd "C-c RET") #'vterm-toggle))
-
 ;; dired
 (setq dired-listing-switches "-agho --group-directories-first")
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -260,7 +255,7 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(acme-theme editorconfig dante vterm-toggle vterm tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(acme-theme editorconfig dante tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
