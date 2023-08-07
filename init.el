@@ -16,7 +16,9 @@
 ;;
 ;; appearance
 ;;
-(load-theme 'modus-operandi)
+(use-package acme-theme
+  :init
+  (load-theme 'acme t))
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
@@ -258,7 +260,7 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(editorconfig dante vterm-toggle vterm tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(acme-theme editorconfig dante vterm-toggle vterm tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
