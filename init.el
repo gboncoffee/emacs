@@ -16,10 +16,14 @@
 ;;
 ;; appearance
 ;;
-(use-package ef-themes
-  :init
-  (load-theme 'ef-elea-dark t))
-(menu-bar-mode 0)
+(use-package smyx-theme
+  :config
+  (load-theme 'smyx t)
+  (set-face-foreground 'line-number-current-line "#f6dc69")
+  (set-face-attribute 'line-number-current-line nil :weight 'bold)
+  (set-face-foreground 'font-lock-function-name-face "#f7f7f7")
+  (set-face-foreground 'font-lock-variable-name-face "#f7f7f7"))
+  (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
@@ -255,13 +259,12 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(ef-themes editorconfig dante tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ido-subdir ((t (:foreground "deep sky blue"))))
  '(org-level-1 ((t (:inherit outline-1 :extend nil :height 1.3))))
  '(org-level-2 ((t (:inherit outline-2 :extend nil :height 1.2))))
  '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.1)))))
