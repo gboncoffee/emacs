@@ -83,10 +83,6 @@
   (global-set-key (kbd "C-c g")   #'magit))
 (use-package xkcd)
 (use-package pdf-tools)
-(use-package rg
-  :config
-  (setq rg-command-line-flags
-	'("--no-heading" "--with-filename" "--line-number" "--column" "--smart-case" "--hidden" "-g" "!.git/")))
 
 (use-package lice
   :config
@@ -115,7 +111,7 @@
 ;; I want to overwrite C-c C-c
 (global-set-key (kbd "C-c C-c") #'compile)
 (global-set-key (kbd "C-c 5")   #'compile)
-(global-set-key (kbd "C-x C-/") #'rg)
+(global-set-key (kbd "C-c /")   #'rgrep)
 (global-set-key (kbd "C-M-n")   #'scroll-up-line)
 (global-set-key (kbd "C-M-p")   #'scroll-down-line)
 (global-set-key (kbd "C-c a")   #'org-agenda)
