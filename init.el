@@ -17,7 +17,7 @@
 ;; appearance
 ;;
 (use-package smyx-theme
-  :config
+  :init
   (load-theme 'smyx t)
   (set-face-foreground 'line-number-current-line "#f6dc69")
   (set-face-attribute 'line-number-current-line nil :weight 'bold)
@@ -25,10 +25,8 @@
   (set-face-foreground 'font-lock-variable-name-face "#f7f7f7")
   (set-face-foreground 'font-lock-constant-face "#f7f7f7")
   (set-face-foreground 'font-lock-comment-face "#fab1ab")
-  (set-face-foreground 'font-lock-preprocessor-face "#96d9f1")
-  (set-face-foreground 'dired-directory "#96d9f1")
-  (set-face-foreground 'ido-subdir "#96d9f1"))
-  (menu-bar-mode 0)
+  (set-face-foreground 'font-lock-preprocessor-face "#96d9f1"))
+(menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
@@ -265,6 +263,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(dired-directory ((t (:foreground "#96d9f1"))))
+ '(ido-first-match ((t (:background "#282828" :foreground "#f6dc69"))))
+ '(ido-only-match ((t (:inherit ido-first-match))))
+ '(ido-subdir ((t (:background "#282828" :foreground "#96d9f1"))))
  '(org-level-1 ((t (:inherit outline-1 :extend nil :height 1.3))))
  '(org-level-2 ((t (:inherit outline-2 :extend nil :height 1.2))))
  '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.1)))))
