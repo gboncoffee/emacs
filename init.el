@@ -99,7 +99,6 @@
 ;; dired
 (setq dired-listing-switches "-agho --group-directories-first")
 (setq dired-kill-when-opening-new-dired-buffer t)
-(use-package dired-atool)
 
 ;; org mode
 (setq org-hide-emphasis-markers t)
@@ -264,7 +263,7 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex dired-atool elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
