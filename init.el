@@ -137,7 +137,13 @@
 (use-package yaml-mode)
 (use-package erlang)
 (use-package elixir-mode)
+(use-package tuareg) ;; OCaml
 (add-hook 'python-mode-hook #'prettify-symbols-mode)
+
+;; Better Web
+(use-package web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)))
 
 ;; Lisp(s)
 (defun lisps-hook ()
@@ -147,22 +153,11 @@
 (add-hook 'common-lisp-mode-hook #'lisps-hook)
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
 
-;; OCaml
-(use-package tuareg
-  :config
-  (add-hook
-   'tuareg-mode-hook
-   (lambda ()
-     (setq-local
-      compile-command
-      (concat "ocamlc" (file-name-nondirectory buffer-file-name))))))
-
 ;; Go
 (use-package go-mode
   :config
   (add-hook 'go-mode-hook
 	    (lambda ()
-	      (setq-local compile-command "go build")
 	      (local-set-key (kbd "C-c C-i") #'go-goto-imports)
 	      (local-set-key (kbd "C-c C-f") #'godoc-at-point)
 	      (add-hook 'before-save-hook #'gofmt-before-save))))
@@ -223,27 +218,6 @@
   (local-set-key (kbd "C-c C-c") #'compile))
 (add-hook 'c-mode-hook #'c-cpp-mode)
 (add-hook 'c++-mode-hook #'c-cpp-mode)
-;; default compile-command
-(add-hook
- 'c-mode-hook
- (lambda ()
-   (setq-local
-    compile-command
-    (concat
-     "cc -Wall -Wextra -pedantic -g -std=c90 "
-     (file-name-nondirectory buffer-file-name)
-     " -o "
-     (file-name-base buffer-file-name)))))
-(add-hook
- 'c++-mode-hook
- (lambda ()
-   (setq-local
-    compile-command
-    (concat
-     "c++ -Wall -Wextra -pedantic -g -std=c++11 "
-     (file-name-nondirectory buffer-file-name)
-     " -o "
-     (file-name-base buffer-file-name)))))
 
 ;; txt
 (add-hook 'text-mode-hook #'auto-fill-mode)
@@ -257,7 +231,7 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(web-mode smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
