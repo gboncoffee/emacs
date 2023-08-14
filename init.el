@@ -30,18 +30,14 @@
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
-(visual-line-mode 0)
 (setq scroll-step 1)
-(setq scroll-preserve-screen-position t)
 (setq frame-resize-pixelwise t)
-(setq truncate-partial-width-windows nil)
-(setq-default show-trailing-whitespace t)
-(setq-default truncate-lines t)
 (global-display-fill-column-indicator-mode)
 (setq-default display-line-numbers-width 3)
 (setq inhibit-splash-screen t)
 (add-hook 'prog-mode-hook (lambda ()
-			    (setq display-line-numbers 'relative)))
+			    (setq display-line-numbers 'relative)
+			    (setq show-trailing-whitespace t)))
 
 (set-face-attribute 'default nil :height 250) ;; font size
 
@@ -221,7 +217,9 @@
 
 ;; txt
 (add-hook 'text-mode-hook #'auto-fill-mode)
-(add-hook 'text-mode-hook (lambda () (setq display-line-numbers 'relative)))
+(add-hook 'text-mode-hook (lambda ()
+			    (setq display-line-numbers 'relative)
+			    (setq show-trailing-whitespace t)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
