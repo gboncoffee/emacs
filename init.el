@@ -30,6 +30,7 @@
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
+(show-paren-mode 1)
 (setq scroll-step 1)
 (setq frame-resize-pixelwise t)
 (global-display-fill-column-indicator-mode)
