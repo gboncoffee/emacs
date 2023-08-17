@@ -236,10 +236,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(bold-italic ((t (:slant italic :weight bold))))
  '(dired-directory ((t (:foreground "#96d9f1"))))
  '(ido-first-match ((t (:background "#282828" :foreground "#f6dc69"))))
  '(ido-only-match ((t (:inherit ido-first-match))))
  '(ido-subdir ((t (:background "#282828" :foreground "#96d9f1"))))
+ '(italic ((t (:slant italic))))
  '(org-level-1 ((t (:inherit outline-1 :extend nil :height 1.3))))
  '(org-level-2 ((t (:inherit outline-2 :extend nil :height 1.2))))
  '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.1)))))
