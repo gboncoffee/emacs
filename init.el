@@ -101,6 +101,7 @@
 ;;
 ;; keybinds
 ;;
+(setq tab-always-indent 'complete)
 (global-set-key (kbd "C-x C-b") #'ibuffer-other-window)
 ;; two compile keybinds: C-c 5 will be used as a fallback for modes that
 ;; I want to overwrite C-c C-c
@@ -144,11 +145,26 @@
 
 ;; Lisp(s)
 (defun lisps-hook ()
-  (prettify-symbols-mode)
-  (electric-pair-local-mode))
-(add-hook 'emacs-lisp-mode-hook #'lisps-hook)
-(add-hook 'common-lisp-mode-hook #'lisps-hook)
-(add-to-list 'auto-mode-alist '("\\.cl\\'" . common-lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
+  (prettify-symbols-mode +1)
+  (electric-pair-local-mode +1))
+(add-hook 'emacs-lisp-mode-hook (lambda ()
+				  (prettify-symbols-mode)
+				  (electric-pair-local-mode)))
+(add-hook 'lisp-mode-hook (lambda ()
+				  (prettify-symbols-mode)
+				  (electric-pair-local-mode)))
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
+
+;; Clojure (yeah deserves it's own section)
+(use-package cider
+  :config
+  (setq cider-use-overlays nil)
+  (setq cider-prompt-for-symbol t)
+  (add-hook 'clojure-mode-hook (lambda ()
+				 (cider-mode)
+				 (prettify-symbols-mode)
+				 (electric-pair-local-mode)
+				 (add-hook 'before-save-hook 'cider-format-buffer t t))))
 
 ;; Go
 (use-package go-mode
@@ -230,7 +246,7 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(web-mode smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(cider web-mode smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
