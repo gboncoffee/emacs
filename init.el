@@ -57,6 +57,7 @@
 ;;
 ;; ivy, completion and friends
 ;;
+(electric-pair-mode)
 (electric-indent-mode)
 (setq ido-create-new-buffer 'always)
 (setq ido-enable-flex-matching t)
@@ -138,15 +139,10 @@
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)))
 
 ;; Lisp(s)
-(defun lisps-hook ()
-  (prettify-symbols-mode +1)
-  (electric-pair-local-mode +1))
 (add-hook 'emacs-lisp-mode-hook (lambda ()
-				  (prettify-symbols-mode)
-				  (electric-pair-local-mode)))
+				  (prettify-symbols-mode)))
 (add-hook 'lisp-mode-hook (lambda ()
-				  (prettify-symbols-mode)
-				  (electric-pair-local-mode)))
+				  (prettify-symbols-mode)))
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
 
 ;; Clojure (yeah deserves it's own section)
@@ -157,7 +153,6 @@
   (add-hook 'clojure-mode-hook (lambda ()
 				 (cider-mode)
 				 (prettify-symbols-mode)
-				 (electric-pair-local-mode)
 				 (add-hook 'before-save-hook 'cider-format-buffer t t))))
 
 ;; Go
