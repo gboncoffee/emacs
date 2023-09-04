@@ -16,16 +16,10 @@
 ;;
 ;; appearance
 ;;
-(use-package smyx-theme
-  :init
-  (load-theme 'smyx t)
-  (set-face-foreground 'line-number-current-line "#f6dc69")
-  (set-face-attribute 'line-number-current-line nil :weight 'bold)
-  (set-face-foreground 'font-lock-function-name-face "#f7f7f7")
-  (set-face-foreground 'font-lock-variable-name-face "#f7f7f7")
-  (set-face-foreground 'font-lock-constant-face "#f7f7f7")
-  (set-face-foreground 'font-lock-comment-face "#fab1ab")
-  (set-face-foreground 'font-lock-preprocessor-face "#96d9f1"))
+(use-package cybercafe-theme
+  :config
+  (load-theme 'cybercafe t))
+
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
@@ -46,7 +40,7 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-(use-package rainbow-mode ;; highlight colors like pink and #cafebb
+(use-package rainbow-mode ;; highlight colors like magenta and #cafebb
   :config
   (add-hook 'text-mode-hook #'rainbow-mode)
   (add-hook 'prog-mode-hook #'rainbow-mode))
@@ -246,21 +240,13 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(cider web-mode smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(cybercafe-theme package-lint cider web-mode smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(bold-italic ((t (:slant italic :weight bold))))
- '(dired-directory ((t (:foreground "#96d9f1"))))
- '(ido-first-match ((t (:background "#282828" :foreground "#f6dc69"))))
- '(ido-only-match ((t (:inherit ido-first-match))))
- '(ido-subdir ((t (:background "#282828" :foreground "#96d9f1"))))
- '(italic ((t (:slant italic))))
- '(org-level-1 ((t (:inherit outline-1 :extend nil :height 1.3))))
- '(org-level-2 ((t (:inherit outline-2 :extend nil :height 1.2))))
- '(org-level-3 ((t (:inherit outline-3 :extend nil :height 1.1)))))
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
+ )
