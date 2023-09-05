@@ -65,6 +65,18 @@
 (ido-mode t)
 (setq isearch-wrap-pause 'no)
 
+(setq hippie-expand-try-functions-list
+      '(try-expand-dabbrev
+	try-expand-dabbrev-all-buffers
+	try-expand-dabbrev-from-kill
+	try-expand-all-abbrevs
+	try-expand-list
+	try-expand-line
+	try-complete-file-name-partially
+	try-complete-file-name
+	try-complete-lisp-symbol-partially
+	try-complete-lisp-symbol))
+
 ;;
 ;; programs, extensions, etc
 ;;
@@ -96,7 +108,6 @@
 ;;
 ;; keybinds
 ;;
-(setq tab-always-indent 'complete)
 (global-set-key (kbd "C-x C-b") #'ibuffer-other-window)
 ;; two compile keybinds: C-c 5 will be used as a fallback for modes that
 ;; I want to overwrite C-c C-c
@@ -106,6 +117,7 @@
 (global-set-key (kbd "C-M-n")   #'scroll-up-line)
 (global-set-key (kbd "C-M-p")   #'scroll-down-line)
 (global-set-key (kbd "C-c a")   #'org-agenda)
+(global-set-key (kbd "M-/")     #'hippie-expand)
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings 'meta))
 (use-package multiple-cursors
@@ -235,7 +247,7 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(cybercafe-theme package-lint cider web-mode smyx-theme nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
