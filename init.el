@@ -14,12 +14,8 @@
 (setq use-package-always-ensure t)
 
 ;;
-;; appearance
+;; appearance (theme is at the bottom so is applied after everything)
 ;;
-(use-package cybercafe-theme
-  :config
-  (load-theme 'cybercafe t))
-
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
@@ -239,6 +235,19 @@
 			    (setq display-line-numbers 'relative)
 			    (setq show-trailing-whitespace t)))
 
+(use-package smyx-theme
+  :init
+  (load-theme 'smyx t)
+  (set-face-foreground 'font-lock-function-name-face "#f7f7f7")
+  (set-face-foreground 'font-lock-variable-name-face "#f7f7f7")
+  (set-face-foreground 'font-lock-constant-face "#f7f7f7")
+  (set-face-foreground 'font-lock-comment-face "#fab1ab")
+  (set-face-foreground 'font-lock-preprocessor-face "#96d9f1")
+  (set-face-foreground 'ido-subdir "#96d9f1")
+  (set-face-foreground 'dired-directory "#96d9f1")
+  (set-face-foreground 'ido-first-match "#f6dc69")
+  (set-face-foreground 'ido-only-match "#f6dc69"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -247,7 +256,7 @@
  '(auth-source-save-behavior nil)
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
