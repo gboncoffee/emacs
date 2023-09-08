@@ -34,7 +34,7 @@
 			    (setq display-line-numbers 'relative)
 			    (setq show-trailing-whitespace t)))
 
-(set-face-attribute 'default nil :height 250) ;; font size
+(set-face-attribute 'default nil :height 220) ;; font size
 
 ;; modeline
 (column-number-mode t)
