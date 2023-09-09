@@ -20,6 +20,9 @@
   :config
   (setq cybercafe-cyberpunk t)
   (load-theme 'cybercafe t))
+(use-package fic-mode
+  :config
+  (fic-mode 1))
 
 (menu-bar-mode 0)
 (tool-bar-mode 0)
@@ -84,6 +87,9 @@
 (use-package magit
   :config
   (global-set-key (kbd "C-c g")   #'magit))
+(use-package magit-todos
+  :config
+  (magit-todos-mode 1))
 (use-package xkcd)
 (use-package pdf-tools)
 
@@ -246,9 +252,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
+ '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(fic-mode magit-todos cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
