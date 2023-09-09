@@ -18,6 +18,7 @@
 ;;
 (use-package cybercafe-theme
   :config
+  (setq cybercafe-cyberpunk t)
   (load-theme 'cybercafe t))
 
 (menu-bar-mode 0)
