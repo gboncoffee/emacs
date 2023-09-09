@@ -14,12 +14,8 @@
 (setq use-package-always-ensure t)
 
 ;;
-;; appearance
+;; appearance (theme is set at the bottom to make sure everything is ok)
 ;;
-(use-package cybercafe-theme
-  :config
-  (setq cybercafe-cyberpunk t)
-  (load-theme 'cybercafe t))
 (use-package fic-mode
   :config
   (fic-mode 1))
@@ -41,8 +37,19 @@
 (set-face-attribute 'default nil :height 220) ;; font size
 
 ;; modeline
+(use-package nerd-icons)
+(setq-default display-time-default-load-average nil)
+(setq-default display-time-24hr-format t)
 (column-number-mode t)
-(size-indication-mode t)
+(display-battery-mode t)
+(display-time-mode t)
+(use-package doom-modeline
+  :config
+  (setq doom-modeline-buffer-file-name-style 'buffer-name)
+  (setq doom-modeline-window-width-limit 30)
+  (setq doom-modeline-buffer-encoding nil)
+  (setq doom-modeline-total-line-number t)
+  (doom-modeline-mode 1))
 
 (use-package rainbow-mode ;; highlight colors like magenta and #cafebb
   :config
@@ -246,6 +253,12 @@
 			    (setq display-line-numbers 'relative)
 			    (setq show-trailing-whitespace t)))
 
+;; theme
+(use-package cybercafe-theme
+  :config
+  (setq cybercafe-cyberpunk t)
+  (load-theme 'cybercafe t))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -255,13 +268,7 @@
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(fic-mode magit-todos cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(doom-modeline nerd-icons fic-mode magit-todos cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
