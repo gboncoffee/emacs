@@ -256,7 +256,6 @@
 ;; theme
 (use-package cybercafe-theme
   :config
-  (setq cybercafe-cyberpunk t)
   (load-theme 'cybercafe t))
 
 (custom-set-variables
