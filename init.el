@@ -16,16 +16,11 @@
 ;;
 ;; appearance (theme is set at the bottom to make sure everything is ok)
 ;;
-(use-package fic-mode
-  :config
-  (fic-mode 1))
-
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
 (show-paren-mode 1)
-(setq scroll-step 1)
 (setq frame-resize-pixelwise t)
 (global-display-fill-column-indicator-mode)
 (setq-default display-line-numbers-width 3)
@@ -37,7 +32,6 @@
 (set-face-attribute 'default nil :height 220) ;; font size
 
 ;; modeline
-(use-package nerd-icons)
 (setq-default display-time-default-load-average nil)
 (setq-default display-time-24hr-format t)
 (column-number-mode t)
@@ -52,7 +46,6 @@
 ;;
 ;; general
 ;;
-(setq ring-bell-function #'ignore) ;; disables bell
 (defalias 'yes-or-no-p 'y-or-n-p)  ;; disables yes-or-no-p and use just y-or-n-p
 (setq-default fill-column 80)      ;; text width
 (setq make-backup-files nil)       ;; disable backups
@@ -63,9 +56,7 @@
 ;;
 (electric-pair-mode)
 (electric-indent-mode)
-(setq ido-create-new-buffer 'always)
 (setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
 (ido-mode t)
 (setq isearch-wrap-pause 'no)
 
@@ -90,7 +81,6 @@
 (use-package magit-todos
   :config
   (magit-todos-mode 1))
-(use-package xkcd)
 (use-package pdf-tools)
 
 (use-package lice
@@ -116,9 +106,9 @@
 ;; keybinds
 ;;
 (global-set-key (kbd "C-x C-b") #'ibuffer-other-window)
-;; two compile keybinds: C-c 5 will be used as a fallback for modes that
-;; I want to overwrite C-c C-c
+;; three compile keybinds because some modes override C-c C-c
 (global-set-key (kbd "C-c C-c") #'compile)
+(global-set-key (kbd "C-c C-b")   #'compile)
 (global-set-key (kbd "C-c 5")   #'compile)
 (global-set-key (kbd "C-c /")   #'rgrep)
 (global-set-key (kbd "C-M-n")   #'scroll-up-line)
@@ -145,8 +135,6 @@
 ;; filetypes
 ;;
 (use-package julia-mode)
-(use-package toml-mode)
-(use-package yaml-mode)
 (use-package erlang)
 (use-package elixir-mode)
 (use-package tuareg) ;; OCaml
@@ -158,10 +146,8 @@
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)))
 
 ;; Lisp(s)
-(add-hook 'emacs-lisp-mode-hook (lambda ()
-				  (prettify-symbols-mode)))
-(add-hook 'lisp-mode-hook (lambda ()
-				  (prettify-symbols-mode)))
+(add-hook 'emacs-lisp-mode-hook (lambda () (prettify-symbols-mode)))
+(add-hook 'lisp-mode-hook (lambda () (prettify-symbols-mode)))
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
 
 ;; Clojure (yeah deserves it's own section)
@@ -169,10 +155,11 @@
   :config
   (setq cider-use-overlays nil)
   (setq cider-prompt-for-symbol t)
-  (add-hook 'clojure-mode-hook (lambda ()
-				 (cider-mode)
-				 (prettify-symbols-mode)
-				 (add-hook 'before-save-hook 'cider-format-buffer t t))))
+  (add-hook 'clojure-mode-hook
+	    (lambda ()
+	      (cider-mode)
+	      (prettify-symbols-mode)
+	      (add-hook 'before-save-hook 'cider-format-buffer t t))))
 
 ;; Go
 (use-package go-mode
@@ -251,6 +238,7 @@
   :config
   (load-theme 'cybercafe t))
 
+;; diminish
 (use-package diminish
   :config
   (diminish 'editorconfig-mode)
@@ -268,7 +256,7 @@
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(diminish nerd-icons fic-mode magit-todos cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(diminish fic-mode magit-todos cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
