@@ -43,13 +43,6 @@
 (column-number-mode t)
 (display-battery-mode t)
 (display-time-mode t)
-(use-package doom-modeline
-  :config
-  (setq doom-modeline-buffer-file-name-style 'buffer-name)
-  (setq doom-modeline-window-width-limit 30)
-  (setq doom-modeline-buffer-encoding nil)
-  (setq doom-modeline-total-line-number t)
-  (doom-modeline-mode 1))
 
 (use-package rainbow-mode ;; highlight colors like magenta and #cafebb
   :config
@@ -258,6 +251,14 @@
   :config
   (load-theme 'cybercafe t))
 
+(use-package diminish
+  :config
+  (diminish 'editorconfig-mode)
+  (diminish 'auto-revert-mode)
+  (diminish 'rainbow-mode)
+  (diminish 'eldoc-mode)
+  (diminish 'abbrev-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -267,7 +268,13 @@
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(doom-modeline nerd-icons fic-mode magit-todos cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(diminish nerd-icons fic-mode magit-todos cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode toml-mode xkcd yaml-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
