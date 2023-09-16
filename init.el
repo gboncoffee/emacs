@@ -236,6 +236,7 @@
 ;; theme
 (use-package cybercafe-theme
   :config
+  (setq cybercafe-soft t)
   (load-theme 'cybercafe t))
 
 ;; diminish
