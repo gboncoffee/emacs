@@ -29,7 +29,7 @@
 			    (setq display-line-numbers 'relative)
 			    (setq show-trailing-whitespace t)))
 
-(set-face-attribute 'default nil :height 220) ;; font size
+(set-face-attribute 'default nil :height 260) ;; font size
 
 ;; modeline
 (setq-default display-time-default-load-average nil)
