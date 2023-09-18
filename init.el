@@ -77,7 +77,12 @@
 ;;
 (use-package magit
   :config
-  (global-set-key (kbd "C-c g")   #'magit))
+  (defun custom-magit-open ()
+    "Opens magit and kills other windows"
+    (interactive)
+    (magit)
+    (delete-other-windows))
+  (global-set-key (kbd "C-c g") #'custom-magit-open))
 (use-package magit-todos
   :config
   (magit-todos-mode 1))
@@ -257,7 +262,7 @@
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(diminish fic-mode magit-todos cybercafe-theme package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(cybercafe-theme diminish fic-mode magit-todos package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
