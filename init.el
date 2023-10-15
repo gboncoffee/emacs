@@ -16,12 +16,9 @@
 ;;
 ;; appearance (theme is set at the bottom to make sure everything is ok)
 ;;
-(menu-bar-mode 0)
 (tool-bar-mode 0)
-(scroll-bar-mode 0)
 (blink-cursor-mode 0)
 (show-paren-mode 1)
-(setq frame-resize-pixelwise t)
 (global-display-fill-column-indicator-mode)
 (setq-default display-line-numbers-width 3)
 (setq inhibit-splash-screen t)
@@ -29,14 +26,7 @@
 			    (setq display-line-numbers 'relative)
 			    (setq show-trailing-whitespace t)))
 
-(set-face-attribute 'default nil :height 260) ;; font size
-
-;; modeline
-(setq-default display-time-default-load-average nil)
-(setq-default display-time-24hr-format t)
-(column-number-mode t)
-(display-battery-mode t)
-(display-time-mode t)
+(set-frame-font "Monospace 24" nil t)
 
 (use-package rainbow-mode ;; highlight colors like magenta and #cafebb
   :config
@@ -54,7 +44,7 @@
 ;;
 ;; ivy, completion and friends
 ;;
-(electric-pair-mode)
+
 (electric-indent-mode)
 (setq ido-enable-flex-matching t)
 (ido-mode t)
@@ -100,13 +90,6 @@
 (setq dired-listing-switches "-agho --group-directories-first")
 (setq dired-kill-when-opening-new-dired-buffer t)
 
-;; org mode
-(setq org-hide-emphasis-markers t)
-(setq org-directory "~/Documents/org")
-(setq org-agenda-files '("~/Documents/org/agenda.org"))
-(add-hook 'org-mode-hook #'auto-fill-mode)
-(add-hook 'org-mode-hook (lambda () (setq display-line-numbers 'relative)))
-
 ;;
 ;; keybinds
 ;;
@@ -129,33 +112,21 @@
   (global-set-key (kbd "C-<") #'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") #'mc/mark-all-like-this))
 
-;; org
-(defun org-open-agenda-file ()
-  "Open the first Org agenda file"
-  (interactive)
-  (find-file (car org-agenda-files)))
-(global-set-key (kbd "C-c o")   #'org-open-agenda-file)
-
 ;;
 ;; filetypes
 ;;
-(use-package julia-mode)
 (use-package erlang)
-(use-package elixir-mode)
 (use-package tuareg) ;; OCaml
-(add-hook 'python-mode-hook #'prettify-symbols-mode)
 
 ;; Better Web
 (use-package web-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)))
 
-;; Lisp(s)
-(add-hook 'emacs-lisp-mode-hook (lambda () (prettify-symbols-mode)))
-(add-hook 'lisp-mode-hook (lambda () (prettify-symbols-mode)))
+;; Lisp
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode)) ;; Emacs only reconizes .lisp as Common Lisp
 
-;; Clojure (yeah deserves it's own section)
+;; Clojure
 (use-package cider
   :config
   (setq cider-use-overlays nil)
@@ -163,7 +134,6 @@
   (add-hook 'clojure-mode-hook
 	    (lambda ()
 	      (cider-mode)
-	      (prettify-symbols-mode)
 	      (add-hook 'before-save-hook 'cider-format-buffer t t))))
 
 ;; Go
@@ -171,7 +141,6 @@
   :config
   (add-hook 'go-mode-hook
 	    (lambda ()
-	      (local-set-key (kbd "C-c C-i") #'go-goto-imports)
 	      (local-set-key (kbd "C-c C-f") #'godoc-at-point)
 	      (add-hook 'before-save-hook #'gofmt-before-save))))
 
@@ -187,14 +156,6 @@
 
 ;; Haskell
 (use-package haskell-mode)
-(use-package dante
-  :after haskell-mode
-  :init
-  (add-hook 'haskell-mode-hook #'dante-mode)
-  ;; fix eldoc
-  (add-hook 'haskell-mode-hook
-	    (lambda ()
-	      (setq eldoc-documentation-strategy #'eldoc-documentation-default))))
 
 ;; Lua
 (use-package lua-mode
@@ -204,23 +165,11 @@
   (add-hook 'lua-mode-hook
 	    (lambda ()
 	      (indent-tabs-mode -1)
-	      (local-set-key (kbd "C-c C-c") #'lua-send-buffer)
 	      (local-set-key (kbd "C-c C-e") #'lua-send-region))))
 
 ;; LaTeX
-(add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
 (add-hook 'LaTeX-mode-hook (lambda () (setq display-line-numbers 'relative)))
-(use-package tex
-  :ensure auctex
-  :config
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq TeX-view-program-selection t)
-  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-        TeX-source-correlate-start-server t)
-  (add-hook 'TeX-after-compilation-finished-functions
-            #'TeX-revert-document-buffer))
 
 ;; C/C++
 (setq c-default-style "linux")
@@ -244,15 +193,6 @@
   (setq cybercafe-soft t)
   (load-theme 'cybercafe t))
 
-;; diminish
-(use-package diminish
-  :config
-  (diminish 'editorconfig-mode)
-  (diminish 'auto-revert-mode)
-  (diminish 'rainbow-mode)
-  (diminish 'eldoc-mode)
-  (diminish 'abbrev-mode))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -262,7 +202,7 @@
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(markdown-header-scaling t)
  '(package-selected-packages
-   '(cybercafe-theme diminish fic-mode magit-todos package-lint cider web-mode nubox modus-themes editorconfig dante tuareg lice auctex elixir-mode erlang haskell-mode julia-mode lua-mode magit markdown-mode pdf-tools rust-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(cybercafe-theme magit-todos package-lint cider web-mode nubox modus-themes editorconfig tuareg lice erlang haskell-mode lua-mode magit markdown-mode pdf-tools rust-mode rg multiple-cursors rainbow-mode go-mode use-package)))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
