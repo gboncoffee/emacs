@@ -20,11 +20,7 @@
 (blink-cursor-mode 0)
 (show-paren-mode 1)
 (global-display-fill-column-indicator-mode)
-(setq-default display-line-numbers-width 3)
-(setq inhibit-splash-screen t)
-(add-hook 'prog-mode-hook (lambda ()
-			    (setq display-line-numbers 'relative)
-			    (setq show-trailing-whitespace t)))
+(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 (set-frame-font "Monospace 24" nil t)
 
@@ -73,14 +69,6 @@
     (magit)
     (delete-other-windows))
   (global-set-key (kbd "C-c g") #'custom-magit-open))
-(use-package magit-todos
-  :config
-  (magit-todos-mode 1))
-(use-package pdf-tools)
-
-(use-package lice
-  :config
-  (setq-default lice:default-license "mit"))
 
 (use-package editorconfig
   :config
@@ -169,7 +157,6 @@
 
 ;; LaTeX
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
-(add-hook 'LaTeX-mode-hook (lambda () (setq display-line-numbers 'relative)))
 
 ;; C/C++
 (setq c-default-style "linux")
@@ -183,9 +170,7 @@
 
 ;; txt
 (add-hook 'text-mode-hook #'auto-fill-mode)
-(add-hook 'text-mode-hook (lambda ()
-			    (setq display-line-numbers 'relative)
-			    (setq show-trailing-whitespace t)))
+(add-hook 'text-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 ;; theme
 (use-package cybercafe-theme
