@@ -42,6 +42,10 @@
   :config
   (editorconfig-mode 1))
 
+(use-package magit
+  :config
+  (global-set-key (kbd "C-c g") #'magit))
+
 ;;
 ;; keybinds
 ;;
@@ -133,7 +137,7 @@
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(caml clojure-mode cybercafe-theme web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
+   '(magit caml clojure-mode cybercafe-theme web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 (put 'upcase-region 'disabled nil)
