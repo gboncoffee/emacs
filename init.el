@@ -131,6 +131,7 @@
  '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(indicate-empty-lines t)
+ '(inhibit-startup-screen t)
  '(package-selected-packages
    '(caml clojure-mode cybercafe-theme web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
  '(scroll-bar-mode nil)
