@@ -36,10 +36,6 @@
 (setq-default fill-column 80)      ;; text width
 (setq make-backup-files nil)       ;; disable backups
 (setq compile-command "")          ;; no default compile command
-
-(electric-indent-mode)
-(setq ido-enable-flex-matching t)
-(ido-mode t)
 (setq isearch-wrap-pause 'no)
 
 (use-package editorconfig
@@ -50,10 +46,7 @@
 ;; keybinds
 ;;
 (global-set-key (kbd "C-x C-b") #'ibuffer-other-window)
-;; three compile keybinds because some modes override C-c C-c
 (global-set-key (kbd "C-c C-c") #'compile)
-(global-set-key (kbd "C-c C-b")   #'compile)
-(global-set-key (kbd "C-c 5")   #'compile)
 (global-set-key (kbd "C-c /")   #'rgrep)
 (global-set-key (kbd "C-M-n")   #'scroll-up-line)
 (global-set-key (kbd "C-M-p")   #'scroll-down-line)
@@ -70,7 +63,7 @@
 ;; filetypes
 ;;
 (use-package erlang)
-(use-package caml) ;; OCaml
+(use-package caml)
 
 ;; Better Web
 (use-package web-mode
@@ -109,7 +102,16 @@
 (add-hook 'c-mode-hook #'c-cpp-mode)
 (add-hook 'c++-mode-hook #'c-cpp-mode)
 
-;; LaTeX, Markdown and txt
+;; Markdown
+(use-package markdown-mode
+  :config
+  (add-hook 'markdown-mode-hook
+	    (lambda ()
+	      (auto-fill-mode)
+	      (setq show-trailing-whitespace t)
+	      (local-set-key (kbd "C-c C-c") #'compile))))
+
+;; LaTeX and txt
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
 (add-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook 'text-mode-hook (lambda () (setq show-trailing-whitespace t)))
@@ -126,8 +128,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
+ '(blink-cursor-mode nil)
+ '(column-number-mode t)
+ '(indicate-empty-lines t)
  '(package-selected-packages
-   '(caml clojure-mode cybercafe-theme web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package)))
+   '(caml clojure-mode cybercafe-theme web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
+ '(scroll-bar-mode nil)
+ '(tool-bar-mode nil))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
