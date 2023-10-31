@@ -87,7 +87,8 @@
 ;; Rust
 (use-package rust-mode
   :config
-  (setq rust-format-on-save t))
+  (setq rust-format-on-save t)
+  (local-set-key (kbd "C-c C-c") #'compile))
 
 ;; Haskell
 (use-package haskell-mode)
@@ -116,7 +117,10 @@
 	      (local-set-key (kbd "C-c C-c") #'compile))))
 
 ;; LaTeX and txt
-(add-hook 'LaTeX-mode-hook #'auto-fill-mode)
+(add-hook 'tex-mode-hook (lambda ()
+			   (auto-fill-mode)
+			   (setq show-trailing-whitespace t)
+			   (local-set-key (kbd "C-c C-c") #'compile)))
 (add-hook 'text-mode-hook #'auto-fill-mode)
 (add-hook 'text-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
