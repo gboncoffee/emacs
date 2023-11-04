@@ -17,6 +17,7 @@
 ;; appearance (theme is set at the bottom to make sure everything is ok)
 ;;
 (tool-bar-mode 0)
+(menu-bar-mode 0)
 (blink-cursor-mode 0)
 (show-paren-mode 1)
 (global-display-fill-column-indicator-mode)
