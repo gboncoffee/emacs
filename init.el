@@ -22,7 +22,7 @@
 (global-display-fill-column-indicator-mode)
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
-(set-frame-font "Monospace 24" nil t)
+(set-frame-font "Monospace 22" nil t)
 
 (use-package rainbow-mode ;; highlight colors like magenta and #cafebb
   :config
