@@ -30,6 +30,8 @@
   (add-hook 'text-mode-hook #'rainbow-mode)
   (add-hook 'prog-mode-hook #'rainbow-mode))
 
+(setq frame-resize-pixelwise t)
+
 ;;
 ;; general
 ;;
