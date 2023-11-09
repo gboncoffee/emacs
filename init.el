@@ -23,7 +23,9 @@
 (global-display-fill-column-indicator-mode)
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
-(set-frame-font "Iosevka Fixed Medium 23" nil t)
+(condition-case nil
+    (set-frame-font "Iosevka Fixed Medium 23" nil t)
+  (error (set-frame-font "Iosevka 23" nil t)))
 
 (use-package rainbow-mode ;; highlight colors like magenta and #cafebb
   :config
