@@ -24,8 +24,8 @@
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 (condition-case nil
-    (set-frame-font "Iosevka Fixed Medium 23" nil t)
-  (error (set-frame-font "Iosevka 23" nil t)))
+    (set-frame-font "Iosevka Fixed Medium 20" nil t)
+  (error (set-frame-font "Iosevka 20" nil t)))
 
 (use-package rainbow-mode ;; highlight colors like magenta and #cafebb
   :config
@@ -146,7 +146,7 @@
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(magit caml clojure-mode cybercafe-theme web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
+   '(magit cybercafe-theme caml clojure-mode web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 (put 'upcase-region 'disabled nil)
