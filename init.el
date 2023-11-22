@@ -132,7 +132,7 @@
 ;; theme
 (use-package cybercafe-theme
   :config
-  (setq cybercafe-soft t)
+  (setq cybercafe-light t)
   (load-theme 'cybercafe t))
 
 (custom-set-variables
@@ -146,7 +146,7 @@
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(magit cybercafe-theme caml clojure-mode web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
+   '(cybercafe-theme magit caml clojure-mode web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 (put 'upcase-region 'disabled nil)
