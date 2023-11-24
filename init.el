@@ -24,8 +24,8 @@
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 (condition-case nil
-    (set-frame-font "Iosevka Fixed Medium 20" nil t)
-  (error (set-frame-font "Iosevka 20" nil t)))
+    (set-frame-font "Iosevka Fixed Medium 24" nil t)
+  (error (set-frame-font "Iosevka 24" nil t)))
 
 (use-package rainbow-mode ;; highlight colors like magenta and #cafebb
   :config
