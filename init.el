@@ -13,6 +13,17 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
+(unless (package-installed-p 'quelpa)
+  (with-temp-buffer
+    (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
+    (eval-buffer)
+    (quelpa-self-upgrade)))
+(quelpa
+ '(quelpa-use-package
+   :fetcher git
+   :url "https://github.com/quelpa/quelpa-use-package.git"))
+(require 'quelpa-use-package)
+
 ;;
 ;; appearance (theme is set at the bottom to make sure everything is ok)
 ;;
@@ -28,6 +39,8 @@
   (error (set-frame-font "Iosevka Medium 22" nil t)))
 
 (when window-system
+  (setq-default display-line-numbers-type 'relative)
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (set-frame-size (selected-frame) 80 24))
 
 (use-package rainbow-mode ;; highlight colors like magenta and #cafebb
@@ -53,6 +66,14 @@
 (use-package magit
   :config
   (global-set-key (kbd "C-c g") #'magit))
+
+(use-package copilot
+  :quelpa (copilot :fetcher github
+                   :repo "zerolfx/copilot.el"
+                   :branch "main"
+                   :files ("dist" "*.el"))
+  :config
+  (define-key copilot-completion-map (kbd "M-/") 'copilot-accept-completion))
 
 ;;
 ;; keybinds
@@ -133,10 +154,11 @@
 (add-hook 'text-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 ;; theme
-(use-package cybercafe-theme
-  :config
-  (setq cybercafe-light t)
-  (load-theme 'cybercafe t))
+(when window-system
+  (use-package cybercafe-theme
+    :config
+    (setq cybercafe-light t)
+    (load-theme 'cybercafe t)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
