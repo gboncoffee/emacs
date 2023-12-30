@@ -35,8 +35,8 @@
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 (condition-case nil
-    (set-frame-font "Iosevka Fixed Medium 22" nil t)
-  (error (set-frame-font "Iosevka Medium 22" nil t)))
+    (set-frame-font "Iosevka Fixed Medium 20" nil t)
+  (error (set-frame-font "Iosevka Medium 20" nil t)))
 
 (when window-system
   (setq-default display-line-numbers-type 'relative)
@@ -91,6 +91,15 @@
   (global-set-key (kbd "C->") #'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") #'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") #'mc/mark-all-like-this))
+
+;;
+;; ls command when Plan 9 is before the system tools in PATH.
+;;
+(let ((lspath (shell-command-to-string "which ls")))
+  (if (not (or
+	    (string= lspath "/usr/bin/ls")
+	    (string= lspath "/bin/ls")))
+      (setq insert-directory-program "/bin/ls")))
 
 ;;
 ;; filetypes
