@@ -34,9 +34,7 @@
 (global-display-fill-column-indicator-mode)
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
-(condition-case nil
-    (set-frame-font "Iosevka Fixed Medium 20" nil t)
-  (error (set-frame-font "Iosevka Medium 20" nil t)))
+(set-frame-font "Cascadia Code 18")
 
 (when window-system
   (setq-default display-line-numbers-type 'relative)
@@ -74,6 +72,8 @@
                    :files ("dist" "*.el"))
   :config
   (define-key copilot-completion-map (kbd "M-/") 'copilot-accept-completion))
+
+(electric-pair-mode)
 
 ;;
 ;; keybinds
@@ -191,4 +191,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(fixed-pitch-serif ((t (:family "Go Mono")))))
