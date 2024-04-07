@@ -34,7 +34,7 @@
 (global-display-fill-column-indicator-mode)
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
-(set-frame-font "Cascadia Code 18")
+(set-frame-font "Liberation Mono 14")
 
 (when window-system
   (setq-default display-line-numbers-type 'relative)
@@ -105,7 +105,6 @@
 ;; filetypes
 ;;
 (use-package erlang)
-(use-package caml)
 
 ;; Better Web
 (use-package web-mode
@@ -122,12 +121,6 @@
   (add-hook
    'go-mode-hook (lambda () (add-hook 'before-save-hook #'gofmt-before-save))))
 
-;; Rust
-(use-package rust-mode
-  :config
-  (setq rust-format-on-save t)
-  (local-set-key (kbd "C-c C-c") #'compile))
-
 ;; Haskell
 (use-package haskell-mode)
 
@@ -136,6 +129,8 @@
   :config
   (setq lua-indent-level 4)
   (add-hook 'lua-mode-hook (lambda () (indent-tabs-mode -1))))
+
+(use-package elixir-mode)
 
 ;; C/C++
 (setq c-default-style "linux")
@@ -180,7 +175,7 @@
  '(indicate-empty-lines t)
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(magit cybercafe-theme caml clojure-mode web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
+   '(elixir-mode magit cybercafe-theme caml clojure-mode web-mode nubox modus-themes editorconfig erlang haskell-mode lua-mode rust-mode rg multiple-cursors rainbow-mode go-mode use-package))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil))
 (put 'upcase-region 'disabled nil)
